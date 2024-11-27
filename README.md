@@ -1,6 +1,7 @@
 # Stardew-Valley
 [!NOTE]
-You have to work hard every day, just like planting crops. How can you harvest if you don’t sow seeds?
+> You have to work hard every day, just like planting crops. How can you harvest if you don’t sow seeds?
+
 > [!WARNING]
 >
 > ***千里之行，始于足下！***——《老子》
