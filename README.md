@@ -1,3 +1,5 @@
+# Stardew-Valley (星露谷)
+
 > [!IMPORTANT]
 >
 > You have to work hard every day, just like planting crops. How can you harvest if you don’t sow seeds? 
@@ -6,7 +8,6 @@
 >
 > ***千里之行，始于足下！***——《老子》
 
-# Stardew-Valley (星露谷)
 
 > [!TIP]
 >
