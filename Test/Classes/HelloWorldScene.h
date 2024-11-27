@@ -1,4 +1,4 @@
-/****************************************************************************
+ï»¿/****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
@@ -20,7 +20,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
- ****************************************************************************/
+ **************************************************************** ************/
 
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
@@ -37,11 +37,11 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     
-    // ÊµÏÖ¼üÅÌÊÂ¼ş´¦Àíº¯Êı
+    // å®ç°é”®ç›˜äº‹ä»¶å¤„ç†å‡½æ•°
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void HelloWorld::update(float delta);
-    // ¶¯»­
+    // åŠ¨ç”»
     void HelloWorld::startWalkingAnimation(const std::string& direction);
     void HelloWorld::stopWalkingAnimation();
     void startGame(Ref* pSender);
@@ -50,25 +50,25 @@ public:
     CREATE_FUNC(HelloWorld);
     void onMouseMove(cocos2d::EventMouse* event);
 private:
-    // ¶¨Òå¾«ÁéµÄ³ÉÔ±±äÁ¿
+    // å®šä¹‰ç²¾çµçš„æˆå‘˜å˜é‡
     cocos2d::Sprite* _playerSprite;
-    // ¶¯»­
+    // åŠ¨ç”»
     cocos2d::Animation* _walkAnimation;
     std::string _currentDirection;
-    // Ìí¼Ó±³¾°¾«Áé³ÉÔ±±äÁ¿
+    // æ·»åŠ èƒŒæ™¯ç²¾çµæˆå‘˜å˜é‡
     cocos2d::Sprite* _backgroundSprite;
     cocos2d::Sprite* _title;
     cocos2d::Menu* menu;
     cocos2d::MenuItemImage* startButton;
     cocos2d::MenuItemImage* exitButton;
-    // µ±Ç°¾«Áé·½ÏòµÄÎÆÀíÃû³Æ
+    // å½“å‰ç²¾çµæ–¹å‘çš„çº¹ç†åç§°
     std::string _currentTexture;
-    // Ìí¼Ó³ÉÔ±±äÁ¿ÒÔ¸ú×ÙÒÆ¶¯×´Ì¬
+    // æ·»åŠ æˆå‘˜å˜é‡ä»¥è·Ÿè¸ªç§»åŠ¨çŠ¶æ€
     bool _isMovingLeft = false;
     bool _isMovingRight = false;
     bool _isMovingUp = false;
     bool _isMovingDown = false;
-    // Ìí¼Ó³ÉÔ±±äÁ¿À´¸ú×Ù³¤°´×´Ì¬
+    // æ·»åŠ æˆå‘˜å˜é‡æ¥è·Ÿè¸ªé•¿æŒ‰çŠ¶æ€
     bool _isMoving = false;
 };
 

@@ -1,4 +1,4 @@
-/****************************************************************************
+ï»¿/****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
@@ -24,7 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "AppDelegate.h" // ÓÃÓÚÍË³ö³ÌÐò
+#include "AppDelegate.h" // ç”¨äºŽé€€å‡ºç¨‹åº
 
 USING_NS_CC;
 
@@ -41,12 +41,12 @@ static void problemLoading(const char* filename)
 }
 void HelloWorld::exitGame(Ref* pSender)
 {
-    // ÍË³ö³ÌÐò
+    // é€€å‡ºç¨‹åº
     Director::getInstance()->end();
 }
 void HelloWorld::startGame(Ref* pSender)
 {
-    // Ô¤¼ÓÔØÎÆÀíÍ¼¼¯ÎÄ¼þ
+    // é¢„åŠ è½½çº¹ç†å›¾é›†æ–‡ä»¶
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Left.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Right.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Up.plist");
@@ -56,7 +56,7 @@ void HelloWorld::startGame(Ref* pSender)
     this->removeChild(_title);
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    // ´´½¨µØÍ¼±³¾°
+    // åˆ›å»ºåœ°å›¾èƒŒæ™¯
     _backgroundSprite = Sprite::create("Pierres General Store.png");
     if (_backgroundSprite == nullptr)
     {
@@ -64,56 +64,56 @@ void HelloWorld::startGame(Ref* pSender)
     }
     else
     {
-        // »ñÈ¡±³¾°Ô­Ê¼³ß´ç
+        // èŽ·å–èƒŒæ™¯åŽŸå§‹å°ºå¯¸
         Size bgSize = _backgroundSprite->getContentSize();
 
-        // »ñÈ¡¿É¼û³ß´ç
+        // èŽ·å–å¯è§å°ºå¯¸
         auto visibleSize = Director::getInstance()->getVisibleSize();
 
-        // ¼ÆËãËõ·Å±ÈÀý
+        // è®¡ç®—ç¼©æ”¾æ¯”ä¾‹
         float scaleX = visibleSize.width / bgSize.width;
         float scaleY = visibleSize.height / bgSize.height;
-        float scale = std::max(scaleX, scaleY); // ±£³Ö¿í¸ß±È£¬¿ÉÄÜ»á²Ã¼ô
+        float scale = std::max(scaleX, scaleY); // ä¿æŒå®½é«˜æ¯”ï¼Œå¯èƒ½ä¼šè£å‰ª
 
-        // Ó¦ÓÃËõ·Å±ÈÀý
+        // åº”ç”¨ç¼©æ”¾æ¯”ä¾‹
         _backgroundSprite->setScale(scale);
 
-        // ÉèÖÃ±³¾°Í¼ÏñµÄÎ»ÖÃµ½ÆÁÄ»ÖÐÐÄ
+        // è®¾ç½®èƒŒæ™¯å›¾åƒçš„ä½ç½®åˆ°å±å¹•ä¸­å¿ƒ
         _backgroundSprite->setPosition(Vec2(visibleSize.width / 2,
             visibleSize.height / 2));
 
-        // ½«±³¾°Ìí¼Óµ½³¡¾°ÖÐ
-        this->addChild(_backgroundSprite, -1); // Ìí¼ÓÔÚÆäËûÔªËØµÄÏÂÃæ
+        // å°†èƒŒæ™¯æ·»åŠ åˆ°åœºæ™¯ä¸­
+        this->addChild(_backgroundSprite, -1); // æ·»åŠ åœ¨å…¶ä»–å…ƒç´ çš„ä¸‹é¢
     }
 
-    // ´´½¨Ò»¸ö¾«Áé
-    _playerSprite = Sprite::create("Stand_Down.png"); // ½«Æä¸³Öµ¸ø³ÉÔ±±äÁ¿
+    // åˆ›å»ºä¸€ä¸ªç²¾çµ
+    _playerSprite = Sprite::create("Stand_Down.png"); // å°†å…¶èµ‹å€¼ç»™æˆå‘˜å˜é‡
     if (_playerSprite == nullptr)
     {
         problemLoading("'Stand_Down.png'");
     }
     else
     {
-        // ÉèÖÃ¾«ÁéµÄÎ»ÖÃ
+        // è®¾ç½®ç²¾çµçš„ä½ç½®
         _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
-        // ½«¾«ÁéËõÐ¡Ò»°ë
-        _playerSprite->setScale(0.5f); // ËõÐ¡Ò»°ë
-        // ½«¾«ÁéÌí¼Óµ½³¡¾°ÖÐ
+        // å°†ç²¾çµç¼©å°ä¸€åŠ
+        _playerSprite->setScale(0.5f); // ç¼©å°ä¸€åŠ
+        // å°†ç²¾çµæ·»åŠ åˆ°åœºæ™¯ä¸­
         this->addChild(_playerSprite, 0);
     }
 
-    // ´´½¨¼üÅÌÊÂ¼þ¼àÌýÆ÷
+    // åˆ›å»ºé”®ç›˜äº‹ä»¶ç›‘å¬å™¨
     auto listener = EventListenerKeyboard::create();
     listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
     listener->onKeyReleased = CC_CALLBACK_2(HelloWorld::onKeyReleased, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-    // ÉèÖÃ¸üÐÂ»Øµ÷
+    // è®¾ç½®æ›´æ–°å›žè°ƒ
     this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::update));
 
-    // ³õÊ¼»¯¶¯»­
-    _walkAnimation = nullptr; // ³õÊ¼»¯Îª nullptr
+    // åˆå§‹åŒ–åŠ¨ç”»
+    _walkAnimation = nullptr; // åˆå§‹åŒ–ä¸º nullptr
 }
 
 void HelloWorld::startWalkingAnimation(const std::string& direction)
@@ -132,11 +132,11 @@ void HelloWorld::startWalkingAnimation(const std::string& direction)
 
 void HelloWorld::stopWalkingAnimation()
 {
-    _playerSprite->stopAllActions(); // Í£Ö¹ËùÓÐ¶¯»­
-    _playerSprite->setTexture("Stand_" + _currentDirection + ".png"); // ÉèÖÃ´ý»ú×´Ì¬
+    _playerSprite->stopAllActions(); // åœæ­¢æ‰€æœ‰åŠ¨ç”»
+    _playerSprite->setTexture("Stand_" + _currentDirection + ".png"); // è®¾ç½®å¾…æœºçŠ¶æ€
 }
 
-// ÔÚ onKeyPressed ÖÐÉèÖÃ _isMoving ±êÖ¾
+// åœ¨ onKeyPressed ä¸­è®¾ç½® _isMoving æ ‡å¿—
 void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
     _isMoving = true;
@@ -146,41 +146,41 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
         case EventKeyboard::KeyCode::KEY_A:
             if (!_isMovingLeft) {
                 _isMovingLeft = true;
-                _currentTexture = "Stand_Left.png"; // ÉèÖÃµ±Ç°ÎÆÀí
-                _playerSprite->setTexture(_currentTexture); // ¸üÐÂ¾«ÁéÎÆÀí
-                _currentDirection = "Left"; // ¸üÐÂµ±Ç°·½Ïò
-                startWalkingAnimation(_currentDirection); // ¿ªÊ¼¶¯»­
-                _isMovingRight = false; // ½ûÓÃÓÒ
+                _currentTexture = "Stand_Left.png"; // è®¾ç½®å½“å‰çº¹ç†
+                _playerSprite->setTexture(_currentTexture); // æ›´æ–°ç²¾çµçº¹ç†
+                _currentDirection = "Left"; // æ›´æ–°å½“å‰æ–¹å‘
+                startWalkingAnimation(_currentDirection); // å¼€å§‹åŠ¨ç”»
+                _isMovingRight = false; // ç¦ç”¨å³
             }
             break;
         case EventKeyboard::KeyCode::KEY_D:
             if (!_isMovingRight) {
                 _isMovingRight = true;
-                _currentTexture = "Stand_Right.png"; // ÉèÖÃµ±Ç°ÎÆÀí
-                _playerSprite->setTexture(_currentTexture); // ¸üÐÂ¾«ÁéÎÆÀí
-                _currentDirection = "Right"; // ¸üÐÂµ±Ç°·½Ïò
-                startWalkingAnimation(_currentDirection); // ¿ªÊ¼¶¯»­
-                _isMovingLeft = false; // ½ûÓÃ×ó
+                _currentTexture = "Stand_Right.png"; // è®¾ç½®å½“å‰çº¹ç†
+                _playerSprite->setTexture(_currentTexture); // æ›´æ–°ç²¾çµçº¹ç†
+                _currentDirection = "Right"; // æ›´æ–°å½“å‰æ–¹å‘
+                startWalkingAnimation(_currentDirection); // å¼€å§‹åŠ¨ç”»
+                _isMovingLeft = false; // ç¦ç”¨å·¦
             }
             break;
         case EventKeyboard::KeyCode::KEY_W:
             if (!_isMovingUp) {
                 _isMovingUp = true;
-                _currentTexture = "Stand_Up.png"; // ÉèÖÃµ±Ç°ÎÆÀí
-                _playerSprite->setTexture(_currentTexture); // ¸üÐÂ¾«ÁéÎÆÀí
-                _currentDirection = "Up"; // ¸üÐÂµ±Ç°·½Ïò
-                startWalkingAnimation(_currentDirection); // ¿ªÊ¼¶¯»­
-                _isMovingDown = false; // ½ûÓÃÏÂ
+                _currentTexture = "Stand_Up.png"; // è®¾ç½®å½“å‰çº¹ç†
+                _playerSprite->setTexture(_currentTexture); // æ›´æ–°ç²¾çµçº¹ç†
+                _currentDirection = "Up"; // æ›´æ–°å½“å‰æ–¹å‘
+                startWalkingAnimation(_currentDirection); // å¼€å§‹åŠ¨ç”»
+                _isMovingDown = false; // ç¦ç”¨ä¸‹
             }
             break;
         case EventKeyboard::KeyCode::KEY_S:
             if (!_isMovingDown) {
                 _isMovingDown = true;
-                _currentTexture = "Stand_Down.png"; // ÉèÖÃµ±Ç°ÎÆÀí
-                _playerSprite->setTexture(_currentTexture); // ¸üÐÂ¾«ÁéÎÆÀí
-                _currentDirection = "Down"; // ¸üÐÂµ±Ç°·½Ïò
-                startWalkingAnimation(_currentDirection); // ¿ªÊ¼¶¯»­
-                _isMovingUp = false; // ½ûÓÃÉÏ
+                _currentTexture = "Stand_Down.png"; // è®¾ç½®å½“å‰çº¹ç†
+                _playerSprite->setTexture(_currentTexture); // æ›´æ–°ç²¾çµçº¹ç†
+                _currentDirection = "Down"; // æ›´æ–°å½“å‰æ–¹å‘
+                startWalkingAnimation(_currentDirection); // å¼€å§‹åŠ¨ç”»
+                _isMovingUp = false; // ç¦ç”¨ä¸Š
             }
             break;
         default:
@@ -188,7 +188,7 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
     }
 }
 
-// ÔÚ onKeyReleased ÖÐÖØÖÃ _isMoving ±êÖ¾
+// åœ¨ onKeyReleased ä¸­é‡ç½® _isMoving æ ‡å¿—
 void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     switch (keyCode)
@@ -209,12 +209,12 @@ void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
             break;
     }
 
-    // µ±ËùÓÐ·½Ïò¼üËÉ¿ªÊ±£¬Í£Ö¹ÒÆ¶¯
+    // å½“æ‰€æœ‰æ–¹å‘é”®æ¾å¼€æ—¶ï¼Œåœæ­¢ç§»åŠ¨
     if (!_isMovingLeft && !_isMovingRight && !_isMovingUp && !_isMovingDown) {
         _isMoving = false;
         if (_currentDirection != "") {
-            stopWalkingAnimation(); // Í£Ö¹¶¯»­
-            _currentDirection = ""; // Çå¿Õµ±Ç°·½Ïò
+            stopWalkingAnimation(); // åœæ­¢åŠ¨ç”»
+            _currentDirection = ""; // æ¸…ç©ºå½“å‰æ–¹å‘
         }
     }
 }
@@ -229,7 +229,7 @@ bool HelloWorld::init()
     }
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    // ´´½¨±³¾°Í¼Ïñ
+    // åˆ›å»ºèƒŒæ™¯å›¾åƒ
     _backgroundSprite = Sprite::create("BackGround.png");
     _title = Sprite::create("Title.png");
     if (_title == nullptr)
@@ -238,23 +238,23 @@ bool HelloWorld::init()
     }
     else
     {
-        // »ñÈ¡±³¾°µÄÔ­Ê¼³ß´ç
+        // èŽ·å–èƒŒæ™¯çš„åŽŸå§‹å°ºå¯¸
         Size titleSize = _title->getContentSize();
 
-        // ¼ÆËãËõ·Å±ÈÀý£ºÈ·±£±³¾°Í¼ÏñÓëÆÁÄ»³ß´çÒ»ÖÂ
+        // è®¡ç®—ç¼©æ”¾æ¯”ä¾‹ï¼šç¡®ä¿èƒŒæ™¯å›¾åƒä¸Žå±å¹•å°ºå¯¸ä¸€è‡´
         float scaleX = visibleSize.width / titleSize.width;
         float scaleY = visibleSize.height / titleSize.height;
-        float scale = std::max(scaleX, scaleY); // ±£³Ö¿í¸ß±È£¬¿ÉÄÜ»á²Ã¼ô
+        float scale = std::max(scaleX, scaleY); // ä¿æŒå®½é«˜æ¯”ï¼Œå¯èƒ½ä¼šè£å‰ª
 
-        // Ó¦ÓÃËõ·Å±ÈÀý
+        // åº”ç”¨ç¼©æ”¾æ¯”ä¾‹
         _title->setScale(scale/5);
 
-        // ÉèÖÃ±³¾°Í¼ÏñµÄÎ»ÖÃµ½ÆÁÄ»ÖÐÐÄ
+        // è®¾ç½®èƒŒæ™¯å›¾åƒçš„ä½ç½®åˆ°å±å¹•ä¸­å¿ƒ
         _title->setPosition(Vec2(visibleSize.width / 2-titleSize.width/10,
             visibleSize.height / 2));
 
-        // ½«±³¾°Ìí¼Óµ½³¡¾°ÖÐ
-        this->addChild(_title, 1); // Ìí¼ÓÔÚÆäËûÔªËØµÄÏÂÃæ
+        // å°†èƒŒæ™¯æ·»åŠ åˆ°åœºæ™¯ä¸­
+        this->addChild(_title, 1); // æ·»åŠ åœ¨å…¶ä»–å…ƒç´ çš„ä¸‹é¢
     }
     if (_backgroundSprite == nullptr)
     {
@@ -262,75 +262,75 @@ bool HelloWorld::init()
     }
     else
     {
-        // »ñÈ¡±³¾°µÄÔ­Ê¼³ß´ç
+        // èŽ·å–èƒŒæ™¯çš„åŽŸå§‹å°ºå¯¸
         Size bgSize = _backgroundSprite->getContentSize();
 
-        // ¼ÆËãËõ·Å±ÈÀý£ºÈ·±£±³¾°Í¼ÏñÓëÆÁÄ»³ß´çÒ»ÖÂ
+        // è®¡ç®—ç¼©æ”¾æ¯”ä¾‹ï¼šç¡®ä¿èƒŒæ™¯å›¾åƒä¸Žå±å¹•å°ºå¯¸ä¸€è‡´
         float scaleX = visibleSize.width / bgSize.width;
         float scaleY = visibleSize.height / bgSize.height;
-        float scale = std::max(scaleX, scaleY); // ±£³Ö¿í¸ß±È£¬¿ÉÄÜ»á²Ã¼ô
+        float scale = std::max(scaleX, scaleY); // ä¿æŒå®½é«˜æ¯”ï¼Œå¯èƒ½ä¼šè£å‰ª
 
-        // Ó¦ÓÃËõ·Å±ÈÀý
+        // åº”ç”¨ç¼©æ”¾æ¯”ä¾‹
         _backgroundSprite->setScale(scale);
 
-        // ÉèÖÃ±³¾°Í¼ÏñµÄÎ»ÖÃµ½ÆÁÄ»ÖÐÐÄ
+        // è®¾ç½®èƒŒæ™¯å›¾åƒçš„ä½ç½®åˆ°å±å¹•ä¸­å¿ƒ
         _backgroundSprite->setPosition(Vec2(visibleSize.width / 2,
             visibleSize.height / 2));
 
-        // ½«±³¾°Ìí¼Óµ½³¡¾°ÖÐ
-        this->addChild(_backgroundSprite, 0); // Ìí¼ÓÔÚÆäËûÔªËØµÄÏÂÃæ
+        // å°†èƒŒæ™¯æ·»åŠ åˆ°åœºæ™¯ä¸­
+        this->addChild(_backgroundSprite, 0); // æ·»åŠ åœ¨å…¶ä»–å…ƒç´ çš„ä¸‹é¢
     }
 
-    // ´´½¨¿ªÊ¼ÓÎÏ·°´Å¥
+    // åˆ›å»ºå¼€å§‹æ¸¸æˆæŒ‰é’®
     startButton = MenuItemImage::create("Start_D.png", "Start_L.png",
         CC_CALLBACK_1(HelloWorld::startGame, this));
 
-    // ´´½¨ÍË³öÓÎÏ·°´Å¥
+    // åˆ›å»ºé€€å‡ºæ¸¸æˆæŒ‰é’®
     exitButton = MenuItemImage::create("Exit_D.png", "Exit_L.png",
         (CC_CALLBACK_1(HelloWorld::exitGame, this)));
     startButton->setScale(0.5f);
     exitButton->setScale(0.5f);
-    // ½«°´Å¥ÉèÖÃÎª¶Ô³Æ
+    // å°†æŒ‰é’®è®¾ç½®ä¸ºå¯¹ç§°
     Size startSize = startButton->getContentSize();
     startButton->setPosition(Vec2(visibleSize.width / 2 - 500, visibleSize.height / 4));
     exitButton->setPosition(Vec2(visibleSize.width / 2 + 500, visibleSize.height / 4));
-    // ´´½¨Ò»¸ö²Ëµ¥²¢½«°´Å¥Ìí¼Óµ½ÆäÖÐ
+    // åˆ›å»ºä¸€ä¸ªèœå•å¹¶å°†æŒ‰é’®æ·»åŠ åˆ°å…¶ä¸­
     menu = Menu::create(startButton, exitButton, nullptr);
     //menu->alignItemsHorizontallyWithPadding(30);
-    //menu->setPosition(Vec2::ZERO); // ½«²Ëµ¥·ÅÖÃÔÚÔ­µã
+    //menu->setPosition(Vec2::ZERO); // å°†èœå•æ”¾ç½®åœ¨åŽŸç‚¹
     this->addChild(menu, 1);
-    // Ìí¼ÓÊó±êÊÂ¼þ¼àÌý
+    // æ·»åŠ é¼ æ ‡äº‹ä»¶ç›‘å¬
     auto listener = EventListenerMouse::create();
     listener->onMouseMove = CC_CALLBACK_1(HelloWorld::onMouseMove, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     return true;
 }
-// Êó±êÒÆ¶¯ÊÂ¼þ´¦Àí
+// é¼ æ ‡ç§»åŠ¨äº‹ä»¶å¤„ç†
 void HelloWorld::onMouseMove(cocos2d::EventMouse* event)
 {
     auto mousePos = event->getLocation();
 
-    // ¼ì²éÊó±êÊÇ·ñÔÚ°´Å¥ÉÏ
+    // æ£€æŸ¥é¼ æ ‡æ˜¯å¦åœ¨æŒ‰é’®ä¸Š
     if (startButton->getBoundingBox().containsPoint(mousePos))
     {
-        startButton->setNormalImage(Sprite::create("Start_L.png")); // Ê¹ÓÃ¸ßÁÁÍ¼Ïñ
+        startButton->setNormalImage(Sprite::create("Start_L.png")); // ä½¿ç”¨é«˜äº®å›¾åƒ
     }
     else
     {
-        startButton->setNormalImage(Sprite::create("Start_D.png")); // Ê¹ÓÃÕý³£Í¼Ïñ
+        startButton->setNormalImage(Sprite::create("Start_D.png")); // ä½¿ç”¨æ­£å¸¸å›¾åƒ
     }
 
-    // ¼ì²éÊó±êÊÇ·ñÔÚÍË³ö°´Å¥ÉÏ
+    // æ£€æŸ¥é¼ æ ‡æ˜¯å¦åœ¨é€€å‡ºæŒ‰é’®ä¸Š
     if (exitButton->getBoundingBox().containsPoint(mousePos))
     {
-        exitButton->setNormalImage(Sprite::create("Exit_L.png")); // Ê¹ÓÃ¸ßÁÁÍ¼Ïñ
+        exitButton->setNormalImage(Sprite::create("Exit_L.png")); // ä½¿ç”¨é«˜äº®å›¾åƒ
     }
     else
     {
-        exitButton->setNormalImage(Sprite::create("Exit_D.png")); // Ê¹ÓÃÕý³£Í¼Ïñ
+        exitButton->setNormalImage(Sprite::create("Exit_D.png")); // ä½¿ç”¨æ­£å¸¸å›¾åƒ
     }
 }
-// Ìí¼Ó update ·½·¨À´´¦ÀíÁ¬ÐøÒÆ¶¯
+// æ·»åŠ  update æ–¹æ³•æ¥å¤„ç†è¿žç»­ç§»åŠ¨
 void HelloWorld::update(float delta)
 {
     if (_isMoving) {
@@ -338,22 +338,22 @@ void HelloWorld::update(float delta)
 
         if (_isMovingLeft) {
             loc.x -= 200 * delta;
-            _backgroundSprite->setPositionX(_backgroundSprite->getPositionX() + 200 * delta); // ±³¾°ÓÒÒÆ
+            _backgroundSprite->setPositionX(_backgroundSprite->getPositionX() + 200 * delta); // èƒŒæ™¯å³ç§»
         }
         if (_isMovingRight) {
             loc.x += 200 * delta;
-            _backgroundSprite->setPositionX(_backgroundSprite->getPositionX() - 200 * delta); // ±³¾°×óÒÆ
+            _backgroundSprite->setPositionX(_backgroundSprite->getPositionX() - 200 * delta); // èƒŒæ™¯å·¦ç§»
         }
         if (_isMovingUp) {
             loc.y += 200 * delta;
-            _backgroundSprite->setPositionY(_backgroundSprite->getPositionY() - 200 * delta); // ±³¾°ÏÂÒÆ
+            _backgroundSprite->setPositionY(_backgroundSprite->getPositionY() - 200 * delta); // èƒŒæ™¯ä¸‹ç§»
         }
         if (_isMovingDown) {
             loc.y -= 200 * delta;
-            _backgroundSprite->setPositionY(_backgroundSprite->getPositionY() + 200 * delta); // ±³¾°ÉÏÒÆ
+            _backgroundSprite->setPositionY(_backgroundSprite->getPositionY() + 200 * delta); // èƒŒæ™¯ä¸Šç§»
         }
 
-        // ±ß½ç¼ì²â£¬ÏÞÖÆ±³¾°ºÍ¾«ÁéÔÚ¿É¼ûÇøÓòÄÚ
+        // è¾¹ç•Œæ£€æµ‹ï¼Œé™åˆ¶èƒŒæ™¯å’Œç²¾çµåœ¨å¯è§åŒºåŸŸå†…
         auto visibleSize = Director::getInstance()->getVisibleSize();
         loc.x = MAX(0, MIN(loc.x, visibleSize.width));
         loc.y = MAX(0, MIN(loc.y, visibleSize.height));
