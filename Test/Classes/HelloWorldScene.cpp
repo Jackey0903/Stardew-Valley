@@ -57,6 +57,7 @@ void HelloWorld::startGame(Ref* pSender)
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     // 创建地图背景
+    cleanMouse();
     _backgroundSprite = Sprite::create("Pierres General Store.png");
     if (_backgroundSprite == nullptr)
     {
@@ -299,19 +300,31 @@ bool HelloWorld::init()
     exitButton->setAnchorPoint(Vec2(0.5, 0.5));
     menu->alignItemsHorizontallyWithPadding(30);
     menu->setPosition(Vec2(visibleSize.width/2-350, visibleSize.height/3-100));
-    CCLOG("sizeOfStart = (%f,%f)",&startButton->getContentSize().width, &startButton->getContentSize().height);
+    menuPosition = Vec2(visibleSize.width / 2 - 350, visibleSize.height / 3+220);
+    CCLOG("sizeOfStart = (%f,%f)",startButton->getContentSize().width, startButton->getContentSize().height);
     this->addChild(menu, 1);
-    /*    // 添加鼠标事件监听
-    auto listener = EventListenerMouse::create();
+    //添加鼠标事件监听
+    listener = EventListenerMouse::create();
     listener->onMouseMove = CC_CALLBACK_1(HelloWorld::onMouseMove, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);*/
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
     return true;
+}
+void HelloWorld::cleanMouse() // 覆盖cleanup方法
+{
+    // 移除鼠标事件监听器
+    if (listener)
+    {
+        _eventDispatcher->removeEventListener(listener);
+        listener = nullptr;
+    }
+
+    Scene::cleanup(); // 调用父类cleanup
 }
 // 鼠标移动事件处理
 void HelloWorld::onMouseMove(cocos2d::EventMouse* event)
 {
-    auto mousePos = event->getLocation();
+    auto mousePos = event->getLocation() - menuPosition;
 
     // 检查鼠标是否在按钮上
     if (startButton->getBoundingBox().containsPoint(mousePos))

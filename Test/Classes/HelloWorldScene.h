@@ -36,7 +36,6 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    
     // 实现键盘事件处理函数
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
@@ -47,11 +46,14 @@ public:
     void startGame(Ref* pSender);
     void exitGame(Ref* pSender);
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
     void onMouseMove(cocos2d::EventMouse* event);
+    void cleanMouse();
+    CREATE_FUNC(HelloWorld);
 private:
     // 定义精灵的成员变量
+    cocos2d::EventListenerMouse* listener;
     cocos2d::Sprite* _playerSprite;
+    cocos2d::Vec2 menuPosition;
     // 动画
     cocos2d::Animation* _walkAnimation;
     std::string _currentDirection;
