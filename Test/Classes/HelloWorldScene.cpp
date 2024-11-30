@@ -227,8 +227,8 @@ bool HelloWorld::init()
     {
         return false;
     }
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    const auto visibleSize = Director::getInstance()->getVisibleSize();
+    const Vec2 origin = Director::getInstance()->getVisibleOrigin();
     // 创建背景图像
     _backgroundSprite = Sprite::create("BackGround.png");
     _title = Sprite::create("Title.png");
@@ -290,19 +290,22 @@ bool HelloWorld::init()
         (CC_CALLBACK_1(HelloWorld::exitGame, this)));
     startButton->setScale(0.5f);
     exitButton->setScale(0.5f);
-    // 将按钮设置为对称
-    Size startSize = startButton->getContentSize();
-    startButton->setPosition(Vec2(visibleSize.width / 2 - 500, visibleSize.height / 4));
-    exitButton->setPosition(Vec2(visibleSize.width / 2 + 500, visibleSize.height / 4));
-    // 创建一个菜单并将按钮添加到其中
+    // 获取可见尺寸
+
+    // 设置按钮位置，确保在中轴线对称
+    float offsetX = 100; // 按钮之间的水平间距
     menu = Menu::create(startButton, exitButton, nullptr);
-    //menu->alignItemsHorizontallyWithPadding(30);
-    //menu->setPosition(Vec2::ZERO); // 将菜单放置在原点
+    startButton->setAnchorPoint(Vec2(0.5, 0.5));
+    exitButton->setAnchorPoint(Vec2(0.5, 0.5));
+    menu->alignItemsHorizontallyWithPadding(30);
+    menu->setPosition(Vec2(visibleSize.width/2-350, visibleSize.height/3-100));
+    CCLOG("sizeOfStart = (%f,%f)",&startButton->getContentSize().width, &startButton->getContentSize().height);
     this->addChild(menu, 1);
-    // 添加鼠标事件监听
+    /*    // 添加鼠标事件监听
     auto listener = EventListenerMouse::create();
     listener->onMouseMove = CC_CALLBACK_1(HelloWorld::onMouseMove, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);*/
+
     return true;
 }
 // 鼠标移动事件处理
