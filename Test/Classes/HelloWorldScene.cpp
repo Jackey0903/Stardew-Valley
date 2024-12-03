@@ -25,6 +25,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "AppDelegate.h" // 用于退出程序
+#include "cocos2d.h"
 
 USING_NS_CC;
 
@@ -58,10 +59,10 @@ void HelloWorld::startGame(Ref* pSender)
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     // 创建地图背景
     cleanMouse();
-    _backgroundSprite = Sprite::create("Pierres General Store.png");
+    _backgroundSprite = Sprite::create("Desert-Festival.png");
     if (_backgroundSprite == nullptr)
     {
-        problemLoading("Pierres General Store.png");
+        problemLoading("Desert-Festival.png");
     }
     else
     {
