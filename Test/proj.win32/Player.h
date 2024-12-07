@@ -1,55 +1,45 @@
-#ifndef __PLAYER_H__
-#define __PLAYER_H__
 
 #include "cocos2d.h"
-#include <string>
-#include <vector>
 
-USING_NS_CC;
-
-class Player {
+class Player : public cocos2d::Scene
+{
 public:
-    // 构造函数和析构函数
-    Player();
-    ~Player();
+    static cocos2d::Scene* createScene();
 
-    // 玩家属性
-    std::string getName() const;
-    void setName(const std::string& name);
+    virtual bool init();
 
-    int getHealth() const;
-    void setHealth(int health);
+    // a selector callback
+    void menuCloseCallback(cocos2d::Ref* pSender);
 
-    int getEnergy() const;
-    void setEnergy(int energy);
-
-    int getMoney() const;
-    void setMoney(int money);
-
-    // 背包管理
-    void addItem(const std::string& item);
-    void removeItem(const std::string& item);
-    const std::vector<std::string>& getInventory() const;
-
-    // 农场交互
-    void plantCrop(const std::string& cropType);
-    void feedAnimal(const std::string& animalType);
-
-    // 移动相关
-    void move(float deltaX, float deltaY);
-    Vec2 getPosition() const; // 获取玩家位置
-
-    // 更新玩家状态
-    void update(float deltaTime);
+    // 实现键盘事件处理函数
+    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+    void Player::update(float delta);
+    // 动画
+    void Player::startWalkingAnimation(const std::string& direction);
+    void Player::stopWalkingAnimation();
+    bool isCollisionWithWall(const cocos2d::Vec2& nextPosition);
+    // implement the "static create()" method manually
+    CREATE_FUNC(Player);
 
 private:
-    std::string _name;                  // 玩家名字
-    int _health;                        // 玩家健康值
-    int _energy;                        // 玩家能量值
-    int _money;                         // 玩家金钱
-    std::vector<std::string> _inventory; // 背包数组
-    Vec2 _position;                     // 玩家位置
+    // 定义精灵的成员变量
+    cocos2d::Sprite* _playerSprite;
+    // 动画
+    cocos2d::Animation* _walkAnimation;
+    std::string _currentDirection;
+    //// 添加背景精灵成员变量
+    //cocos2d::Sprite* _backgroundSprite;
+    // 当前精灵方向的纹理名称
+    std::string _currentTexture;
+    // 添加成员变量以跟踪移动状态
+    bool _isMovingLeft = false;
+    bool _isMovingRight = false;
+    bool _isMovingUp = false;
+    bool _isMovingDown = false;
+    // 添加成员变量来跟踪长按状态
+    bool _isMoving = false;
+    cocos2d::TMXTiledMap* _tiledMap; // 声明瓦片地图成员变量
+
+    cocos2d::TMXLayer* _wallLayer;    // 墙壁图层
 };
-
-#endif // __PLAYER_H__
-
