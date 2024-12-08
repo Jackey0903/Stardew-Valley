@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{f6eee603-0fed-46a8-a906-52d576751d33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Scene">
+      <UniqueIdentifier>{3170738c-6e2a-4f7d-a75a-f13b956a7ecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\AppDelegate">
+      <UniqueIdentifier>{5ca3ae78-58a2-4d65-842b-d7d5b07c5447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Player">
+      <UniqueIdentifier>{37b86c4d-35ff-4f06-a4ef-4a2f02ee5380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Button">
+      <UniqueIdentifier>{984ad2ac-631f-49fe-ab7f-8254074d73f2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameMain.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\StartMenu.cpp">
+      <Filter>Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate\AppDelegate.cpp">
+      <Filter>Classes\AppDelegate</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Player.cpp">
+      <Filter>Classes\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Button\HoverButton.cpp">
+      <Filter>Classes\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioPlayer.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Backpack.cpp">
+      <Filter>Classes\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\BackpackScene.cpp">
+      <Filter>Classes\Scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Constant.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\StartMenu.h">
+      <Filter>Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate\AppDelegate.h">
+      <Filter>Classes\AppDelegate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player\Player.h">
+      <Filter>Classes\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Button\HoverButton.h">
+      <Filter>Classes\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioPlayer.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player\Backpack.h">
+      <Filter>Classes\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\BackpackScene.h">
+      <Filter>Classes\Scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
