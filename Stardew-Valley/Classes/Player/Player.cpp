@@ -150,18 +150,18 @@ bool Player::init()
     _backpack->addItem(new Item("Shield", "sword.png", 1));
 
     // 加载瓦片地图
-    _tiledMap = TMXTiledMap::create("map1.tmx"); // 替换为你的 .tmx 文件路径
+    _tiledMap = TMXTiledMap::create("map2-1.tmx"); // 替换为你的 .tmx 文件路径
     this->addChild(_tiledMap, 0); // 将地图添加到场景中
 
  
-
-
+	_tiledMap->setScale(3.0f); // 缩放地图（可选）
+    
     // 获取地图层
-    auto layer = _tiledMap->getLayer("grass"); // 将 "LayerName" 替换为你地图的实际层名称
+    //auto layer = _tiledMap->getLayer("grass"); // 将 "LayerName" 替换为你地图的实际层名称
 
     // 如果需要，你可以对地图层进行进一步的操作
     // 比如修改位置、透明度等
-    layer->setPosition(Vec2(0, 0));
+    //layer->setPosition(Vec2(0, 0));
 
     // 预加载纹理图集文件
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Left.plist");
@@ -176,7 +176,7 @@ bool Player::init()
     _playerSprite = Sprite::create("Stand_Down.png"); // 将其赋值给成员变量
     // 设置精灵的位置
     _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-
+      
     // 将精灵缩小一半
     _playerSprite->setScale(0.5f); // 缩小一半
 
