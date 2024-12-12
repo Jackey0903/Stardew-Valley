@@ -1,65 +1,60 @@
 /****************************************************************
  * 项目名        : Stardew-Valley
  * 文件名        : Player.h
- * 文件功能      : 玩家类的功能实现
+ * 文件功能      : 玩家类的头文件
  * 作者          : 胡浩杰，胡正华，曹津硕
  * 更新日期      : 2024/12/07
  * 许可证        : MIT License
  ****************************************************************/
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
+
 #include "cocos2d.h"
-#include "Backpack.h" 
-#include "Scene/BackpackScene.h"
+class Backpack;
 
-class Player : public cocos2d::Scene
-
+class Player : public cocos2d::Node // 改为继承 Node
 {
 public:
+    static Player* create();
 
-	cocos2d::TMXTiledMap* _tiledMap; // 声明瓦片地图成员变量
+    virtual bool init() override;
 
-
-
-
-    static cocos2d::Scene* createScene();
-    virtual bool init();
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-
-    // 实现键盘事件处理函数
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-    void Player::update(float delta);
-    // 动画
-    void Player::startWalkingAnimation(const std::string& direction);
-    void Player::stopWalkingAnimation();
-    bool isCollidingWithWall(const cocos2d::Vec2& position, cocos2d::TMXLayer* wallLayer);
-    // implement the "static create()" method manually
-    CREATE_FUNC(Player);
-    void openBackpack(); // 打开背包
-    Player::~Player() {
-        delete _backpack;
-    }
-private:
-    // 定义精灵的成员变量
-    cocos2d::Sprite* _playerSprite;
-    // 动画
-    cocos2d::Animation* _walkAnimation;
-    std::string _currentDirection;
-    //// 添加背景精灵成员变量
-    //cocos2d::Sprite* _backgroundSprite;
-    // 当前精灵方向的纹理名称
-    std::string _currentTexture;
-    // 添加成员变量以跟踪移动状态
-    bool _isMovingLeft = false;
-    bool _isMovingRight = false;
-    bool _isMovingUp = false;
-    bool _isMovingDown = false;
-    // 添加成员变量来跟踪长按状态
-    bool _isMoving = false;
-    bool _isInBackpackScene = false;
-    Backpack* _backpack; // 背包数据实例
+    void update(float delta) override;
+
+    // 碰撞检测传入MapLayer指针
     bool isCollidingWithWall(const cocos2d::Rect& playerRect);
 
+    void startWalkingAnimation(const std::string& direction);
+    void stopWalkingAnimation();
 
-    std::vector<cocos2d::Rect> _wallRects; // 存储墙体矩形
+    void openBackpack();
+    void openMapScene();
+
+    // 设置地图和初始位置
+    void setTiledMap(cocos2d::TMXTiledMap* tiledMap) { _tiledMap = tiledMap; }
+    void setInitPositionMap(const cocos2d::Vec2& pos) { initPositionMap = pos; }
+
+
+
+private:
+    bool _isMoving;
+    bool _isMovingLeft;
+    bool _isMovingRight;
+    bool _isMovingUp;
+    bool _isMovingDown;
+
+    bool _isInBackpackScene;
+    bool _isInMapScene;
+
+    std::string _currentDirection;
+    std::string _currentTexture;
+
+    cocos2d::Sprite* _playerSprite;
+    Backpack* _backpack;
+    cocos2d::TMXTiledMap* _tiledMap;    // 地图指针
+    cocos2d::Vec2 initPositionMap;      // 地图初始位置
 };
+
+#endif // __PLAYER_H__

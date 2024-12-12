@@ -18,6 +18,7 @@ bool BackpackScene::init() {
     if (!Scene::init()) {
         return false;
     }
+
     // 添加了键盘事件监听器
     auto listener = EventListenerKeyboard::create();
     listener->onKeyPressed = CC_CALLBACK_2(BackpackScene::onKeyPressed, this);

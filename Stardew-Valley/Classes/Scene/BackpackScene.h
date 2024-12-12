@@ -24,6 +24,7 @@ public:
 	cocos2d::Sprite* _currentToolSprite;	  // 当前工具
     Item* _selectedItem = nullptr;            // 当前选中的物品
     void BackpackScene::updatePlayerWithItem();
+
 private:
     Backpack* _backpack; // 私有成员变量，用于存储背包实例
 };

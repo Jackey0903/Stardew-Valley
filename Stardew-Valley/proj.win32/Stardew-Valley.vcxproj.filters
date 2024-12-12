@@ -22,6 +22,9 @@
     <Filter Include="Classes\Button">
       <UniqueIdentifier>{984ad2ac-631f-49fe-ab7f-8254074d73f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Variable">
+      <UniqueIdentifier>{e49d5750-0f8a-4441-829f-47e54ca776ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameMain.cpp">
@@ -48,6 +51,21 @@
     <ClCompile Include="..\Classes\Scene\BackpackScene.cpp">
       <Filter>Classes\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Scene\MapScene.cpp">
+      <Filter>Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\GameScene.cpp">
+      <Filter>Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\MapLayer.cpp">
+      <Filter>Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Item.cpp">
+      <Filter>Classes\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Variable\GlobalVars.cpp">
+      <Filter>Classes\Variable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constant.h">
@@ -73,6 +91,21 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\BackpackScene.h">
       <Filter>Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\MapScene.h">
+      <Filter>Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\GameScene.h">
+      <Filter>Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\MapLayer.h">
+      <Filter>Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player\Item.h">
+      <Filter>Classes\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Variable\GlobalVars.h">
+      <Filter>Classes\Variable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
