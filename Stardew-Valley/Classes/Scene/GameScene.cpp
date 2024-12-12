@@ -26,6 +26,22 @@ bool GameScene::init()
 
     auto tiledMap = mapLayer->getTMXTiledMap();
 
+    // 设置地图的锚点为中心
+    tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
+
+    // 获取屏幕的可见区域大小
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto origin = Director::getInstance()->getVisibleOrigin();
+
+    // 计算地图的缩放比例，使其铺满窗口
+    float scaleX = visibleSize.width / tiledMap->getContentSize().width * 2.4;
+    float scaleY = visibleSize.height / tiledMap->getContentSize().height * 2.4;
+    float scale = MAX(scaleX, scaleY); // 选择较大的缩放比例，确保地图铺满窗口
+    tiledMap->setScale(scale);
+
+    // 将地图置于屏幕中心
+    tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
+
     if (!tiledMap)
     {
         CCLOG("loaded ");
@@ -55,23 +71,62 @@ void GameScene::onEnter()
             mapLayer->loadMap(currentMap);
             auto tiledMap = mapLayer->getTMXTiledMap();
 
+            if (currentMap == "Map/Map1/map1.tmx")
+            {
+                // 设置地图的锚点为中心
+                tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
 
+                // 获取屏幕的可见区域大小
+                auto visibleSize = Director::getInstance()->getVisibleSize();
+                auto origin = Director::getInstance()->getVisibleOrigin();
 
-            // 设置地图的锚点为中心
-            tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
+                // 计算地图的缩放比例，使其铺满窗口
+                float scaleX = visibleSize.width / tiledMap->getContentSize().width * 1.5;
+                float scaleY = visibleSize.height / tiledMap->getContentSize().height * 1.5;
+                float scale = MAX(scaleX, scaleY); // 选择较大的缩放比例，确保地图铺满窗口
+                tiledMap->setScale(scale);
 
-            // 获取屏幕的可见区域大小
-            auto visibleSize = Director::getInstance()->getVisibleSize();
-            auto origin = Director::getInstance()->getVisibleOrigin();
+                // 将地图置于屏幕中心
+                tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
+            }
+            else if (currentMap == "Map/Map2/map2.tmx")
+            {
+                // 设置地图的锚点为中心
+                tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
 
-            // 计算地图的缩放比例，使其铺满窗口
-            float scaleX = visibleSize.width / tiledMap->getContentSize().width * 1.5;
-            float scaleY = visibleSize.height / tiledMap->getContentSize().height * 1.5;
-            float scale = MAX(scaleX, scaleY); // 选择较大的缩放比例，确保地图铺满窗口
-            tiledMap->setScale(scale);
+                // 获取屏幕的可见区域大小
+                auto visibleSize = Director::getInstance()->getVisibleSize();
+                auto origin = Director::getInstance()->getVisibleOrigin();
 
-            // 将地图置于屏幕中心
-            tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
+                // 计算地图的缩放比例，使其铺满窗口
+                float scaleX = visibleSize.width / tiledMap->getContentSize().width * 2.4;
+                float scaleY = visibleSize.height / tiledMap->getContentSize().height * 2.4;
+                float scale = MAX(scaleX, scaleY); // 选择较大的缩放比例，确保地图铺满窗口
+                tiledMap->setScale(scale);
+
+                // 将地图置于屏幕中心
+                tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
+            }
+
+            else if (currentMap == "Map/Map3/map3.tmx")
+            {
+                // 设置地图的锚点为中心
+                tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
+
+                // 获取屏幕的可见区域大小
+                auto visibleSize = Director::getInstance()->getVisibleSize();
+                auto origin = Director::getInstance()->getVisibleOrigin();
+
+                // 计算地图的缩放比例，使其铺满窗口
+                float scaleX = visibleSize.width / tiledMap->getContentSize().width * 0.8;
+                float scaleY = visibleSize.height / tiledMap->getContentSize().height * 0.8;
+                float scale = MAX(scaleX, scaleY); // 选择较大的缩放比例，确保地图铺满窗口
+                tiledMap->setScale(scale);
+
+                // 将地图置于屏幕中心
+                tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
+            }
+           
             if (_player && tiledMap)
             {
 

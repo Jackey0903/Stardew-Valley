@@ -95,7 +95,7 @@ void Player::update(float delta)
     );
 
     Vec2 newLoc = loc;
-    float speed = 50.0f;
+    float speed = 100.0f;
     if (_isMovingLeft) newLoc.x -= speed * delta;
     if (_isMovingRight) newLoc.x += speed * delta;
     if (_isMovingUp) newLoc.y += speed * delta;
