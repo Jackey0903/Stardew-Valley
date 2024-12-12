@@ -51,7 +51,7 @@ bool Player::init()
 
     // 将玩家初始位置设置在屏幕中央
     _playerSprite = Sprite::create("Stand_Down.png");
-    _playerSprite->setScale(0.5f / 3);
+    _playerSprite->setScale(0.5f );
     _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
     CCLOG("Player Sprite Position: %f, %f", _playerSprite->getPosition().x, _playerSprite->getPosition().y);
     this->addChild(_playerSprite);

@@ -55,6 +55,23 @@ void GameScene::onEnter()
             mapLayer->loadMap(currentMap);
             auto tiledMap = mapLayer->getTMXTiledMap();
 
+
+
+            // 设置地图的锚点为中心
+            tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
+
+            // 获取屏幕的可见区域大小
+            auto visibleSize = Director::getInstance()->getVisibleSize();
+            auto origin = Director::getInstance()->getVisibleOrigin();
+
+            // 计算地图的缩放比例，使其铺满窗口
+            float scaleX = visibleSize.width / tiledMap->getContentSize().width * 1.5;
+            float scaleY = visibleSize.height / tiledMap->getContentSize().height * 1.5;
+            float scale = MAX(scaleX, scaleY); // 选择较大的缩放比例，确保地图铺满窗口
+            tiledMap->setScale(scale);
+
+            // 将地图置于屏幕中心
+            tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
             if (_player && tiledMap)
             {
 
