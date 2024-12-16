@@ -13,6 +13,7 @@
 #include "Button/HoverButton.h"
 #include "proj.win32/AudioPlayer.h"
 #include "Scene/GameScene.h"
+#include "Scene/Map2Scene.h"
 //cocos2d ÃüÃû¿Õ¼ä
 USING_NS_CC;
 
@@ -34,7 +35,7 @@ void StartMenu::startGame(Ref* pSender)
 
     cocos2d::Director::getInstance()->
         replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION,
-            GameScene::createScene(), cocos2d::Color3B::WHITE));
+            Map2Scene::createScene(), cocos2d::Color3B::WHITE));
 }
 
 bool StartMenu::init()

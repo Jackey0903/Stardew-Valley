@@ -8,7 +8,9 @@
  ****************************************************************/
 #include "MapScene.h"
 #include "cocos2d.h"
-
+#include "Map1Scene.h"
+#include "Map2Scene.h"
+#include "Map3Scene.h"
 extern std::string g_selectedMap; // 声明全局变量
 
 USING_NS_CC;
@@ -64,5 +66,19 @@ void MapScene::onMapItemClicked(Ref* sender)
 {
     CCLOG("切换到地图：%s", mapNames[currentMapIndex].c_str());
     g_selectedMap = mapNames[currentMapIndex]; // 记录选中的地图名称
-    Director::getInstance()->popScene(); // 返回 GameScene
+
+    // 根据g_selectedMap值来决定加载哪个场景
+    if (g_selectedMap == "Map/Map1/map1.tmx")
+    {
+        Director::getInstance()->replaceScene(Map1Scene::createScene());
+    }
+    else if (g_selectedMap == "Map/Map2/map2.tmx")
+    {
+        Director::getInstance()->replaceScene(Map2Scene::createScene());
+    }
+    else if (g_selectedMap == "Map/Map3/map3.tmx")
+    {
+        Director::getInstance()->replaceScene(Map3Scene::createScene());
+    }
 }
+
