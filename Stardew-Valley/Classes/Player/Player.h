@@ -55,6 +55,12 @@ private:
     Backpack* _backpack;
     cocos2d::TMXTiledMap* _tiledMap;    // 地图指针
     cocos2d::Vec2 initPositionMap;      // 地图初始位置
+    void Player::onMouseDown(cocos2d::Event* event);
+
+    void playChopAnimation(cocos2d::Sprite* treeSprite);
+
+    cocos2d::Vector<cocos2d::Sprite*> trees;
+    int woodCount;
 };
 
 #endif // __PLAYER_H__
