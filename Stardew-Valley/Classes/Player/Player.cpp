@@ -66,17 +66,6 @@ bool Player::init()
     _currentDirection = "Down";
     _currentTexture = "Stand_Down.png";
     _tiledMap = nullptr;
-
-    // 创建树的精灵对象并放置在地图上
-    auto treeSprite = Sprite::create("tree.png");
-    treeSprite->setPosition(Vec2(800, 800)); // 设置树的位置
-    if (!treeSprite) {
-        CCLOG("jijijijijijijijijiji");
-    }
-    _tiledMap->addChild(treeSprite, 5); // 将树的精灵对象添加到地图中
-    _tiledMap->setScale(2.0f);
-    trees.pushBack(treeSprite);
-
     auto listener = EventListenerKeyboard::create();
     listener->onKeyPressed = CC_CALLBACK_2(Player::onKeyPressed, this);
     listener->onKeyReleased = CC_CALLBACK_2(Player::onKeyReleased, this);
@@ -105,7 +94,7 @@ void Player::update(float delta)
     );
 
     Vec2 newLoc = loc;
-    float speed = 100.0f;
+    float speed = 500.0f;
     if (_isMovingLeft) newLoc.x -= speed * delta;
     if (_isMovingRight) newLoc.x += speed * delta;
     if (_isMovingUp) newLoc.y += speed * delta;
@@ -299,50 +288,3 @@ void Player::openMapScene()
     Director::getInstance()->pushScene(TransitionFade::create(0.5f, mapScene));
 }
 
-void Player::onMouseDown(cocos2d::Event* event)
-{
-    auto mouseEvent = static_cast<EventMouse*>(event);
-    auto clickPosition = mouseEvent->getLocation();
-
-    // 将点击位置转换为地图坐标
-    auto mapPosition = _tiledMap->convertToNodeSpace(clickPosition);
-
-    // 检查点击位置是否在树上
-    for (auto tree : trees)
-    {
-        if (tree->getBoundingBox().containsPoint(mapPosition))
-        {
-            // 播放砍树动画
-            playChopAnimation(tree);
-            break;
-        }
-    }
-}
-
-
-
-void Player::playChopAnimation(Sprite* treeSprite)
-{
-    // 创建砍树动画
-    auto animation = cocos2d::Animation::create();
-    animation->addSpriteFrameWithFile("chop1.png");
-    animation->addSpriteFrameWithFile("chop2.png");
-    animation->setDelayPerUnit(0.5f);
-    animation->setLoops(3);
-
-    auto animate = Animate::create(animation);
-
-
-    auto callback = CallFunc::create([this, treeSprite]() {
-        // 移除树的精灵对象
-        treeSprite->removeFromParent();
-        trees.eraseObject(treeSprite);
-        // 增加背包中的木头数量
-        woodCount++;
-        // 移除砍树动画的精灵
-        ;
-        });
-
-    auto sequence = Sequence::create(animate, callback, nullptr);
-    treeSprite->runAction(sequence);
-}

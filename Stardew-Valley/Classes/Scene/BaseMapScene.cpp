@@ -45,7 +45,7 @@ void BaseMapScene::initPlayer()
 {
     if (!_tiledMap) return;
     _player = Player::create();
-    this->addChild(_player, 10);
+    this->addChild(_player, 1);
     _player->setTiledMap(_tiledMap);
     _player->setInitPositionMap(_tiledMap->getPosition());
     _player->setPosition(Vec2(60, 50)); // 默认玩家初始位置，可子类调节

@@ -22,7 +22,7 @@ public:
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void update(float delta) override;
-
+    cocos2d::Sprite* getPlayerSprite() const { return _playerSprite; }
     // 碰撞检测传入MapLayer指针
     bool isCollidingWithWall(const cocos2d::Rect& playerRect);
 
@@ -37,7 +37,6 @@ public:
     void setInitPositionMap(const cocos2d::Vec2& pos) { initPositionMap = pos; }
 
 
-
 private:
     bool _isMoving;
     bool _isMovingLeft;
@@ -47,17 +46,13 @@ private:
 
     bool _isInBackpackScene;
     bool _isInMapScene;
-
+    cocos2d::Sprite* _playerSprite;
     std::string _currentDirection;
     std::string _currentTexture;
 
-    cocos2d::Sprite* _playerSprite;
     Backpack* _backpack;
     cocos2d::TMXTiledMap* _tiledMap;    // 地图指针
     cocos2d::Vec2 initPositionMap;      // 地图初始位置
-    void Player::onMouseDown(cocos2d::Event* event);
-
-    void playChopAnimation(cocos2d::Sprite* treeSprite);
 
     cocos2d::Vector<cocos2d::Sprite*> trees;
     int woodCount;

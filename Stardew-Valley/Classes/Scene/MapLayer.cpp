@@ -48,7 +48,7 @@ void MapLayer::loadMap(const std::string& mapFile)
         CCLOG("地图加载成功: %s", mapFile.c_str());
 
         // 收集墙体矩形
-        auto wallLayer = currentMap->getLayer("wal"); // 确保 "Paths" 是墙体所在的图层名称
+        auto wallLayer = currentMap->getLayer("wall"); // 确保 "Paths" 是墙体所在的图层名称
         if (wallLayer)
         {
             _wallRects.clear();

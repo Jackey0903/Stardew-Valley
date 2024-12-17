@@ -152,11 +152,16 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Button\HoverButton.cpp" />
+    <ClCompile Include="..\Classes\Object\Animal.cpp" />
     <ClCompile Include="..\Classes\Player\Backpack.cpp" />
     <ClCompile Include="..\Classes\Player\Item.cpp" />
     <ClCompile Include="..\Classes\Player\Player.cpp" />
     <ClCompile Include="..\Classes\Scene\BackpackScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\BaseMapScene.cpp" />
     <ClCompile Include="..\Classes\Scene\GameScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\Map1Scene.cpp" />
+    <ClCompile Include="..\Classes\Scene\Map2Scene.cpp" />
+    <ClCompile Include="..\Classes\Scene\Map3Scene.cpp" />
     <ClCompile Include="..\Classes\Scene\MapLayer.cpp" />
     <ClCompile Include="..\Classes\Scene\MapScene.cpp" />
     <ClCompile Include="..\Classes\Scene\StartMenu.cpp" />
@@ -167,11 +172,16 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate\AppDelegate.h" />
     <ClInclude Include="..\Classes\Button\HoverButton.h" />
+    <ClInclude Include="..\Classes\Object\Animal.h" />
     <ClInclude Include="..\Classes\Player\Backpack.h" />
     <ClInclude Include="..\Classes\Player\Item.h" />
     <ClInclude Include="..\Classes\Player\Player.h" />
     <ClInclude Include="..\Classes\Scene\BackpackScene.h" />
+    <ClInclude Include="..\Classes\Scene\BaseMapScene.h" />
     <ClInclude Include="..\Classes\Scene\GameScene.h" />
+    <ClInclude Include="..\Classes\Scene\Map1Scene.h" />
+    <ClInclude Include="..\Classes\Scene\Map2Scene.h" />
+    <ClInclude Include="..\Classes\Scene\Map3Scene.h" />
     <ClInclude Include="..\Classes\Scene\MapLayer.h" />
     <ClInclude Include="..\Classes\Scene\MapScene.h" />
     <ClInclude Include="..\Classes\Scene\StartMenu.h" />

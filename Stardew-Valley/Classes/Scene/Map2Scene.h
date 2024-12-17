@@ -15,14 +15,17 @@ public:
 
 private:
     bool _isPlanting;
+    bool _isPlantingTree;
     std::vector<cocos2d::Sprite*> _crops;
-
+    std::vector<cocos2d::Sprite*> _trees;
     void initEventListeners();
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void onMouseDown(cocos2d::Event* event);
     void plantCropAt(const cocos2d::Vec2& locationInMap);
     void harvestCropAt(const cocos2d::Vec2& locationInMap);
+    void plantTreeAt(const cocos2d::Vec2& locationInMap);
+    void fellTreeAt(const cocos2d::Vec2& locationInMap);
 };
 
 #endif
