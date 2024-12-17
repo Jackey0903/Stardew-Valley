@@ -1,10 +1,9 @@
 #include "Animal.h"
 USING_NS_CC;
-using std::string;
-Animal* Animal::create(const cocos2d::Rect& area,const std::string _name)
+
+Animal* Animal::create(const cocos2d::Rect& area)
 {
     Animal* ret = new(std::nothrow) Animal();
-	ret->animalName = _name;
     if (ret && ret->init(area))
     {
         ret->autorelease();
@@ -27,7 +26,7 @@ bool Animal::init(const cocos2d::Rect& area)
     loadAnimations();
 
     // 创建动物精灵并放在范围内的随机位置
-    _animalSprite = Sprite::create(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Stand_Down.png")); // 初始贴图，可换成Idle贴图
+    _animalSprite = Sprite::create("Animal/Cow_Stand_Down.png"); // 初始贴图，可换成Idle贴图
 	_animalSprite->setScale(0.2f);
     this->addChild(_animalSprite);
 
@@ -46,10 +45,10 @@ bool Animal::init(const cocos2d::Rect& area)
 void Animal::loadAnimations()
 {
     // 假设已将 Animal_Up.plist, Animal_Down.plist, Animal_Left.plist, Animal_Right.plist 放入Resources中
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Down.plist"));
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Up.plist"));
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Left.plist"));
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Right.plist"));
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Animal/Cow_Up.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Animal/Cow_Down.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Animal/Cow_Left.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Animal/Cow_Right.plist");
 }
 
 void Animal::chooseRandomDirection()
@@ -68,16 +67,16 @@ void Animal::startWalkingAnimation(Direction dir)
     switch (dir)
     {
         case Direction::UP:
-            directionStr = animalName + static_cast<string>("_Up_");
+            directionStr = "Cow_Up_";
             break;
         case Direction::DOWN:
-            directionStr = animalName + static_cast<string>("_Down_");
+            directionStr = "Cow_Down_";
             break;
         case Direction::LEFT:
-            directionStr = animalName + static_cast<string>("_Left_");
+            directionStr = "Cow_Left_";
             break;
         case Direction::RIGHT:
-            directionStr = animalName + static_cast<string>("_Right_");
+            directionStr = "Cow_Right_";
             break;
     }
 

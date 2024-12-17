@@ -14,6 +14,7 @@
 #include "Scene/MapLayer.h"
 #include "Player/Backpack.h"
 #include "Player/Item.h"
+#include "Scene/BaseMapScene.h"
 
 USING_NS_CC;
 
@@ -82,6 +83,9 @@ void Player::update(float delta)
         return;
     }
 
+    auto parentScene = dynamic_cast<BaseMapScene*>(this->getParent());
+    if (!parentScene) return;
+
     Vec2 loc = _playerSprite->getPosition();
     Vec2 mapPos = _tiledMap->getPosition();
 
@@ -110,9 +114,11 @@ void Player::update(float delta)
         playerRect.size.height
     );
 
-    if (isCollidingWithWall(adjustedPlayerRect))
+    // 使用Collision对象层进行碰撞检测
+    if (parentScene->isCollidingWithCollisionLayer(adjustedPlayerRect))
     {
-        CCLOG("Player is colliding with a wall.");
+        CCLOG("Player collides with a collision object.");
+        // 碰撞后恢复玩家位置
         _playerSprite->setPosition(loc);
         return;
     }

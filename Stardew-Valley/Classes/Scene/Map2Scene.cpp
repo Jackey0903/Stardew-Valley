@@ -24,18 +24,8 @@ bool Map2Scene::init()
 
     // 在Map2Scene.cpp的onEnter或者init中，当_tiledMap已经存在后：
     cocos2d::Rect animalArea(1000, 1000, 300, 300);
-
-    auto cow1 = Animal::create(animalArea,"Cow");
-    _tiledMap->addChild(cow1, 20);
-
-    auto cow2 = Animal::create(animalArea, "Cow");
-    _tiledMap->addChild(cow2, 20);
-
-	auto sheep = Animal::create(animalArea, "Sheep");
-	_tiledMap->addChild(sheep, 20);
-
-    auto pig = Animal::create(animalArea, "Pig");
-    _tiledMap->addChild(pig, 20);
+    auto animal = Animal::create(animalArea);
+    _tiledMap->addChild(animal, 20);
 
 
     _isPlanting = false;
