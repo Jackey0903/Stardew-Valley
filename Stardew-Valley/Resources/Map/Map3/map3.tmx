@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="19">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="26">
  <tileset firstgid="1" source="house1.tsx"/>
  <tileset firstgid="161" source="house2.tsx"/>
  <tileset firstgid="321" source="house3.tsx"/>
@@ -73,4 +73,12 @@
 625,626,627,628,629,630,631,632,633,634,635,636,637,638,639,640
 </data>
  </layer>
+ <objectgroup id="8" name="Npc_Leah">
+  <object id="21" name="Npc_Leah" x="73.5427" y="84.7937">
+   <point/>
+  </object>
+  <object id="25" x="197.303" y="-26.8925">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

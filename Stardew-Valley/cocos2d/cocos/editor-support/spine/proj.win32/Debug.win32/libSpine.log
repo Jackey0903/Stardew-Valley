@@ -28,15 +28,15 @@
   SkeletonBounds.c
   SkeletonClipping.c
   SkeletonData.c
+D:\Stardew-Valley\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(310,24): warning C4018: “<”: 有符号/无符号不匹配
+D:\Stardew-Valley\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(372,24): warning C4018: “<”: 有符号/无符号不匹配
+D:\Stardew-Valley\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(484,26): warning C4018: “<”: 有符号/无符号不匹配
+D:\Stardew-Valley\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(649,2): warning C4018: “<”: 有符号/无符号不匹配
+D:\Stardew-Valley\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(652,2): warning C4018: “<”: 有符号/无符号不匹配
   SkeletonJson.c
   Skin.c
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(310,24): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(372,24): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(484,26): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonJson.c(97,12): warning C4018: “>=”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(649,2): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(652,2): warning C4018: “<”: 有符号/无符号不匹配
   Slot.c
+D:\Stardew-Valley\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonJson.c(97,12): warning C4018: “>=”: 有符号/无符号不匹配
   SlotData.c
   TransformConstraint.c
   TransformConstraintData.c
@@ -50,7 +50,7 @@ D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\Skele
   SkeletonRenderer.cpp
   SkeletonTwoColorBatch.cpp
   spine-cocos2dx.cpp
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBatch.cpp(110,42): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonTwoColorBatch.cpp(237,42): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonTwoColorBatch.cpp(274,37): warning C4018: “<”: 有符号/无符号不匹配
-  libSpine.vcxproj -> D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley\proj.win32\Debug.win32\libSpine.lib
+D:\Stardew-Valley\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBatch.cpp(110,42): warning C4018: “<”: 有符号/无符号不匹配
+D:\Stardew-Valley\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonTwoColorBatch.cpp(237,42): warning C4018: “<”: 有符号/无符号不匹配
+D:\Stardew-Valley\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonTwoColorBatch.cpp(274,37): warning C4018: “<”: 有符号/无符号不匹配
+  libSpine.vcxproj -> D:\Stardew-Valley\Stardew-Valley\proj.win32\Debug.win32\libSpine.lib

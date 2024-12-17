@@ -18,11 +18,11 @@ bool Map3Scene::init()
 
     // 加载Map3，假设BaseMapScene的loadMap会将_tiledMap的anchorPoint设为(0,0)、position为(0,0)，并缩放地图
     // 比如缩放5倍
-    loadMap("Map/Map3/house.tmx", 5.0f);
+    loadMap("Map/Map3/map3.tmx", 5.0f);
     initPlayer();
 
 
-	cocos2d::Rect animalArea(50, 50, 300, 300);
+	cocos2d::Rect animalArea(50, 0, 100, 100);
 
     auto cat = Animal::create(animalArea, "Cat");
     _tiledMap->addChild(cat, 20);
@@ -41,24 +41,24 @@ void Map3Scene::onEnter()
     if (_tiledMap)
     {
         // 获取名为"Npc"的对象层
-        auto npcLayer = _tiledMap->getObjectGroup("Npc");
+        auto npcLayer = _tiledMap->getObjectGroup("Npc_Leah");
         if (npcLayer)
         {
             auto npcObjects = npcLayer->getObjects();
             for (auto& obj : npcObjects)
             {
                 auto npcObject = obj.asValueMap();
-                if (npcObject["name"].asString() == "Npc")
+                if (npcObject["name"].asString() == "Npc_Leah")
                 {
                     // 获取NPC在地图坐标系中的位置（Tiled左下为(0,0)）
                     float npcX = npcObject["x"].asFloat();
                     float npcY = npcObject["y"].asFloat();
                     Vec2 npcPosition(npcX, npcY);
-
+                    CCLOG("ok");
                     _npc = Sprite::create("Leah.png");
                     _npc->setScale(0.1f); // 增大NPC的缩放，使点击区域更大
                     _npc->setPosition(npcPosition);
-                    _tiledMap->addChild(_npc, 15);
+                    _tiledMap->addChild(_npc, 25);
 
 
                     // 设置点击事件监听器
