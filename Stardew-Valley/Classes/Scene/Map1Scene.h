@@ -15,7 +15,8 @@ public:
     CREATE_FUNC(Map1Scene);
 private:
     cocos2d::Sprite* _npc;
-
+    void showOptions();
+    void closeDialogue();
     // 用于对话框显示的成员变量
     cocos2d::LayerColor* _dialogueLayer = nullptr;   // 对话框背景层
     cocos2d::Sprite* _npcFace = nullptr;             // NPC头像精灵

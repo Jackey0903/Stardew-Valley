@@ -50,34 +50,3 @@ void BaseMapScene::initPlayer()
     _player->setInitPositionMap(_tiledMap->getPosition());
     _player->setPosition(Vec2(60, 50)); // 默认玩家初始位置，可子类调节
 }
-
-void BaseMapScene::loadCollisionObjects(const std::string& layerName)
-{
-    _collisionRects.clear();
-    if (!_tiledMap) return;
-
-    auto objectGroup = _tiledMap->getObjectGroup(layerName);
-    if (!objectGroup) return;
-
-    auto objects = objectGroup->getObjects();
-    for (auto& obj : objects)
-    {
-        auto dict = obj.asValueMap();
-        float x = dict["x"].asFloat();
-        float y = dict["y"].asFloat();
-        float width = dict["width"].asFloat();
-        float height = dict["height"].asFloat();
-        Rect rect(x, y, width, height);
-        _collisionRects.push_back(rect);
-    }
-}
-
-bool BaseMapScene::isCollidingWithCollisionLayer(const cocos2d::Rect& playerRect) const
-{
-    for (auto& rect : _collisionRects)
-    {
-        if (playerRect.intersectsRect(rect))
-            return true;
-    }
-    return false;
-}

@@ -1,6 +1,7 @@
 // Map3Scene.cpp
 #include "Map3Scene.h"
 #include "MapLayer.h"
+#include "Object/Animal.h"
 #include "ui/CocosGUI.h"
 
 USING_NS_CC;
@@ -17,11 +18,15 @@ bool Map3Scene::init()
 
     // 加载Map3，假设BaseMapScene的loadMap会将_tiledMap的anchorPoint设为(0,0)、position为(0,0)，并缩放地图
     // 比如缩放5倍
-    loadMap("Map/Map3/map3.tmx", 5.0f);
+    loadMap("Map/Map3/house.tmx", 5.0f);
     initPlayer();
 
-    // 加载Collision对象层
-    loadCollisionObjects("Collision");
+
+	cocos2d::Rect animalArea(50, 50, 300, 300);
+
+    auto cat = Animal::create(animalArea, "Cat");
+    _tiledMap->addChild(cat, 20);
+    cat->setScale(0.5f);
 
     _npc = nullptr;
 
