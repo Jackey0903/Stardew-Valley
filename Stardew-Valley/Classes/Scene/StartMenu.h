@@ -13,14 +13,15 @@ public:
     static Scene* createScene();
     void exitGame(Ref* pSender);
     void startGame(Ref* pSender);
+    void settings(Ref* pSender);
     virtual bool init();
     Sprite* _backgroundSprite;
     Sprite* _title;
-	MenuItemImage* startButton;
-	MenuItemImage* exitButton;
-	Menu* menu;
-	Vec2 menuPosition;
-	EventListenerMouse* listener;
+    MenuItemImage* startButton;
+    MenuItemImage* exitButton;
+    Menu* menu;
+    Vec2 menuPosition;
+    EventListenerMouse* listener;
 
 
     // a selector callback

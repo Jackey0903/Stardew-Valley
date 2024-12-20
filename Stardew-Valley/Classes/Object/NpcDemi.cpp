@@ -23,21 +23,21 @@ bool NpcDemi::initWithPosition(const Vec2& position, const std::string& spriteFi
     }
 
     this->setPosition(position);
-    this->setScale(0.5f); // æ ¹æ®éœ€è¦è°ƒæ•´ç¼©æ”¾
+    this->setScale(0.5f); // ¸ù¾ÝÐèÒªµ÷ÕûËõ·Å
 
-    // åˆå§‹åŒ–å¯¹è¯å†…å®¹
+    // ³õÊ¼»¯¶Ô»°ÄÚÈÝ
     _npcDialogues = {
-        {"Hey,buddy!", "NPC2/Demi_1.png"},
-        {"My name is Demi,and I am a miner.", "NPC2/Demi_2.png"},
-        {"There are many minerals here that can be mined.", "NPC2/Demi_3.png"},
-        {"Do you want to join me?", "NPC2/Demi_4.png"}
+        {"Hello, Jackey", "NPC2/Demi_1.png"},
+        {"You look lonely", "NPC2/Demi_2.png"},
+        {"Here is the thing, there is something I have always wanted to say to you", "NPC2/Demi_3.png"},
+        {"Would you like to be my lover?", "NPC2/Demi_4.png"}
     };
     _dialogueIndex = 0;
     _dialogueLayer = nullptr;
     _npcFace = nullptr;
     _dialogueLabel = nullptr;
 
-    // è®¾ç½®è§¦æ‘¸ç›‘å¬å™¨
+    // ÉèÖÃ´¥Ãþ¼àÌýÆ÷
     setupTouchListener();
 
     return true;
@@ -48,7 +48,7 @@ void NpcDemi::setupTouchListener()
     auto npcListener = EventListenerTouchOneByOne::create();
     npcListener->setSwallowTouches(true);
     npcListener->onTouchBegan = [this](Touch* touch, Event* event) -> bool {
-        // å°†è§¦æ‘¸ç‚¹è½¬æ¢ä¸ºNPCçš„å±€éƒ¨åæ ‡
+        // ½«´¥Ãþµã×ª»»ÎªNPCµÄ¾Ö²¿×ø±ê
         Vec2 locationInNode = this->convertToNodeSpace(touch->getLocation());
         Size size = this->getContentSize();
         Rect rect = Rect(0, 0, size.width, size.height);
@@ -66,11 +66,11 @@ void NpcDemi::showDialogue()
 {
     if (_dialogueLayer)
     {
-        // å¯¹è¯å·²ç»åœ¨æ˜¾ç¤ºä¸­
+        // ¶Ô»°ÒÑ¾­ÔÚÏÔÊ¾ÖÐ
         return;
     }
 
-    // åˆå§‹åŒ–å¯¹è¯å±‚
+    // ³õÊ¼»¯¶Ô»°²ã
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
@@ -80,26 +80,26 @@ void NpcDemi::showDialogue()
     _dialogueLayer->setPosition(origin.x, origin.y);
     Director::getInstance()->getRunningScene()->addChild(_dialogueLayer, 20);
 
-    // æ˜¾ç¤ºNPCå¤´åƒ
+    // ÏÔÊ¾NPCÍ·Ïñ
     _npcFace = Sprite::create(_npcDialogues[_dialogueIndex].faceImage);
     _npcFace->setScale(0.5f);
     _npcFace->setAnchorPoint(Vec2(0, 1));
     _npcFace->setPosition(Vec2(10, visibleSize.height / 2 - 10));
     _dialogueLayer->addChild(_npcFace, 1);
 
-    // æ˜¾ç¤ºå¯¹è¯æ–‡æœ¬
+    // ÏÔÊ¾¶Ô»°ÎÄ±¾
     _dialogueLabel = ui::Text::create("", "Arial", 24);
     _dialogueLabel->setAnchorPoint(Vec2(0, 1));
-    _dialogueLabel->setPosition(Vec2(400, visibleSize.height / 2 - 160)); // ä¿®æ”¹ä¸ºå³è¾¹ä½ç½®
+    _dialogueLabel->setPosition(Vec2(400, visibleSize.height / 2 - 160)); // ÐÞ¸ÄÎªÓÒ±ßÎ»ÖÃ
     _dialogueLabel->setContentSize(Size(
-        visibleSize.width + 200, // é€‚å½“è°ƒæ•´å®½åº¦
-        visibleSize.height / 2 + 100)); // é€‚å½“è°ƒæ•´é«˜åº¦
+        visibleSize.width + 200, // ÊÊµ±µ÷Õû¿í¶È
+        visibleSize.height / 2 + 100)); // ÊÊµ±µ÷Õû¸ß¶È
     _dialogueLabel->setColor(Color3B::RED);
     _dialogueLayer->addChild(_dialogueLabel, 1);
 
     _dialogueLabel->setString(_npcDialogues[_dialogueIndex].text);
 
-    // è®¾ç½®å¯¹è¯è§¦æ‘¸ç›‘å¬å™¨
+    // ÉèÖÃ¶Ô»°´¥Ãþ¼àÌýÆ÷
     auto dialogListener = EventListenerTouchOneByOne::create();
     dialogListener->setSwallowTouches(true);
     dialogListener->onTouchBegan = [this](Touch* touch, Event* event) -> bool {
@@ -117,12 +117,12 @@ void NpcDemi::showDialogue()
     dialogListener->onTouchEnded = [this](Touch* touch, Event* event) {
         _dialogueIndex++;
         if (_dialogueIndex < static_cast<int>(_npcDialogues.size())) {
-            // ä¸‹ä¸€å¥å¯¹è¯
+            // ÏÂÒ»¾ä¶Ô»°
             _dialogueLabel->setString(_npcDialogues[_dialogueIndex].text);
             _npcFace->setTexture(_npcDialogues[_dialogueIndex].faceImage);
         }
         else {
-            // å¯¹è¯ç»“æŸï¼Œæ˜¾ç¤ºé€‰é¡¹
+            // ¶Ô»°½áÊø£¬ÏÔÊ¾Ñ¡Ïî
             this->showOptions();
         }
         };
@@ -134,36 +134,36 @@ void NpcDemi::showOptions()
 {
     if (!_dialogueLayer) return;
 
-    _dialogueLabel->setString(""); // æ¸…ç©ºæ–‡æœ¬
-    _npcFace->setTexture("NPC2/Demi_4.png"); // å°†å¤´åƒè®¾ä¸ºé»˜è®¤æˆ–ä¿æŒæœ€åŽå¤´åƒ
+    _dialogueLabel->setString(""); // Çå¿ÕÎÄ±¾
+    _npcFace->setTexture("NPC2/Demi_4.png"); // ½«Í·ÏñÉèÎªÄ¬ÈÏ»ò±£³Ö×îºóÍ·Ïñ
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
 
-    // åˆ›å»ºé€‰é¡¹æ–‡æœ¬
-    auto option1Label = Label::createWithSystemFont("Great! I want to join you.", "Arial", 24);
-    auto option2Label = Label::createWithSystemFont("No,thank you.I plan to leave here.", "Arial", 24);
-    auto option3Label = Label::createWithSystemFont("Never mind,I'll just mine it myself.", "Arial", 24);
+    // ´´½¨Ñ¡ÏîÎÄ±¾
+    auto option1Label = Label::createWithSystemFont("God, I can do it.", "Arial", 24);
+    auto option2Label = Label::createWithSystemFont("I love you.", "Arial", 24);
+    auto option3Label = Label::createWithSystemFont("Sorry, but I have something more important.", "Arial", 24);
 
-    // åˆ›å»ºé€‰é¡¹èœå•é¡¹
+    // ´´½¨Ñ¡Ïî²Ëµ¥Ïî
     auto option1 = MenuItemLabel::create(option1Label, [this](Ref* sender) {
-        CCLOG("é€‰æ‹©äº† 'God, I can do it.'");
-        // æ ¹æ®é€‰æ‹©æ‰§è¡Œå¯¹åº”é€»è¾‘...
+        CCLOG("Ñ¡ÔñÁË 'God, I can do it.'");
+        // ¸ù¾ÝÑ¡ÔñÖ´ÐÐ¶ÔÓ¦Âß¼­...
         this->closeDialogue();
         });
 
     auto option2 = MenuItemLabel::create(option2Label, [this](Ref* sender) {
-        CCLOG("é€‰æ‹©äº† 'I love you.'");
-        // æ ¹æ®é€‰æ‹©æ‰§è¡Œå¯¹åº”é€»è¾‘...
+        CCLOG("Ñ¡ÔñÁË 'I love you.'");
+        // ¸ù¾ÝÑ¡ÔñÖ´ÐÐ¶ÔÓ¦Âß¼­...
         this->closeDialogue();
         });
 
     auto option3 = MenuItemLabel::create(option3Label, [this](Ref* sender) {
-        CCLOG("é€‰æ‹©äº† 'Sorry, but I have something more important.'");
-        // æ ¹æ®é€‰æ‹©æ‰§è¡Œå¯¹åº”é€»è¾‘...
+        CCLOG("Ñ¡ÔñÁË 'Sorry, but I have something more important.'");
+        // ¸ù¾ÝÑ¡ÔñÖ´ÐÐ¶ÔÓ¦Âß¼­...
         this->closeDialogue();
         });
 
-    // åˆ›å»ºèœå•å¹¶è®¾ç½®ä½ç½®
+    // ´´½¨²Ëµ¥²¢ÉèÖÃÎ»ÖÃ
     auto menu = Menu::create(option1, option2, option3, nullptr);
     menu->alignItemsVerticallyWithPadding(20);
     menu->setPosition(visibleSize.width * 0.7f, visibleSize.height / 4);

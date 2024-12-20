@@ -1,8 +1,8 @@
-// GameScene.cpp
+ï»¿// GameScene.cpp
 #include "Scene/GameScene.h"
 #include "MapLayer.h"
 #include "Player/Player.h"
-#include "ui/CocosGUI.h"  // µ¼ÈëCocos2dµÄUIÄ£¿é
+#include "ui/CocosGUI.h"  // å¯¼å…¥Cocos2dçš„UIæ¨¡å—
 
 USING_NS_CC;
 
@@ -18,7 +18,7 @@ bool GameScene::init()
     if (!Scene::init())
         return false;
 
-    _isPlanting = false; // ³õÊ¼²»´¦ÓÚÖÖÖ²Ä£Ê½
+    _isPlanting = false; // åˆå§‹ä¸å¤„äºç§æ¤æ¨¡å¼
     _npc = nullptr;
 
     currentMap = "Map/Map2/map2.tmx";
@@ -26,24 +26,24 @@ bool GameScene::init()
     auto mapLayer = MapLayer::create();
     mapLayer->setName("MapLayer");
     this->addChild(mapLayer, 0);
-    mapLayer->loadMap(currentMap);
+    //mapLayer->loadMap(currentMap);
 
     auto tiledMap = mapLayer->getTMXTiledMap();
 
-    // ÉèÖÃµØÍ¼µÄÃªµãÎªÖĞĞÄ
+    // è®¾ç½®åœ°å›¾çš„é”šç‚¹ä¸ºä¸­å¿ƒ
     tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
 
-    // »ñÈ¡ÆÁÄ»µÄ¿É¼ûÇøÓò´óĞ¡
+    // è·å–å±å¹•çš„å¯è§åŒºåŸŸå¤§å°
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
-    // ¼ÆËãµØÍ¼µÄËõ·Å±ÈÀı£¬Ê¹ÆäÆÌÂú´°¿Ú
+    // è®¡ç®—åœ°å›¾çš„ç¼©æ”¾æ¯”ä¾‹ï¼Œä½¿å…¶é“ºæ»¡çª—å£
     float scaleX = visibleSize.width / tiledMap->getContentSize().width * 2.4;
     float scaleY = visibleSize.height / tiledMap->getContentSize().height * 2.4;
-    float scale = MAX(scaleX, scaleY); // Ñ¡Ôñ½Ï´óµÄËõ·Å±ÈÀı£¬È·±£µØÍ¼ÆÌÂú´°¿Ú
+    float scale = MAX(scaleX, scaleY); // é€‰æ‹©è¾ƒå¤§çš„ç¼©æ”¾æ¯”ä¾‹ï¼Œç¡®ä¿åœ°å›¾é“ºæ»¡çª—å£
     tiledMap->setScale(scale);
 
-    // ½«µØÍ¼ÖÃÓÚÆÁÄ»ÖĞĞÄ
+    // å°†åœ°å›¾ç½®äºå±å¹•ä¸­å¿ƒ
     tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
 
     if (!tiledMap)
@@ -52,12 +52,12 @@ bool GameScene::init()
     }
 
     _player = Player::create();
-    this->addChild(_player, 10); // È·±£Íæ¼ÒÔÚµØÍ¼Ö®ÉÏ
+    this->addChild(_player, 10); // ç¡®ä¿ç©å®¶åœ¨åœ°å›¾ä¹‹ä¸Š
 
     _player->setTiledMap(tiledMap);
     _player->setInitPositionMap(tiledMap->getPosition());
 
-    // ³õÊ¼»¯ÊÂ¼ş¼àÌıÆ÷£¨¼üÅÌ¡¢Êó±ê£©
+    // åˆå§‹åŒ–äº‹ä»¶ç›‘å¬å™¨ï¼ˆé”®ç›˜ã€é¼ æ ‡ï¼‰
     initEventListeners();
 
     this->scheduleUpdate();
@@ -66,101 +66,101 @@ bool GameScene::init()
 }
 
 void GameScene::onEnter()
-{
+{ 
     Scene::onEnter();
    
     if (!g_selectedMap.empty() && g_selectedMap != currentMap)
     {
-        CCLOG("GameScene: ÇĞ»»µ½ĞÂµØÍ¼: %s", g_selectedMap.c_str());
+        CCLOG("GameScene: åˆ‡æ¢åˆ°æ–°åœ°å›¾: %s", g_selectedMap.c_str());
         currentMap = g_selectedMap;
 
         auto mapLayer = dynamic_cast<MapLayer*>(this->getChildByName("MapLayer"));
         if (mapLayer)
         {
-            mapLayer->loadMap(currentMap);
+            //mapLayer->loadMap(currentMap);
             auto tiledMap = mapLayer->getTMXTiledMap();
 
             if (currentMap == "Map/Map1/map1.tmx")
             {
-                // ÉèÖÃµØÍ¼µÄÃªµãÎªÖĞĞÄ
+                // è®¾ç½®åœ°å›¾çš„é”šç‚¹ä¸ºä¸­å¿ƒ
                 tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
 
-                // »ñÈ¡ÆÁÄ»µÄ¿É¼ûÇøÓò´óĞ¡
+                // è·å–å±å¹•çš„å¯è§åŒºåŸŸå¤§å°
                 auto visibleSize = Director::getInstance()->getVisibleSize();
                 auto origin = Director::getInstance()->getVisibleOrigin();
 
-                // ¼ÆËãµØÍ¼µÄËõ·Å±ÈÀı£¬Ê¹ÆäÆÌÂú´°¿Ú
+                // è®¡ç®—åœ°å›¾çš„ç¼©æ”¾æ¯”ä¾‹ï¼Œä½¿å…¶é“ºæ»¡çª—å£
                 float scaleX = visibleSize.width / tiledMap->getContentSize().width * 1.5;
                 float scaleY = visibleSize.height / tiledMap->getContentSize().height * 1.5;
-                float scale = MAX(scaleX, scaleY); // Ñ¡Ôñ½Ï´óµÄËõ·Å±ÈÀı£¬È·±£µØÍ¼ÆÌÂú´°¿Ú
+                float scale = MAX(scaleX, scaleY); // é€‰æ‹©è¾ƒå¤§çš„ç¼©æ”¾æ¯”ä¾‹ï¼Œç¡®ä¿åœ°å›¾é“ºæ»¡çª—å£
                 tiledMap->setScale(scale);
 
-                // ½«µØÍ¼ÖÃÓÚÆÁÄ»ÖĞĞÄ
+                // å°†åœ°å›¾ç½®äºå±å¹•ä¸­å¿ƒ
                 tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
             }
             else if (currentMap == "Map/Map2/map2.tmx")
             {
-                // ÉèÖÃµØÍ¼µÄÃªµãÎªÖĞĞÄ
+                // è®¾ç½®åœ°å›¾çš„é”šç‚¹ä¸ºä¸­å¿ƒ
                 tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
 
-                // »ñÈ¡ÆÁÄ»µÄ¿É¼ûÇøÓò´óĞ¡
+                // è·å–å±å¹•çš„å¯è§åŒºåŸŸå¤§å°
                 auto visibleSize = Director::getInstance()->getVisibleSize();
                 auto origin = Director::getInstance()->getVisibleOrigin();
 
-                // ¼ÆËãµØÍ¼µÄËõ·Å±ÈÀı£¬Ê¹ÆäÆÌÂú´°¿Ú
+                // è®¡ç®—åœ°å›¾çš„ç¼©æ”¾æ¯”ä¾‹ï¼Œä½¿å…¶é“ºæ»¡çª—å£
                 float scaleX = visibleSize.width / tiledMap->getContentSize().width * 2.4;
                 float scaleY = visibleSize.height / tiledMap->getContentSize().height * 2.4;
-                float scale = MAX(scaleX, scaleY); // Ñ¡Ôñ½Ï´óµÄËõ·Å±ÈÀı£¬È·±£µØÍ¼ÆÌÂú´°¿Ú
+                float scale = MAX(scaleX, scaleY); // é€‰æ‹©è¾ƒå¤§çš„ç¼©æ”¾æ¯”ä¾‹ï¼Œç¡®ä¿åœ°å›¾é“ºæ»¡çª—å£
                 tiledMap->setScale(scale);
 
-                // ½«µØÍ¼ÖÃÓÚÆÁÄ»ÖĞĞÄ
+                // å°†åœ°å›¾ç½®äºå±å¹•ä¸­å¿ƒ
                 tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
             }
 
             else if (currentMap == "Map/Map3/map3.tmx")
             {
-                // ÉèÖÃµØÍ¼µÄÃªµãÎªÖĞĞÄ
+                // è®¾ç½®åœ°å›¾çš„é”šç‚¹ä¸ºä¸­å¿ƒ
                 tiledMap->setAnchorPoint(Vec2(0.5f, 0.5f));
 
-                // »ñÈ¡ÆÁÄ»µÄ¿É¼ûÇøÓò´óĞ¡
+                // è·å–å±å¹•çš„å¯è§åŒºåŸŸå¤§å°
                 auto visibleSize = Director::getInstance()->getVisibleSize();
                 auto origin = Director::getInstance()->getVisibleOrigin();
 
-                // ¼ÆËãµØÍ¼µÄËõ·Å±ÈÀı£¬Ê¹ÆäÆÌÂú´°¿Ú
+                // è®¡ç®—åœ°å›¾çš„ç¼©æ”¾æ¯”ä¾‹ï¼Œä½¿å…¶é“ºæ»¡çª—å£
                 float scaleX = visibleSize.width / tiledMap->getContentSize().width * 0.8;
                 float scaleY = visibleSize.height / tiledMap->getContentSize().height * 0.8;
-                float scale = MAX(scaleX, scaleY); // Ñ¡Ôñ½Ï´óµÄËõ·Å±ÈÀı£¬È·±£µØÍ¼ÆÌÂú´°¿Ú
+                float scale = MAX(scaleX, scaleY); // é€‰æ‹©è¾ƒå¤§çš„ç¼©æ”¾æ¯”ä¾‹ï¼Œç¡®ä¿åœ°å›¾é“ºæ»¡çª—å£
                 tiledMap->setScale(scale);
 
-                // ½«µØÍ¼ÖÃÓÚÆÁÄ»ÖĞĞÄ
+                // å°†åœ°å›¾ç½®äºå±å¹•ä¸­å¿ƒ
                 tiledMap->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
 
-                // ÔÚµØÍ¼¶ÔÏó²ãÖĞ²éÕÒNPC
-                auto npcLayer = tiledMap->getObjectGroup("Npc"); // »ñÈ¡¶ÔÏó²ã
+                // åœ¨åœ°å›¾å¯¹è±¡å±‚ä¸­æŸ¥æ‰¾NPC
+                auto npcLayer = tiledMap->getObjectGroup("Npc"); // è·å–å¯¹è±¡å±‚
                 if (npcLayer)
                 {
-                    auto npcObjects = npcLayer->getObjects(); // »ñÈ¡ËùÓĞ¶ÔÏó
+                    auto npcObjects = npcLayer->getObjects(); // è·å–æ‰€æœ‰å¯¹è±¡
 
                     for (const auto& obj : npcObjects)
-                    {// ½« Value ×ª»»Îª ValueMap
+                    {// å°† Value è½¬æ¢ä¸º ValueMap
                         auto npcObject = obj.asValueMap();
-                        // ¼ì²éÊÇ·ñÎªNPC¶ÔÏó
-                        if (npcObject["name"].asString() == "Npc") // ¼ÙÉèÄãµÄNPC¶ÔÏóÃû³ÆÎª"NPC1"
+                        // æ£€æŸ¥æ˜¯å¦ä¸ºNPCå¯¹è±¡
+                        if (npcObject["name"].asString() == "Npc") // å‡è®¾ä½ çš„NPCå¯¹è±¡åç§°ä¸º"NPC1"
                         {
                             Vec2 npcPosition = Vec2(npcObject["x"].asFloat(), npcObject["y"].asFloat());
-                            _npc = Sprite::create("npc.png"); // Ìæ»»ÎªNPCµÄÊµ¼ÊÍ¼Æ¬Â·¾¶
+                            _npc = Sprite::create("npc.png"); // æ›¿æ¢ä¸ºNPCçš„å®é™…å›¾ç‰‡è·¯å¾„
                             _npc->setPosition(npcPosition);
                             tiledMap->addChild(_npc, 5);
 
-                            // ÉèÖÃµã»÷ÊÂ¼ş
+                            // è®¾ç½®ç‚¹å‡»äº‹ä»¶
                             auto npcListener = EventListenerTouchOneByOne::create();
                             npcListener->setSwallowTouches(true);
                             npcListener->onTouchBegan = [this](Touch* touch, Event* event) {
-                                // ¼ì²éµã»÷Î»ÖÃÊÇ·ñÔÚNPC¾«ÁéÇøÓòÄÚ
+                                // æ£€æŸ¥ç‚¹å‡»ä½ç½®æ˜¯å¦åœ¨NPCç²¾çµåŒºåŸŸå†…
                                 Rect boundingBox = _npc->getBoundingBox();
                                 if (boundingBox.containsPoint(touch->getLocation()))
                                 {
-                                    showDialogue();  // ÏÔÊ¾¶Ô»°¿ò
+                                    showDialogue();  // æ˜¾ç¤ºå¯¹è¯æ¡†
                                     return true;
                                 }
                                 return false;
@@ -174,7 +174,7 @@ void GameScene::onEnter()
             if (_player && tiledMap)
             {
 
-                _player->setPosition(Vec2(60.000000, 50.000000)); // ÉèÖÃÍæ¼ÒµÄ³õÊ¼Î»ÖÃ
+                _player->setPosition(Vec2(60.000000, 50.000000)); // è®¾ç½®ç©å®¶çš„åˆå§‹ä½ç½®
 
                 _player->setTiledMap(tiledMap);
                 _player->setInitPositionMap(tiledMap->getPosition());
@@ -187,10 +187,10 @@ void GameScene::onEnter()
 }
 
 
-// ´´½¨NPC¾«Áé
+// åˆ›å»ºNPCç²¾çµ
 void GameScene::createNPC()
 {
-    // ÏÈ»ñÈ¡MapLayer
+    // å…ˆè·å–MapLayer
     auto mapLayer = dynamic_cast<MapLayer*>(this->getChildByName("MapLayer"));
     if (!mapLayer) {
         CCLOG("MapLayer not found!");
@@ -202,12 +202,12 @@ void GameScene::createNPC()
         CCLOG("TMXTiledMap not found!");
         return;
     }
-    auto npc = Sprite::create("npc.png");  // Ìæ»»ÎªNPCµÄÊµ¼ÊÍ¼Æ¬Â·¾¶
+    auto npc = Sprite::create("npc.png");  // æ›¿æ¢ä¸ºNPCçš„å®é™…å›¾ç‰‡è·¯å¾„
     npc->setScale(3.0f);
-    npc->setPosition(Vec2(300, 200));  // ÉèÖÃNPCÔÚµØÍ¼ÉÏµÄÎ»ÖÃ
+    npc->setPosition(Vec2(300, 200));  // è®¾ç½®NPCåœ¨åœ°å›¾ä¸Šçš„ä½ç½®
     this->addChild(npc, 20);
 
-    // ÉèÖÃµã»÷ÊÂ¼ş
+    // è®¾ç½®ç‚¹å‡»äº‹ä»¶
     auto npcListener = EventListenerTouchOneByOne::create();
     npcListener->setSwallowTouches(true);
 
@@ -216,7 +216,7 @@ void GameScene::createNPC()
         auto locationInMap = tiledMap->convertToNodeSpace(locationInView);
 
         Rect boundingBox = _npc->getBoundingBox();
-        // boundingBoxÏÖÔÚÊÇÏà¶ÔÓÚtiledMapµÄ×ø±êÏµ£¬ÒòÎªnpcÊÇtiledMapµÄ×Ó½Úµã
+        // boundingBoxç°åœ¨æ˜¯ç›¸å¯¹äºtiledMapçš„åæ ‡ç³»ï¼Œå› ä¸ºnpcæ˜¯tiledMapçš„å­èŠ‚ç‚¹
         if (boundingBox.containsPoint(locationInMap))
         {
             showDialogue();
@@ -227,50 +227,50 @@ void GameScene::createNPC()
 
 
     _eventDispatcher->addEventListenerWithSceneGraphPriority(npcListener, npc);
-    // ´æ´¢NPCÖ¸ÕëÒÔ±ãºóĞø·ÃÎÊ
+    // å­˜å‚¨NPCæŒ‡é’ˆä»¥ä¾¿åç»­è®¿é—®
     _npc = npc;
 }
 
-// ¸üĞÂNPCÎ»ÖÃÒÔ±£³ÖÆäÏà¶ÔÎ»ÖÃ
+// æ›´æ–°NPCä½ç½®ä»¥ä¿æŒå…¶ç›¸å¯¹ä½ç½®
 void GameScene::updateNPCPosition()
 {
     if (_npc) {
         auto mapLayer = dynamic_cast<MapLayer*>(this->getChildByName("MapLayer"));
         auto tiledMap = mapLayer->getTMXTiledMap();
         Vec2 mapPosition = tiledMap->getPosition();
-        // ±£³ÖNPCÏà¶ÔÓÚµØÍ¼Ô­µãµÄ¹Ì¶¨Î»ÖÃ
+        // ä¿æŒNPCç›¸å¯¹äºåœ°å›¾åŸç‚¹çš„å›ºå®šä½ç½®
         _npc->setPosition(Vec2(300 + mapPosition.x, 200 + mapPosition.y));
     }
 }
 
-// ÔÚÃ¿Ö¡¸üĞÂÖĞµ÷ÓÃ
+// åœ¨æ¯å¸§æ›´æ–°ä¸­è°ƒç”¨
 void GameScene::update(float delta)
 {
-    updateNPCPosition(); // ¸üĞÂNPCÎ»ÖÃÒÔ¸úËæ±³¾°
+    updateNPCPosition(); // æ›´æ–°NPCä½ç½®ä»¥è·ŸéšèƒŒæ™¯
 }
 
-// ÏÔÊ¾¶Ô»°¿ò
+// æ˜¾ç¤ºå¯¹è¯æ¡†
 void GameScene::showDialogue()
 {
-    auto dialogueBox = ui::Text::create("ÄãºÃ£¬ÓÂÊ¿£¡", "fonts/Marker Felt.ttf", 24);
+    auto dialogueBox = ui::Text::create("ä½ å¥½ï¼Œå‹‡å£«ï¼", "fonts/Marker Felt.ttf", 24);
     dialogueBox->setPosition(Vec2(Director::getInstance()->getVisibleSize().width / 2,
         Director::getInstance()->getVisibleSize().height / 4));
     this->addChild(dialogueBox, 20);
 
-    // ÑÓ³Ù3ÃëºóÒÆ³ı¶Ô»°¿ò
+    // å»¶è¿Ÿ3ç§’åç§»é™¤å¯¹è¯æ¡†
     this->runAction(Sequence::create(DelayTime::create(3), RemoveSelf::create(), nullptr));
 }
 
-// ³õÊ¼»¯ÊÂ¼ş¼àÌıÆ÷
+// åˆå§‹åŒ–äº‹ä»¶ç›‘å¬å™¨
 void GameScene::initEventListeners()
 {
-    // ¼üÅÌÊÂ¼ş
+    // é”®ç›˜äº‹ä»¶
     auto keyboardListener = EventListenerKeyboard::create();
     keyboardListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
     keyboardListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
-    // Êó±êÊÂ¼ş£¨ÓÃÓÚÖÖÖ²×÷Îï£©
+    // é¼ æ ‡äº‹ä»¶ï¼ˆç”¨äºç§æ¤ä½œç‰©ï¼‰
     auto mouseListener = EventListenerMouse::create();
     mouseListener->onMouseDown = CC_CALLBACK_1(GameScene::onMouseDown, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
@@ -296,44 +296,44 @@ void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 
 void GameScene::plantCropAt(const Vec2& locationInMap, cocos2d::TMXTiledMap* tiledMap)
 {
-    // ¶¨Òå¾Å¸ö×÷ÎïµÄÍ¼ÏñÎÄ¼şÃû
+    // å®šä¹‰ä¹ä¸ªä½œç‰©çš„å›¾åƒæ–‡ä»¶å
     std::vector<std::string> cropImages = {
         "Carrot_1.png", "Carrot_2.png", "Carrot_3.png",
         "Pumpkin_1.png", "Pumpkin_2.png", "Pumpkin_3.png",
         "Lajiao_1.png", "Lajiao_2.png", "Lajiao_3.png"
     };
 
-    // Ê¹ÓÃ¼ÆÊıÆ÷À´Ñ­»·Ñ¡Ôñ×÷Îï
+    // ä½¿ç”¨è®¡æ•°å™¨æ¥å¾ªç¯é€‰æ‹©ä½œç‰©
     static int cropIndex = 0;
 
-    // ´´½¨ĞÂµÄ×÷ÎïSprite
+    // åˆ›å»ºæ–°çš„ä½œç‰©Sprite
     auto crop = Sprite::create(cropImages[cropIndex]);
     crop->setScale(0.1f);
     crop->setPosition(locationInMap);
 
-    // ½«×÷ÎïÌí¼Óµ½tiledMapÉÏ£¬±£Ö¤ËüÓëµØÍ¼µÄËõ·ÅºÍÎ»ÖÃÍ¬²½
+    // å°†ä½œç‰©æ·»åŠ åˆ°tiledMapä¸Šï¼Œä¿è¯å®ƒä¸åœ°å›¾çš„ç¼©æ”¾å’Œä½ç½®åŒæ­¥
     tiledMap->addChild(crop, 15);
 
-    // ½«×÷ÎïÌí¼Óµ½ _crops ÈİÆ÷ÖĞ
+    // å°†ä½œç‰©æ·»åŠ åˆ° _crops å®¹å™¨ä¸­
     _crops.push_back(crop);
 
-    // Êä³öÈÕÖ¾£¬ÏÔÊ¾ÖÖÖ²×÷ÎïµÄÎ»ÖÃ
+    // è¾“å‡ºæ—¥å¿—ï¼Œæ˜¾ç¤ºç§æ¤ä½œç‰©çš„ä½ç½®
     CCLOG("Planted a crop (%s) at (%.2f,%.2f)", cropImages[cropIndex].c_str(), locationInMap.x, locationInMap.y);
 
-    // ¸üĞÂ¼ÆÊıÆ÷£¬È·±£ÔÚ0µ½8Ö®¼äÑ­»·
+    // æ›´æ–°è®¡æ•°å™¨ï¼Œç¡®ä¿åœ¨0åˆ°8ä¹‹é—´å¾ªç¯
     cropIndex = (cropIndex + 1) % cropImages.size();
 }
 
 void GameScene::harvestCropAt(const Vec2& locationInMap)
 {
-    // ±éÀú_crops£¬¼ì²éµã»÷Î»ÖÃÊÇ·ñÔÚÄ³¸ö×÷ÎïµÄboundingBoxÖĞ
+    // éå†_cropsï¼Œæ£€æŸ¥ç‚¹å‡»ä½ç½®æ˜¯å¦åœ¨æŸä¸ªä½œç‰©çš„boundingBoxä¸­
     for (auto it = _crops.begin(); it != _crops.end(); ++it)
     {
         auto crop = *it;
         Rect boundingBox = crop->getBoundingBox();
         if (boundingBox.containsPoint(locationInMap))
         {
-            // ÕÒµ½ÒªÊÕ»ñµÄ×÷Îï
+            // æ‰¾åˆ°è¦æ”¶è·çš„ä½œç‰©
             crop->removeFromParent();
             _crops.erase(it);
             CCLOG("Harvested a crop at (%.2f,%.2f)", locationInMap.x, locationInMap.y);
@@ -357,18 +357,18 @@ void GameScene::onMouseDown(Event* event)
             auto tiledMap = dynamic_cast<MapLayer*>(mapLayer)->getTMXTiledMap();
             if (!tiledMap) return;
 
-            // ½«ÆÁÄ»×ø±ê×ª»»ÎªµØÍ¼×ø±ê
-            // ÒòÎªtiledMap¾­¹ıËõ·ÅºÍ¾ÓÖĞ£¬Òò´ËÊ¹ÓÃtiledMap->convertToNodeSpaceÀ´»ñÈ¡Ïà¶ÔÓÚtiledMapµÄ×ø±ê
+            // å°†å±å¹•åæ ‡è½¬æ¢ä¸ºåœ°å›¾åæ ‡
+            // å› ä¸ºtiledMapç»è¿‡ç¼©æ”¾å’Œå±…ä¸­ï¼Œå› æ­¤ä½¿ç”¨tiledMap->convertToNodeSpaceæ¥è·å–ç›¸å¯¹äºtiledMapçš„åæ ‡
             auto locationInMap = tiledMap->convertToNodeSpace(locationInView);
 
             if (mouseButton == EventMouse::MouseButton::BUTTON_LEFT)
             {
-                // ×ó¼üÖÖÖ²
+                // å·¦é”®ç§æ¤
                 plantCropAt(locationInMap, tiledMap);
             }
             else if (mouseButton == EventMouse::MouseButton::BUTTON_RIGHT)
             {
-                // ÓÒ¼üÊÕ»ñ
+                // å³é”®æ”¶è·
                 harvestCropAt(locationInMap);
             }
         }

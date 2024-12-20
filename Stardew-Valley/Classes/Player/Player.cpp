@@ -1,23 +1,16 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼şÃû        : Player.cpp
- * ÎÄ¼ş¹¦ÄÜ      : Íæ¼ÒÀàµÄ¹¦ÄÜÊµÏÖ
- * ×÷Õß          : ºúºÆ½Ü£¬ºúÕı»ª£¬²Ü½òË¶
- * ¸üĞÂÈÕÆÚ      : 2024/12/07
- * Ğí¿ÉÖ¤        : MIT License
- ****************************************************************/
-
-#include "proj.win32/AudioPlayer.h"
+ï»¿// Player.cpp
 #include "Player.h"
 #include "Scene/BackpackScene.h"
 #include "Scene/MapScene.h"
 #include "Scene/MapLayer.h"
-#include "Player/Backpack.h"
-#include "Player/Item.h"
+#include "Backpack.h"
+#include "Item.h"
+#include "ui/CocosGUI.h"
 
 USING_NS_CC;
 
 extern std::string g_selectedMap;
+extern float speed;
 
 Player* Player::create()
 {
@@ -36,11 +29,13 @@ bool Player::init()
     if (!Node::init())
         return false;
 
+    // åˆå§‹åŒ–èƒŒåŒ…
     _backpack = new Backpack();
-    _backpack->addItem(new Item("Potion", "sword.png", 10));
+    _backpack->addItem(new Item("Potion", "potion.png", 10));
     _backpack->addItem(new Item("Sword", "sword.png", 1));
-    _backpack->addItem(new Item("Shield", "sword.png", 1));
+    _backpack->addItem(new Item("Shield", "shield.png", 1));
 
+    // åŠ è½½è¡Œèµ°åŠ¨ç”»å¸§
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Left.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Right.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Up.plist");
@@ -49,13 +44,25 @@ bool Player::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    // ½«Íæ¼Ò³õÊ¼Î»ÖÃÉèÖÃÔÚÆÁÄ»ÖĞÑë
+    // åˆ›å»ºç©å®¶ç²¾çµ
     _playerSprite = Sprite::create("Stand_Down.png");
-    _playerSprite->setScale(0.5f );
-    _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    _playerSprite->setScale(0.5f);
+    if (g_selectedMap == "" || g_selectedMap == "Map/Map3/map3.tmx")
+    {
+        _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x - 40, visibleSize.height / 2 + origin.y - 10));
+    }
+    else if (g_selectedMap == "Map/Map2/map2.tmx")
+    {
+        _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x - 150, visibleSize.height / 2 + origin.y - 120));
+    }
+    else
+    {
+        _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x + 50, visibleSize.height / 2 + origin.y - 50));
+    }
     CCLOG("Player Sprite Position: %f, %f", _playerSprite->getPosition().x, _playerSprite->getPosition().y);
     this->addChild(_playerSprite);
 
+    // åˆå§‹åŒ–ç§»åŠ¨çŠ¶æ€
     _isMoving = false;
     _isMovingLeft = false;
     _isMovingRight = false;
@@ -66,19 +73,34 @@ bool Player::init()
     _currentDirection = "Down";
     _currentTexture = "Stand_Down.png";
     _tiledMap = nullptr;
-    auto listener = EventListenerKeyboard::create();
-    listener->onKeyPressed = CC_CALLBACK_2(Player::onKeyPressed, this);
-    listener->onKeyReleased = CC_CALLBACK_2(Player::onKeyReleased, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    initPositionMap = Vec2(0, 0); // åˆå§‹åŒ–åœ°å›¾åˆå§‹ä½ç½®
+
+    // è®¾ç½®é”®ç›˜ç›‘å¬å™¨
+    _keyboardListener = EventListenerKeyboard::create();
+    _keyboardListener->onKeyPressed = CC_CALLBACK_2(Player::onKeyPressed, this);
+    _keyboardListener->onKeyReleased = CC_CALLBACK_2(Player::onKeyReleased, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
 
     this->scheduleUpdate();
     return true;
 }
 
+void Player::setTiledMap(TMXTiledMap* tiledMap)
+{
+    _tiledMap = tiledMap;
+    CCLOG("Player è®¾ç½®äº† TMXTiledMap");
+}
+
+void Player::setInitPositionMap(const Vec2& initMapPosition)
+{
+    initPositionMap = initMapPosition;
+    CCLOG("Player åˆå§‹åŒ–åœ°å›¾ä½ç½®: (%.2f, %.2f)", initPositionMap.x, initPositionMap.y);
+}
+
 void Player::update(float delta)
 {
     if (!_tiledMap) {
-        // Î´ÉèÖÃµØÍ¼Ôò²»×öÂß¼­
+        // æœªè®¾ç½®åœ°å›¾åˆ™ä¸åšé€»è¾‘
         return;
     }
 
@@ -94,15 +116,53 @@ void Player::update(float delta)
     );
 
     Vec2 newLoc = loc;
-    float speed = 500.0f;
+    speed = 200.0f; // æ ¹æ®éœ€è¦è°ƒæ•´é€Ÿåº¦
     if (_isMovingLeft) newLoc.x -= speed * delta;
     if (_isMovingRight) newLoc.x += speed * delta;
     if (_isMovingUp) newLoc.y += speed * delta;
     if (_isMovingDown) newLoc.y -= speed * delta;
 
+    // è®¾ç½®æ–°ä½ç½®å‰è®°å½•å½“å‰ä½ç½®
+    Vec2 previousLoc = loc;
+
     _playerSprite->setPosition(newLoc);
 
+    // è·å–åœ°å›¾çš„ä½ç½®å˜åŒ–
+    Vec2 newMapPos = mapPos;
+
+    // å¦‚æœç©å®¶è¶…å‡ºä¸­å¿ƒåŒºåŸŸï¼Œç§»åŠ¨åœ°å›¾
+    if (!playerBounds.containsPoint(newLoc)) {
+        if (_isMovingLeft && (newLoc.x < playerBounds.getMinX())) {
+            newMapPos.x += speed * delta;
+        }
+        if (_isMovingRight && (newLoc.x > playerBounds.getMaxX())) {
+            newMapPos.x -= speed * delta;
+        }
+        if (_isMovingUp && (newLoc.y > playerBounds.getMaxY())) {
+            newMapPos.y -= speed * delta;
+        }
+        if (_isMovingDown && (newLoc.y < playerBounds.getMinY())) {
+            newMapPos.y += speed * delta;
+        }
+
+        _tiledMap->setPosition(newMapPos);
+        CCLOG("åœ°å›¾ä½ç½®æ›´æ–°ä¸º: (%.2f, %.2f)", newMapPos.x, newMapPos.y);
+
+        // ç©å®¶ä½ç½®é‡ç½®ä¸ºä¸­å¿ƒåŒºåŸŸè¾¹ç•Œ
+        Vec2 clampedPos = _playerSprite->getPosition();
+        if (_isMovingLeft) clampedPos.x = playerBounds.getMinX();
+        if (_isMovingRight) clampedPos.x = playerBounds.getMaxX();
+        if (_isMovingUp) clampedPos.y = playerBounds.getMaxY();
+        if (_isMovingDown) clampedPos.y = playerBounds.getMinY();
+        _playerSprite->setPosition(clampedPos);
+        CCLOG("ç©å®¶ä½ç½®é‡ç½®ä¸º: (%.2f, %.2f)", clampedPos.x, clampedPos.y);
+    }
+
+    // è®¡ç®—ç©å®¶åœ¨åœ°å›¾åæ ‡ç³»ä¸­çš„ä½ç½®
+    Vec2 playerMapPos = _playerSprite->getPosition() - _tiledMap->getPosition();
+
     Rect playerRect = _playerSprite->getBoundingBox();
+
     Rect adjustedPlayerRect(
         playerRect.origin.x - (mapPos.x - initPositionMap.x),
         playerRect.origin.y - (mapPos.y - initPositionMap.y),
@@ -110,43 +170,26 @@ void Player::update(float delta)
         playerRect.size.height
     );
 
-    if (isCollidingWithWall(adjustedPlayerRect))
+    // è°ƒè¯•æ—¥å¿—
+    CCLOG("Player Position: (%.2f, %.2f)", _playerSprite->getPosition().x, _playerSprite->getPosition().y);
+    CCLOG("Map Position: (%.2f, %.2f)", mapPos.x, mapPos.y);
+    CCLOG("Player Map Position: (%.2f, %.2f)", playerMapPos.x, playerMapPos.y);
+
+    if (isCollidingWithWall(adjustedPlayerRect)) // ä½¿ç”¨åœ°å›¾åæ ‡ç³»çš„ä½ç½®
     {
         CCLOG("Player is colliding with a wall.");
-        _playerSprite->setPosition(loc);
+        _playerSprite->setPosition(previousLoc);
+        _tiledMap->setPosition(mapPos); // é‡ç½®åœ°å›¾ä½ç½®
+        CCLOG("åœ°å›¾ä½ç½®é‡ç½®ä¸º: (%.2f, %.2f)", mapPos.x, mapPos.y);
         return;
     }
-
-    if (!playerBounds.containsPoint(newLoc)) {
-        // Íæ¼Ò³¬³öÖĞ¼äÇøÓòÔòÒÆ¶¯µØÍ¼
-        if (_isMovingLeft && playerBounds.getMinX() > newLoc.x) {
-            mapPos.x += speed * delta;
-        }
-        if (_isMovingRight && playerBounds.getMaxX() < newLoc.x) {
-            mapPos.x -= speed * delta;
-        }
-        if (_isMovingUp && playerBounds.getMaxY() < newLoc.y) {
-            mapPos.y -= speed * delta;
-        }
-        if (_isMovingDown && playerBounds.getMinY() > newLoc.y) {
-            mapPos.y += speed * delta;
-        }
-
-        // µØÍ¼ÒÑÒÆ¶¯£¬Íæ¼ÒÎ»ÖÃÖØÖÃÎªloc
-        _playerSprite->setPosition(loc);
-    }
-    else {
-        loc = newLoc;
-        _playerSprite->setPosition(loc);
-    }
-
-    /* mapPos.x = MAX(visibleSize.width - _tiledMap->getContentSize().width, MIN(0, mapPos.x));
-     mapPos.y = MAX(visibleSize.height - _tiledMap->getContentSize().height, MIN(0, mapPos.y));*/
-    _tiledMap->setPosition(mapPos);
 }
 
-bool Player::isCollidingWithWall(const cocos2d::Rect& rect)
+bool Player::isCollidingWithWall(const Rect& rect)
 {
+    if (!_tiledMap) return false;
+
+    // è·å–åä¸º "MapLayer" çš„åœ°å›¾å±‚
     auto parentScene = this->getParent();
     if (!parentScene) return false;
 
@@ -287,4 +330,3 @@ void Player::openMapScene()
     auto mapScene = MapScene::createScene();
     Director::getInstance()->pushScene(TransitionFade::create(0.5f, mapScene));
 }
-

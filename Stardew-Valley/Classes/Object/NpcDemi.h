@@ -8,32 +8,32 @@
 class NpcDemi : public cocos2d::Sprite
 {
 public:
-    // åˆ›å»ºå‡½æ•°
+    // ´´½¨º¯Êı
     static NpcDemi* createWithPosition(const cocos2d::Vec2& position, const std::string& spriteFile = "NPC2/Demi.png");
 
-    // åˆå§‹åŒ–å‡½æ•°
+    // ³õÊ¼»¯º¯Êı
     bool initWithPosition(const cocos2d::Vec2& position, const std::string& spriteFile);
 
 private:
-    // è§¦æ‘¸äº‹ä»¶å¤„ç†
+    // ´¥ÃşÊÂ¼ş´¦Àí
     void setupTouchListener();
 
-    // æ˜¾ç¤ºå¯¹è¯
+    // ÏÔÊ¾¶Ô»°
     void showDialogue();
 
-    // æ˜¾ç¤ºé€‰é¡¹
+    // ÏÔÊ¾Ñ¡Ïî
     void showOptions();
 
-    // å…³é—­å¯¹è¯
+    // ¹Ø±Õ¶Ô»°
     void closeDialogue();
 
-    // å¯¹è¯ç›¸å…³å˜é‡
+    // ¶Ô»°Ïà¹Ø±äÁ¿
     cocos2d::LayerColor* _dialogueLayer;
     cocos2d::Sprite* _npcFace;
     cocos2d::ui::Text* _dialogueLabel;
     int _dialogueIndex;
 
-    // å¯¹è¯å†…å®¹ç»“æ„ä½“
+    // ¶Ô»°ÄÚÈİ½á¹¹Ìå
     struct DialogueLine {
         std::string text;
         std::string faceImage;

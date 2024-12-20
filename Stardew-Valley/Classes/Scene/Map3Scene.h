@@ -5,6 +5,7 @@
 #include "BaseMapScene.h"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h" 
+#include "Object/Npc.h"
 class Map3Scene : public BaseMapScene
 {
 public:
@@ -25,6 +26,8 @@ private:
     void showDialogue();
     void showOptions();  // 显示回答选项
     void closeDialogue();
+    std::vector<DialogueLine> _npcLeahDialogues;
+    std::vector<std::string> LeahOption;
 };
 
 #endif // __MAP3_SCENE_H__

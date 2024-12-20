@@ -14,7 +14,9 @@
 #include "proj.win32/AudioPlayer.h"
 #include "Scene/GameScene.h"
 #include "Scene/Map2Scene.h"
-//cocos2d 命名空间
+#include "Scene/Map3Scene.h"
+#include "Scene/SettingsScene.h"
+ //cocos2d 命名空间
 USING_NS_CC;
 
 Scene* StartMenu::createScene()
@@ -35,9 +37,15 @@ void StartMenu::startGame(Ref* pSender)
 
     cocos2d::Director::getInstance()->
         replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION,
-            Map2Scene::createScene(), cocos2d::Color3B::WHITE));
+            Map3Scene::createScene(), cocos2d::Color3B::WHITE));
 }
+void StartMenu::settings(Ref* pSender)
+{
 
+    cocos2d::Director::getInstance()->
+        replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION,
+            SettingsScene::createScene(), cocos2d::Color3B::WHITE));
+}
 bool StartMenu::init()
 {
     if (!Scene::init())
@@ -46,8 +54,8 @@ bool StartMenu::init()
     }
     const auto visibleSize = Director::getInstance()->getVisibleSize();
     const Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	CCLOG("size = (%f,%f)", visibleSize.width, visibleSize.height);
-	CCLOG("origin = (%f,%f)", origin.x, origin.y);
+    CCLOG("size = (%f,%f)", visibleSize.width, visibleSize.height);
+    CCLOG("origin = (%f,%f)", origin.x, origin.y);
     // 创建背景图像
     _backgroundSprite = Sprite::create("StartMenu/BackGround.png");
     _title = Sprite::create("StartMenu/Title.png");
@@ -61,10 +69,10 @@ bool StartMenu::init()
 
     // 应用缩放比例
     _title->setScale(scale / 3);
-	//_title->setAnchorPoint(Vec2(0.5, 0.5));
+    //_title->setAnchorPoint(Vec2(0.5, 0.5));
     this->addChild(_title, 1); // 添加在其他元素的下面
     // 设置背景图像的位置到屏幕中心
-    _title->setPosition(Vec2(visibleSize.width / 2,visibleSize.height*0.75));
+    _title->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 0.75));
 
     // 获取背景的原始尺寸
     Size bgSize = _backgroundSprite->getContentSize();
@@ -79,41 +87,67 @@ bool StartMenu::init()
 
     // 设置背景图像的位置到屏幕中心
     _backgroundSprite->setPosition(Vec2(visibleSize.width / 2,
-    visibleSize.height / 2));
+        visibleSize.height / 2));
 
     // 将背景添加到场景中
     this->addChild(_backgroundSprite, 0); // 添加在其他元素的下面
 
-   constexpr float offSetX = 200;
+    constexpr float offSetX = 200;
     auto _exitButton = HoverButton::create(static_cast<std::string>("../Resources/StartMenu") + static_cast<std::string>("/Exit_") + static_cast<std::string>("D.png"),
         static_cast<std::string>("../Resources/StartMenu") + static_cast<std::string>("/Exit_") + static_cast<std::string>("L.png"),
         static_cast<std::string>("../Resources/StartMenu") + static_cast<std::string>("/Exit_") + static_cast<std::string>("L.png"));
     Size buttonSize = _exitButton->getContentSize();
-	float scaleButton = visibleSize.width / buttonSize.width;
-    _exitButton->setPosition(Vec2(visibleSize.width / 2 + offSetX ,visibleSize.height*0.3));
+    float scaleButton = visibleSize.width / buttonSize.width;
+    _exitButton->setPosition(Vec2(visibleSize.width / 2 + offSetX, visibleSize.height * 0.3));
     _exitButton->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-                // 加载点击音效
-                audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
-				this->exitGame(sender);
+            // 加载点击音效
+            audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
+            this->exitGame(sender);
         }
-    });
+        });
     _exitButton->setScale(scaleButton / 6);
-    this->addChild(_exitButton,5);
+    this->addChild(_exitButton, 5);
 
     auto _startButton = HoverButton::create(static_cast<std::string>("../Resources/StartMenu") + static_cast<std::string>("/Start_") + static_cast<std::string>("D.png"),
-            static_cast<std::string>("../Resources/StartMenu") + static_cast<std::string>("/Start_") + static_cast<std::string>("L.png"),
-            static_cast<std::string>("../Resources/StartMenu") + static_cast<std::string>("/Start_") + static_cast<std::string>("L.png"));
+        static_cast<std::string>("../Resources/StartMenu") + static_cast<std::string>("/Start_") + static_cast<std::string>("L.png"),
+        static_cast<std::string>("../Resources/StartMenu") + static_cast<std::string>("/Start_") + static_cast<std::string>("L.png"));
     _startButton->setPosition(Vec2(visibleSize.width / 2 - offSetX, visibleSize.height * 0.3));
     _startButton->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-                // 加载点击音效
-                audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
-                this->startGame(sender);
+            // 加载点击音效
+            audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
+            this->startGame(sender);
         }
-    });
+        });
     _startButton->setScale(scaleButton / 6);
     this->addChild(_startButton, 5);
+
+
+    auto _settingButton = HoverButton::create(static_cast<std::string>("../Resources/SettingScene") + static_cast<std::string>("/Setting_") + static_cast<std::string>("D.png"),
+        static_cast<std::string>("../Resources/SettingScene") + static_cast<std::string>("/Setting_") + static_cast<std::string>("L.png"),
+        static_cast<std::string>("../Resources/SettingScene") + static_cast<std::string>("/Setting_") + static_cast<std::string>("L.png"));
+    _settingButton->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            // 加载点击音效
+            audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
+            this->settings(sender);
+        }
+        });
+    Size settingButtonSize = _settingButton->getContentSize();
+    _settingButton->setScale(scaleButton / SETTING_BUTTON_SCALE);
+    Size realSettingSize = settingButtonSize * scaleButton / SETTING_BUTTON_SCALE;
+
+
+    _settingButton->setPosition(Vec2(visibleSize.width - realSettingSize.width + SETTING_BUTTON_OFFSET, realSettingSize.height - SETTING_BUTTON_OFFSET));
+    this->addChild(_settingButton, 5);
+
+
+
+
+
+    audioPlayer("../Resources/Music/Stardew Valley.mp3", true);
+
 
     return true;
 }

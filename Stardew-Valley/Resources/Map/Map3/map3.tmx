@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="26">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="27">
  <tileset firstgid="1" source="house1.tsx"/>
  <tileset firstgid="161" source="house2.tsx"/>
  <tileset firstgid="321" source="house3.tsx"/>
@@ -22,14 +22,19 @@
   <object id="7" x="0" y="80" width="16" height="64"/>
   <object id="9" x="16" y="144" width="48" height="16"/>
   <object id="10" x="96" y="112" width="32" height="16"/>
-  <object id="11" x="64" y="128" width="32" height="16"/>
-  <object id="12" x="128" y="128" width="128" height="16"/>
-  <object id="13" x="192" y="48" width="48" height="48"/>
-  <object id="14" x="224" y="96" width="16" height="32"/>
-  <object id="15" x="112" y="48" width="64" height="32"/>
+  <object id="11" x="64.4947" y="138.225" width="32" height="16"/>
+  <object id="12" x="128.33" y="137.565" width="128" height="16"/>
+  <object id="13" x="192" y="48" width="32.4978" height="48"/>
+  <object id="14" x="224" y="112.162" width="16" height="15.8382"/>
+  <object id="15" x="112" y="48" width="64" height="15"/>
   <object id="16" x="176" y="48" width="16" height="16"/>
   <object id="17" x="48" y="48" width="64" height="16"/>
   <object id="18" x="16" y="48" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="9" name="PlayerStart">
+  <object id="26" name="Player" x="142.608" y="102">
+   <point/>
+  </object>
  </objectgroup>
  <layer id="2" name="Buildings" width="16" height="10">
   <data encoding="csv">
@@ -75,9 +80,6 @@
  </layer>
  <objectgroup id="8" name="Npc_Leah">
   <object id="21" name="Npc_Leah" x="73.5427" y="84.7937">
-   <point/>
-  </object>
-  <object id="25" x="197.303" y="-26.8925">
    <point/>
   </object>
  </objectgroup>

@@ -1,10 +1,10 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼şÃû        : Player.h
- * ÎÄ¼ş¹¦ÄÜ      : Íæ¼ÒÀàµÄÍ·ÎÄ¼ş
- * ×÷Õß          : ºúºÆ½Ü£¬ºúÕı»ª£¬²Ü½òË¶
- * ¸üĞÂÈÕÆÚ      : 2024/12/07
- * Ğí¿ÉÖ¤        : MIT License
+ï»¿/****************************************************************
+ * é¡¹ç›®å        : Stardew-Valley
+ * æ–‡ä»¶å        : Player.h
+ * æ–‡ä»¶åŠŸèƒ½      : ç©å®¶ç±»çš„å¤´æ–‡ä»¶
+ * ä½œè€…          : èƒ¡æµ©æ°ï¼Œèƒ¡æ­£åï¼Œæ›¹æ´¥ç¡•
+ * æ›´æ–°æ—¥æœŸ      : 2024/12/07
+ * è®¸å¯è¯        : MIT License
  ****************************************************************/
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 class Backpack;
 
-class Player : public cocos2d::Node // ¸ÄÎª¼Ì³Ğ Node
+class Player : public cocos2d::Node // æ”¹ä¸ºç»§æ‰¿ Node
 {
 public:
     static Player* create();
@@ -23,7 +23,7 @@ public:
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void update(float delta) override;
     cocos2d::Sprite* getPlayerSprite() const { return _playerSprite; }
-    // Åö×²¼ì²â´«ÈëMapLayerÖ¸Õë
+    // ç¢°æ’æ£€æµ‹ä¼ å…¥MapLayeræŒ‡é’ˆ
     bool isCollidingWithWall(const cocos2d::Rect& playerRect);
 
     void startWalkingAnimation(const std::string& direction);
@@ -32,9 +32,12 @@ public:
     void openBackpack();
     void openMapScene();
 
-    // ÉèÖÃµØÍ¼ºÍ³õÊ¼Î»ÖÃ
-    void setTiledMap(cocos2d::TMXTiledMap* tiledMap) { _tiledMap = tiledMap; }
-    void setInitPositionMap(const cocos2d::Vec2& pos) { initPositionMap = pos; }
+    // è®¾ç½®åœ°å›¾å’Œåˆå§‹ä½ç½®
+    void setTiledMap(cocos2d::TMXTiledMap* tiledMap);
+    void setInitPositionMap(const cocos2d::Vec2& initMapPosition);
+    //void setInitPositionMap(const cocos2d::Vec2& pos);
+    // è®¾ç½®å½“å‰åœ°å›¾å’Œåˆå§‹åœ°å›¾ä½ç½®
+    void setMap(cocos2d::TMXTiledMap* tiledMap, const cocos2d::Vec2& initMapPosition);
 
 
 private:
@@ -51,11 +54,13 @@ private:
     std::string _currentTexture;
 
     Backpack* _backpack;
-    cocos2d::TMXTiledMap* _tiledMap;    // µØÍ¼Ö¸Õë
-    cocos2d::Vec2 initPositionMap;      // µØÍ¼³õÊ¼Î»ÖÃ
-
+    cocos2d::TMXTiledMap* _tiledMap;    // åœ°å›¾æŒ‡é’ˆ
+    cocos2d::Vec2 initPositionMap;      // åœ°å›¾åˆå§‹ä½ç½®
+    // äº‹ä»¶ç›‘å¬å™¨
+    cocos2d::EventListenerKeyboard* _keyboardListener;
     cocos2d::Vector<cocos2d::Sprite*> trees;
-    int woodCount;
+    // å¯è§†åŒ–ç©å®¶ç¢°æ’çŸ©å½¢
+    cocos2d::DrawNode* playerDrawNode;
 };
 
 #endif // __PLAYER_H__

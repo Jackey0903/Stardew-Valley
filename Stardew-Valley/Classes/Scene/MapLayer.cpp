@@ -1,10 +1,10 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼þÃû        : MapLayer.cpp
- * ÎÄ¼þ¹¦ÄÜ      : µØÍ¼²ãÀàÊµÏÖ
- * ×÷Õß          : 
- * ¸üÐÂÈÕÆÚ      : 2024/12/07
- * Ðí¿ÉÖ¤        : MIT License
+ï»¿/****************************************************************
+ * é¡¹ç›®å        : Stardew-Valley
+ * æ–‡ä»¶å        : MapLayer.cpp
+ * æ–‡ä»¶åŠŸèƒ½      : åœ°å›¾å±‚ç±»å®žçŽ°
+ * ä½œè€…          : 
+ * æ›´æ–°æ—¥æœŸ      : 2024/12/07
+ * è®¸å¯è¯        : MIT License
  ****************************************************************/
 #include "MapLayer.h"
 #include "cocos2d.h"
@@ -22,22 +22,34 @@ bool MapLayer::init()
     currentMapName = "";
     _wallRects.clear();
 
+    // åˆå§‹åŒ–ç”¨äºŽç»˜åˆ¶ç¢°æ’žçŸ©å½¢çš„ DrawNode
+    collisionDrawNode = DrawNode::create();
+    this->addChild(collisionDrawNode, 9); // ç¡®ä¿ç»˜åˆ¶åœ¨åœ°å›¾ä¹‹ä¸Š
+
     return true;
 }
 
-void MapLayer::loadMap(const std::string& mapFile)
+void MapLayer::loadMap(const std::string& mapFile, float scaleFactor)
 {
-    CCLOG("³¢ÊÔ¼ÓÔØµØÍ¼: %s", mapFile.c_str());
+    CCLOG("å°è¯•åŠ è½½åœ°å›¾: %s", mapFile.c_str());
 
-    // ÒÆ³ýµ±Ç°µØÍ¼
+    // ç§»é™¤å½“å‰åœ°å›¾
     if (currentMap)
     {
         this->removeChild(currentMap, true);
         currentMap = nullptr;
-        CCLOG("ÒÆ³ý¾ÉµØÍ¼");
+        CCLOG("ç§»é™¤æ—§åœ°å›¾");
+    }
+    else
+    {
+        CCLOG("å½“å‰æ²¡æœ‰åœ°å›¾éœ€è¦ç§»é™¤");
     }
 
-    // ¼ÓÔØÐÂµØÍ¼
+    // æ¸…é™¤ä¹‹å‰çš„ç¢°æ’žçŸ©å½¢
+    _wallRects.clear();
+    collisionDrawNode->clear();
+
+    // åŠ è½½æ–°åœ°å›¾
     currentMap = TMXTiledMap::create(mapFile);
 
     if (currentMap)
@@ -45,36 +57,53 @@ void MapLayer::loadMap(const std::string& mapFile)
         this->addChild(currentMap, 0);
 
         currentMapName = mapFile;
-        CCLOG("µØÍ¼¼ÓÔØ³É¹¦: %s", mapFile.c_str());
+        CCLOG("åœ°å›¾åŠ è½½æˆåŠŸ: %s", mapFile.c_str());
 
-        // ÊÕ¼¯Ç½Ìå¾ØÐÎ
-        auto wallLayer = currentMap->getLayer("wall"); // È·±£ "Paths" ÊÇÇ½ÌåËùÔÚµÄÍ¼²ãÃû³Æ
-        if (wallLayer)
+        // è®¾ç½®åœ°å›¾çš„é”šç‚¹ï¼Œç¼©æ”¾å’Œä½ç½®
+        currentMap->setAnchorPoint(Vec2::ZERO);
+        currentMap->setScale(scaleFactor); 
+        currentMap->setPosition(Vec2::ZERO);
+
+        // æ”¶é›† "Collision" å¯¹è±¡å±‚çš„å¢™ä½“çŸ©å½¢
+        TMXObjectGroup* collisionGroup = currentMap->getObjectGroup("Collision");
+        if (collisionGroup)
         {
             _wallRects.clear();
-            for (int x = 0; x < wallLayer->getLayerSize().width; ++x)
+            auto objects = collisionGroup->getObjects();
+            for (const auto& obj : objects)
             {
-                for (int y = 0; y < wallLayer->getLayerSize().height; ++y)
-                {
-                    auto tileGID = wallLayer->getTileGIDAt(Vec2(x, y));
-                    if (tileGID != 0) // ¼ÙÉè GID Îª 0 ±íÊ¾ÎÞÐ§ÍßÆ¬
-                    {
-                        Vec2 tilePos = wallLayer->getPositionAt(Vec2(x, y));
-                        Size tileSize = currentMap->getTileSize();
-                        Rect tileRect = Rect(tilePos.x, tilePos.y, tileSize.width, tileSize.height);
-                        _wallRects.push_back(tileRect);
-                    }
-                }
+                ValueMap objMap = obj.asValueMap();
+
+                // èŽ·å– x, y, width, height
+                float x = objMap["x"].asFloat() * scaleFactor;
+                float y = objMap["y"].asFloat() * scaleFactor;
+                float width = objMap["width"].asFloat() * scaleFactor;
+                float height = objMap["height"].asFloat() * scaleFactor;
+
+                Rect wallRect(x, y, width, height); 
+                _wallRects.emplace_back(wallRect); 
+
+                // å¯è§†åŒ–ç¢°æ’žçŸ©å½¢
+                Vec2 vertices[4] = {
+                    Vec2(wallRect.origin.x, wallRect.origin.y),
+                    Vec2(wallRect.origin.x + wallRect.size.width, wallRect.origin.y),
+                    Vec2(wallRect.origin.x + wallRect.size.width, wallRect.origin.y + wallRect.size.height),
+                    Vec2(wallRect.origin.x, wallRect.origin.y + wallRect.size.height)
+                };
+                collisionDrawNode->drawPolygon(vertices, 4, Color4F(0, 0, 0, 0), 1, Color4F(1, 0, 0, 1));
+
+
+                CCLOG(u8"æ”¶é›†å¢™ä½“çŸ©å½¢: (%.2f, %.2f, %.2f, %.2f)", wallRect.origin.x, wallRect.origin.y, wallRect.size.width, wallRect.size.height);
             }
-            CCLOG("ÊÕ¼¯µ½ %zu ¸öÇ½Ìå¾ØÐÎ¡£", _wallRects.size());
+            CCLOG(u8"æ€»å…±æ”¶é›†åˆ° %zu ä¸ªå¢™ä½“çŸ©å½¢ã€‚", _wallRects.size());
         }
         else
         {
-            CCLOG("Î´ÕÒµ½Ç½ÌåÍ¼²ã¡£");
+            CCLOG(u8"æœªæ‰¾åˆ° Collision å¯¹è±¡å±‚ã€‚");
         }
     }
     else
     {
-        CCLOG("µØÍ¼¼ÓÔØÊ§°Ü: %s", mapFile.c_str());
+        CCLOG(u8"åœ°å›¾åŠ è½½å¤±è´¥: %s", mapFile.c_str());
     }
 }

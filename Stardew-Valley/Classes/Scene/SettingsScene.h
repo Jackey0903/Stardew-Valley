@@ -1,10 +1,4 @@
-/****************************************************************
- * Project Name:  Teamfight_Tactic
- * File Name:     SettingsScene.h
- * File Function: SettingsScene类的定义
- * Author:        刘淑仪、林继申
- * Update Date:   2023/12/30
- ****************************************************************/
+
 
 #pragma once
 #ifndef _SETTINGS_SCENE_H_

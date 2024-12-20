@@ -16,8 +16,8 @@ class MapLayer : public cocos2d::Layer
 public:
     virtual bool init();
 
-    // 加载地图
-    void loadMap(const std::string& mapFile);
+    // 加载地图并解析碰撞图层
+    void loadMap(const std::string& mapFile, float scaleFactor);
 
     // 获取墙体矩形
     std::vector<cocos2d::Rect> getWallRects() const { return _wallRects; }
@@ -31,6 +31,7 @@ private:
     cocos2d::TMXTiledMap* currentMap;
     std::string currentMapName;
     std::vector<cocos2d::Rect> _wallRects;
+    cocos2d::DrawNode* collisionDrawNode; // 用于可视化碰撞矩形
 };
 
 #endif // __MAP_LAYER_H__

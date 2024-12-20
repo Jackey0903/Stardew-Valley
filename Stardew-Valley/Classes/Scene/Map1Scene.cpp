@@ -1,6 +1,10 @@
-// Map1Scene.cpp
-#include "Map1Scene.h"
-
+ï»¿// Map1Scene.cpp
+#include "Scene/Map1Scene.h"
+#include "ui/CocosGUI.h"
+#include "Player/Player.h"
+#include "MapLayer.h"
+#include "Object/Mine.h"
+#include "Object/Npc.h"
 USING_NS_CC;
 
 Scene* Map1Scene::createScene()
@@ -13,187 +17,189 @@ bool Map1Scene::init()
     if (!BaseMapScene::init())
         return false;
 
-    // ÉèÖÃµØÍ¼ÎÄ¼şºÍËõ·Å
+    // è®¾ç½®åœ°å›¾æ–‡ä»¶å’Œç¼©æ”¾
     loadMap("Map/Map1/map1.tmx", 5.0f);
     initPlayer();
-
+    _isCollectingStone = false;
+    // åˆå§‹åŒ–äº‹ä»¶ç›‘å¬å™¨
+    initEventListeners();
+    this->scheduleUpdate();
     return true;
+}
+
+void Map1Scene::addManualMines()
+{
+    // å®šä¹‰çŸ¿çŸ³çš„ä½ç½®ï¼ˆæ ¹æ®åœ°å›¾çš„åæ ‡ç³»ï¼‰
+    std::vector<Vec2> minePositions = {
+        Vec2(80, 100),
+        Vec2(90, 120),
+        Vec2(120, 70),
+        Vec2(150, 90),
+        Vec2(200, 190),
+        Vec2(170, 270),
+        Vec2(200, 190),
+        Vec2(275, 200),
+        Vec2(250, 190),
+        Vec2(200, 270),
+        Vec2(250, 270),
+        Vec2(150, 250),
+    };
+
+    for (const auto& pos : minePositions)
+    {
+        // åˆ›å»º Mine å®ä¾‹
+        std::vector<std::string> a = { "Mine_1.png" ,"Mine_2.png" ,"Mine_3.png" };
+        auto mine = Mine::createWithPosition(pos, a[random() % a.size()]);
+        if (mine)
+        {
+            mine->setScale(0.1f); // æ ¹æ®éœ€è¦è°ƒæ•´ç¼©æ”¾æ¯”ä¾‹
+            _tiledMap->addChild(mine, 30); // æ·»åŠ åˆ°åœ°å›¾å±‚ï¼Œ
+            _mines.push_back(mine); // æ·»åŠ åˆ°çŸ¿çŸ³åˆ—è¡¨
+        }
+        else
+        {
+            CCLOG("Failed to create mine at position: (%f, %f)", pos.x, pos.y);
+        }
+    }
+
+    CCLOG("Manual mines added: %lu", _mines.size());
 }
 
 void Map1Scene::onEnter()
 {
     BaseMapScene::onEnter();
 
-    // ÔÚMap3ÉÏ²éÕÒnpc¶ÔÏó²ã²¢´´½¨NPC
+    // åœ¨Map1ä¸ŠæŸ¥æ‰¾npcå¯¹è±¡å±‚å¹¶åˆ›å»ºNPC
     if (_tiledMap)
     {
-        // »ñÈ¡ÃûÎª"Npc"µÄ¶ÔÏó²ã
-        auto npcLayer = _tiledMap->getObjectGroup("Npc");
+        // è·å–åä¸º"Npc"çš„å¯¹è±¡å±‚
+        auto npcLayer = _tiledMap->getObjectGroup("Npc_Demi");
         if (npcLayer)
         {
             auto npcObjects = npcLayer->getObjects();
             for (auto& obj : npcObjects)
             {
                 auto npcObject = obj.asValueMap();
-                if (npcObject["name"].asString() == "Npc")
+                if (npcObject["name"].asString() == "Npc_Demi")
                 {
-                    // »ñÈ¡NPCÔÚµØÍ¼×ø±êÏµÖĞµÄÎ»ÖÃ£¨Tiled×óÏÂÎª(0,0)£©
+                    // è·å–NPCåœ¨åœ°å›¾åæ ‡ç³»ä¸­çš„ä½ç½®ï¼ˆTiledå·¦ä¸‹ä¸º(0,0)ï¼‰
                     float npcX = npcObject["x"].asFloat();
                     float npcY = npcObject["y"].asFloat();
                     Vec2 npcPosition(npcX, npcY);
 
-                    _npc = Sprite::create("NPC2/Demi.png");
-                    _npc->setScale(0.1f); // Ôö´óNPCµÄËõ·Å£¬Ê¹µã»÷ÇøÓò¸ü´ó
-                    _npc->setPosition(npcPosition);
-                    _tiledMap->addChild(_npc, 15);
-
-
-                    // ÉèÖÃµã»÷ÊÂ¼ş¼àÌıÆ÷
-                    auto npcListener = EventListenerTouchOneByOne::create();
-                    npcListener->setSwallowTouches(true);
-                    npcListener->onTouchBegan = [this](Touch* touch, Event* event) {
-                        // ½«ÆÁÄ»×ø±ê×ª»»Îª_tiledMap×ø±ê
-                        auto locationInView = touch->getLocation();
-                        auto locationInMap = _tiledMap->convertToNodeSpace(locationInView);
-                        CCLOG("Touch at screen: (%.2f,%.2f)", locationInView.x, locationInView.y);
-                        CCLOG("Touch in map coords: (%.2f,%.2f)", locationInMap.x, locationInMap.y);
-
-                        Rect boundingBox = _npc->getBoundingBox();
-                        CCLOG("NPC boundingBox: origin(%.2f,%.2f), size(%.2f,%.2f)",
-                            boundingBox.origin.x, boundingBox.origin.y,
-                            boundingBox.size.width, boundingBox.size.height);
-                        // boundingBoxÓëlocationInMap¾ùÔÚ_tiledMap×ø±êÏµÖĞ
-                        if (boundingBox.containsPoint(locationInMap))
-                        {
-                            showDialogue();
-                            return true;
-                        }
-                        return false;
-                        };
-                    _eventDispatcher->addEventListenerWithSceneGraphPriority(npcListener, _npc);
+                    _npcDemiDialogues = {
+                   {"Hey,buddy!", ""},
+                   {"My name is Demi,and I am a miner.", ""},
+                   {"There are many minerals here that can be mined.", ""},
+                   {"Do you want to join me?", ""}
+                    };
+                    DemiOption = { {"Great! I want to join you."},{"No,thank you.I plan to leave here."},{"Never mind,Iâ€™ll just mine it myself."} };
+                    // åˆ›å»º NpcLeah å®ä¾‹å¹¶æ·»åŠ åˆ°åœ°å›¾
+                    auto npcDemi = Npc::createWithPosition(npcPosition, "Demi", _npcDemiDialogues, DemiOption);
+                    if (npcDemi)
+                    {
+                        // æ ¹æ®éœ€è¦è°ƒæ•´ç¼©æ”¾æˆ–å…¶ä»–å±æ€§
+                        npcDemi->setScale(0.1f); // å¢å¤§NPCçš„ç¼©æ”¾ï¼Œä½¿ç‚¹å‡»åŒºåŸŸæ›´å¤§
+                        _tiledMap->addChild(npcDemi, 25);
+                    }
                 }
             }
+        }
+        addManualMines();
+        initEventListeners();
+        this->scheduleUpdate();
+    }
+}
+
+void Map1Scene::initEventListeners()
+{
+    auto keyboardListener = EventListenerKeyboard::create();
+    keyboardListener->onKeyPressed = CC_CALLBACK_2(Map1Scene::onKeyPressed, this);
+    keyboardListener->onKeyReleased = CC_CALLBACK_2(Map1Scene::onKeyReleased, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+
+    auto mouseListener = EventListenerMouse::create();
+    mouseListener->onMouseDown = CC_CALLBACK_1(Map1Scene::onMouseDown, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+}
+
+void Map1Scene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
+{
+
+    if (keyCode == EventKeyboard::KeyCode::KEY_U)
+    {
+        _isCollectingStone = true;
+    }
+}
+
+void Map1Scene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
+{
+    if (keyCode == EventKeyboard::KeyCode::KEY_U)
+    {
+        _isCollectingStone = false;
+    }
+}
+
+void Map1Scene::onMouseDown(Event* event)
+{
+    EventMouse* mouseEvent = dynamic_cast<EventMouse*>(event);
+
+    auto mouseButton = mouseEvent->getMouseButton();
+    Vec2 locationInView(mouseEvent->getCursorX(), mouseEvent->getCursorY());
+    auto locationInMap = _tiledMap->convertToNodeSpace(locationInView);
+    CCLOG("ok");
+
+    if (_isCollectingStone)
+    {
+        if (mouseButton == EventMouse::MouseButton::BUTTON_LEFT)
+        {
+            collectStoneAt(locationInMap);
         }
     }
 }
 
-void Map1Scene::showDialogue()
+void Map1Scene::collectStoneAt(const Vec2& locationInMap)
 {
-    struct DialogueLine {
-        std::string text;
-        std::string faceImage;
-    };
+    Vec2 playerPositionInMap = _tiledMap->convertToNodeSpace(_player->getPosition());
+    /*playerPositionInMap.x += 300.0f;
+    playerPositionInMap.y += 150.0f;*/
 
-    std::vector<DialogueLine> npcDialogues = {
-        {"Hello, Jackey", "NPC2/Demi_1.png"},
-        {"You look lonely", "NPC2/Demi_2.png"},
-        {"Here is the thing, there is something I have always wanted to say to you", "NPC2/Demi_3.png"},
-        {"Would you like to be my lover?", "NPC2/Demi_4.png"}
-    };
+    CCLOG("ok");
+    // åˆ›å»ºæ–§å­ç²¾çµ
+    auto hoeSprite = Sprite::create("Hoe_1.png");
+    hoeSprite->setScale(1.0f);
+    hoeSprite->setAnchorPoint(Vec2(0.5f, 0.5f));
 
-    if (!_dialogueLayer)
+    // å°†æ–§å­æ·»åŠ ä¸º_playerSpriteçš„å­èŠ‚ç‚¹
+    _player->getPlayerSprite()->addChild(hoeSprite, 40);
+
+    // è®¾ç½®ç›¸å¯¹äºç©å®¶ç²¾çµçš„åç§»ä½ç½®ï¼ˆå¯æ ¹æ®éœ€è¦è°ƒæ•´ï¼‰
+    hoeSprite->setPosition(Vec2(60, 120)); // ä¾‹å¦‚åœ¨ç©å®¶å³æ‰‹è¾¹ç¨ä¸Šæ–¹
+    // åˆ›å»ºåŠ¨ç”»å¸§
+    Vector<SpriteFrame*> frames;
+    frames.pushBack(SpriteFrame::create("Hoe_1.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Hoe_2.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
+    CCLOG("%f %f", playerPositionInMap.x, playerPositionInMap.y);
+    auto animation = Animation::createWithSpriteFrames(frames, 0.2f);
+    auto animate = Animate::create(animation);
+
+    auto finish = CallFunc::create([hoeSprite]() {
+        hoeSprite->removeFromParent(); // åŠ¨ç”»ç»“æŸæ—¶ç§»é™¤
+        });
+
+    // æ’­æ”¾åŠ¨ç”»
+    hoeSprite->runAction(Sequence::create(animate, finish, nullptr));
+
+    for (auto it = _mines.begin(); it != _mines.end(); ++it)
     {
-        auto visibleSize = Director::getInstance()->getVisibleSize();
-        auto origin = Director::getInstance()->getVisibleOrigin();
+        auto mine = *it;
+        Rect boundingBox = mine->getBoundingBox();
+        if (boundingBox.containsPoint(locationInMap))
+        {
+            mine->removeFromParent();
+            _mines.erase(it);
 
-        _dialogueLayer = LayerColor::create(Color4B(0, 0, 0, 180),
-            visibleSize.width,
-            visibleSize.height / 2);
-        _dialogueLayer->setPosition(origin.x, origin.y);
-        this->addChild(_dialogueLayer, 20);
-
-        _npcFace = Sprite::create(npcDialogues[_dialogueIndex].faceImage);
-        _npcFace->setScale(0.5f);
-        _npcFace->setAnchorPoint(Vec2(0, 1));
-        _npcFace->setPosition(Vec2(10, visibleSize.height / 2 - 10));
-        _dialogueLayer->addChild(_npcFace, 1);
-
-        _dialogueLabel = ui::Text::create("", "Arial", 24);
-        _dialogueLabel->setAnchorPoint(Vec2(0, 1));
-        _dialogueLabel->setPosition(Vec2(400, visibleSize.height / 2 - 160)); // ĞŞ¸ÄÎªÓÒ±ßÎ»ÖÃ
-        _dialogueLabel->setContentSize(Size(
-            visibleSize.width + 200, // ÊÊµ±µ÷Õû¿í¶È
-            visibleSize.height / 2 + 100)); // ÊÊµ±µ÷Õû¸ß¶È
-        _dialogueLabel->setColor(Color3B::RED);
-        _dialogueLayer->addChild(_dialogueLabel, 1);
-
-        _dialogueIndex = 0;
-        _dialogueLabel->setString(npcDialogues[_dialogueIndex].text);
-
-        auto dialogListener = EventListenerTouchOneByOne::create();
-        dialogListener->setSwallowTouches(true);
-        dialogListener->onTouchBegan = [this](Touch* touch, Event* event) {
-            auto target = event->getCurrentTarget();
-            Vec2 locationInNode = target->convertToNodeSpace(touch->getLocation());
-
-            Size size = _dialogueLayer->getContentSize();
-            Rect rect(0, 0, size.width, size.height);
-            if (rect.containsPoint(locationInNode)) {
-                return true;
-            }
-            return false;
-            };
-
-        dialogListener->onTouchEnded = [this, npcDialogues](Touch* touch, Event* event) mutable {
-            _dialogueIndex++;
-            if (_dialogueIndex < (int)npcDialogues.size()) {
-                // ÏÂÒ»¾ä¶Ô»°
-                _dialogueLabel->setString(npcDialogues[_dialogueIndex].text);
-                _npcFace->setTexture(npcDialogues[_dialogueIndex].faceImage);
-            }
-            else {
-                // ¶Ô»°½áÊø£¬ÏÔÊ¾Ñ¡Ïî
-                showOptions();
-            }
-            };
-
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(dialogListener, _dialogueLayer);
-    }
-}
-
-void Map1Scene::showOptions()
-{
-    _dialogueLabel->setString(""); // Çå¿ÕÎÄ±¾
-    _npcFace->setTexture("NPC2/Demi_4.png"); // ½«Í·ÏñÉèÎªÄ¬ÈÏ»ò±£³Ö×îºóÍ·Ïñ
-
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-
-    auto option1Label = Label::createWithSystemFont("God, I can do it.", "Arial", 24);
-    auto option2Label = Label::createWithSystemFont("I love you.", "Arial", 24);
-    auto option3Label = Label::createWithSystemFont("Sorry,but I have something more important.", "Arial", 24);
-
-    auto option1 = MenuItemLabel::create(option1Label, [this](Ref* sender) {
-        CCLOG("Ñ¡ÔñÁË 'ºÃµÄ'");
-        // ¸ù¾İÑ¡ÔñÖ´ĞĞ¶ÔÓ¦Âß¼­...
-        closeDialogue();
-        });
-
-    auto option2 = MenuItemLabel::create(option2Label, [this](Ref* sender) {
-        CCLOG("Ñ¡ÔñÁË '²»ĞèÒª'");
-        // ¸ù¾İÑ¡ÔñÖ´ĞĞ¶ÔÓ¦Âß¼­...
-        closeDialogue();
-        });
-
-    auto option3 = MenuItemLabel::create(option3Label, [this](Ref* sender) {
-        CCLOG("Ñ¡ÔñÁË 'ÔÙ¼û'");
-        // ¸ù¾İÑ¡ÔñÖ´ĞĞ¶ÔÓ¦Âß¼­...
-        closeDialogue();
-        });
-
-    auto menu = Menu::create(option1, option2, option3, nullptr);
-    menu->alignItemsVerticallyWithPadding(20);
-    menu->setPosition(visibleSize.width * 0.7f, visibleSize.height / 4);
-    _dialogueLayer->addChild(menu, 2);
-}
-
-void Map1Scene::closeDialogue()
-{
-    if (_dialogueLayer)
-    {
-        _dialogueLayer->removeFromParent();
-        _dialogueLayer = nullptr;
-        _npcFace = nullptr;
-        _dialogueLabel = nullptr;
-        _dialogueIndex = 0;
+            break;
+        }
     }
 }

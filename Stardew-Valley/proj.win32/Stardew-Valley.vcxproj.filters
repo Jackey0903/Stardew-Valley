@@ -57,9 +57,6 @@
     <ClCompile Include="..\Classes\Scene\MapScene.cpp">
       <Filter>Classes\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\GameScene.cpp">
-      <Filter>Classes\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Scene\MapLayer.cpp">
       <Filter>Classes\Scene</Filter>
     </ClCompile>
@@ -82,6 +79,15 @@
       <Filter>Classes\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Object\Animal.cpp">
+      <Filter>Classes\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Object\Mine.cpp">
+      <Filter>Classes\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\SettingsScene.cpp">
+      <Filter>Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Object\Npc.cpp">
       <Filter>Classes\Object</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,9 +119,6 @@
     <ClInclude Include="..\Classes\Scene\MapScene.h">
       <Filter>Classes\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scene\GameScene.h">
-      <Filter>Classes\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Scene\MapLayer.h">
       <Filter>Classes\Scene</Filter>
     </ClInclude>
@@ -138,6 +141,15 @@
       <Filter>Classes\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Object\Animal.h">
+      <Filter>Classes\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Object\Mine.h">
+      <Filter>Classes\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\SettingsScene.h">
+      <Filter>Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Object\Npc.h">
       <Filter>Classes\Object</Filter>
     </ClInclude>
   </ItemGroup>

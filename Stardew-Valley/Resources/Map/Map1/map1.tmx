@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="2">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="15">
  <tileset firstgid="1" source="mine1.tsx"/>
  <tileset firstgid="401" source="mine2.tsx"/>
  <tileset firstgid="801" source="mine3.tsx"/>
@@ -27,8 +27,8 @@
 381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400
 </data>
  </layer>
- <objectgroup id="4" name="Npc">
-  <object id="1" name="Npc" x="109.701" y="116.431">
+ <objectgroup id="4" name="Npc_Demi">
+  <object id="1" name="Npc_Demi" x="109.701" y="116.431">
    <point/>
   </object>
  </objectgroup>
@@ -80,4 +80,19 @@
 1181,1182,1183,1184,1185,1186,1187,1188,1189,1190,1191,1192,1193,1194,1195,1196,1197,1198,1199,1200
 </data>
  </layer>
+ <objectgroup id="5" name="Collision">
+  <object id="2" x="0.5" y="80.5" width="128" height="64"/>
+  <object id="3" x="0.5" y="144.5" width="48" height="256"/>
+  <object id="4" x="48.5" y="336.5" width="48" height="64"/>
+  <object id="5" x="96.5" y="384.5" width="48" height="16"/>
+  <object id="6" x="160.5" y="352.5" width="64" height="48"/>
+  <object id="7" x="144.5" y="368.5" width="16" height="32"/>
+  <object id="8" x="224.5" y="384.5" width="96" height="16"/>
+  <object id="9" x="272.5" y="368.5" width="48" height="16"/>
+  <object id="10" x="288.5" y="240.5" width="32" height="128"/>
+  <object id="11" x="192.5" y="80.5" width="128" height="64"/>
+  <object id="12" x="256.5" y="144.5" width="64" height="48"/>
+  <object id="13" x="128.5" y="80.5" width="96" height="48"/>
+  <object id="14" x="288.5" y="192.5" width="32" height="48"/>
+ </objectgroup>
 </map>

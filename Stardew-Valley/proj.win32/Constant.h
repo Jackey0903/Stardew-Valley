@@ -30,5 +30,23 @@ constexpr float DEFAULT_MUSIC_VOLUMN = 0.5f;                                // »
 
 // ∆Ù∂Ø≥°æ∞…Ë÷√
 constexpr float SCENE_TRANSITION_DURATION = 0.3f;                           // ≥°æ∞«–ªª ±º‰
+constexpr float SETTING_BUTTON_SCALE = 12.0f;                               // …Ë÷√∞¥≈•Àı∑≈±»¿˝
+constexpr float SETTING_BUTTON_OFFSET = 50.0f;                              // …Ë÷√∞¥≈•∆´“∆¡ø
+constexpr float SETTINGS_SCENE_SLIDER_OFFSET_X = 50.0f; 				    // …Ë÷√≥°æ∞ª¨∂ØÃıX÷·∆´“∆¡ø
+constexpr float SETTINGS_SCENE_BGMSLIDER_OFFSET_Y = 80.0f; 				// …Ë÷√≥°æ∞±≥æ∞“Ù¿÷ª¨∂ØÃıY÷·∆´“∆¡ø
+constexpr float SETTINGS_SCENE_EFFSLIDER_OFFSET_Y = -70.0f; 				// …Ë÷√≥°æ∞“Ù–ßª¨∂ØÃıY÷·∆´“∆¡ø
+
+constexpr float SETTINGS_SCENE_RETURN_MENU_BUTTON_OFFSET_X = 330.0f; 		// …Ë÷√≥°æ∞∑µªÿ≤Àµ•∞¥≈•X÷·∆´“∆¡ø
+constexpr float SETTINGS_SCENE_RETURN_MENU_BUTTON_OFFSET_Y = -190.0f; 		// …Ë÷√≥°æ∞∑µªÿ≤Àµ•∞¥≈•Y÷·∆´“∆¡ø
+
+
+
+
+
+
+
+
+
+
 
 #endif // !_CONSTANT_H_
