@@ -7,7 +7,6 @@
   * 许可证        : MIT License
 ****************************************************************/
 
-#pragma once
 #ifndef _HOVER_BUTTON_H_
 #define _HOVER_BUTTON_H_
 

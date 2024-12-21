@@ -1,15 +1,18 @@
-﻿
+﻿/****************************************************************
+ * 项目名        : Stardew-Valley
+ * 文件名        : SettingsScene.h
+ * 文件功能      : 设置场景类实现
+ * 作者          : 曹津硕
+ * 更新日期      : 2024/12/20
+ * 许可证        : MIT License
+ ****************************************************************/
 
-#pragma once
 #ifndef _SETTINGS_SCENE_H_
 #define _SETTINGS_SCENE_H_
 
 #include "cocos2d.h"
 
-/*
- * Class Name:     SettingsScene
- * Class Function: 设置场景类
- */
+
 class SettingsScene : public cocos2d::Scene {
 public:
     // 创建场景
