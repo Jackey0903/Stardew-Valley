@@ -1,4 +1,4 @@
-
+ï»¿
 
 #include "SettingsScene.h"
 #include "Button/HoverButton.h"
@@ -6,13 +6,13 @@
 #include "proj.win32/AudioPlayer.h"
 #include "proj.win32/Constant.h"
 
-  // ÃüÃû¿Õ¼ä
+  // å‘½åç©ºé—´
 using cocos2d::Scene;
 using cocos2d::Sprite;
 using cocos2d::Label;
 using cocos2d::Vec2;
 
-// ÒôÆµÒýÇæÍâ²¿±äÁ¿ÉèÖÃ
+// éŸ³é¢‘å¼•æ“Žå¤–éƒ¨å˜é‡è®¾ç½®
 extern int g_backgroundMusicSign;
 extern int g_soundEffectSign;
 extern float g_backgroundMusicVolumn;
@@ -20,7 +20,7 @@ extern float g_soundEffectVolumn;
 
 
 
-// ´´½¨³¡¾°
+// åˆ›å»ºåœºæ™¯
 Scene* SettingsScene::createScene()
 {
     auto scene = Scene::create();
@@ -29,18 +29,18 @@ Scene* SettingsScene::createScene()
     return scene;
 }
 
-// ³õÊ¼»¯³¡¾°
+// åˆå§‹åŒ–åœºæ™¯
 bool SettingsScene::init()
 {
-    // ´´½¨³¡¾°
+    // åˆ›å»ºåœºæ™¯
     if (!Scene::init()) {
         return false;
     }
 
-    // ¼ÓÔØÒôÀÖ
+    // åŠ è½½éŸ³ä¹
     audioPlayer("../Resources/Music/Setting.mp3", true);
 
-    // ¼ÓÔØ±³¾°
+    // åŠ è½½èƒŒæ™¯
     const auto screenSize = cocos2d::Director::getInstance()->getVisibleSize();
     const auto background = Sprite::create("../Resources/SettingScene/SettingScene.png");
     background->setPosition(Vec2(screenSize.width / 2, screenSize.height / 2));
@@ -48,7 +48,7 @@ bool SettingsScene::init()
 	background->setScale(screenSize.width / bgSize.width, screenSize.height / bgSize.height);
     this->addChild(background);
 
-    // ´´½¨»¬¶¯Ìõ
+    // åˆ›å»ºæ»‘åŠ¨æ¡
     auto backgroundMusicVolumnSlider = cocos2d::ui::Slider::create();
     backgroundMusicVolumnSlider->loadBarTexture("../Resources/SettingScene/SliderBackground.png");
     backgroundMusicVolumnSlider->loadSlidBallTextures("../Resources/SettingScene/SliderNodeNormal.png",
@@ -66,10 +66,10 @@ bool SettingsScene::init()
     effectVolumnslider->setPosition(cocos2d::Vec2(screenSize.width / 2 + SETTINGS_SCENE_SLIDER_OFFSET_X, screenSize.height / 2 + SETTINGS_SCENE_EFFSLIDER_OFFSET_Y));
     effectVolumnslider->setPercent(g_soundEffectVolumn * 100);
 
-    // Îª»¬¶¯ÌõÌí¼ÓÊÂ¼þ´¦ÀíÆ÷
+    // ä¸ºæ»‘åŠ¨æ¡æ·»åŠ äº‹ä»¶å¤„ç†å™¨
     backgroundMusicVolumnSlider->addEventListener([=](Ref* sender, cocos2d::ui::Slider::EventType type) {
         if (type == cocos2d::ui::Slider::EventType::ON_SLIDEBALL_DOWN) {
-            // ¼ÓÔØµã»÷ÒôÐ§
+            // åŠ è½½ç‚¹å‡»éŸ³æ•ˆ
             audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
         }
         if (type == cocos2d::ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
@@ -81,7 +81,7 @@ bool SettingsScene::init()
         });
     effectVolumnslider->addEventListener([=](Ref* sender, cocos2d::ui::Slider::EventType type) {
         if (type == cocos2d::ui::Slider::EventType::ON_SLIDEBALL_DOWN) {
-            // ¼ÓÔØµã»÷ÒôÐ§
+            // åŠ è½½ç‚¹å‡»éŸ³æ•ˆ
             audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
         }
         if (type == cocos2d::ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
@@ -92,11 +92,11 @@ bool SettingsScene::init()
         }
         });
 
-    // ½«»¬¶¯ÌõÌí¼ÓÖÁ³¡¾°
+    // å°†æ»‘åŠ¨æ¡æ·»åŠ è‡³åœºæ™¯
     this->addChild(backgroundMusicVolumnSlider);
     this->addChild(effectVolumnslider);
 
-    // ´´½¨°´Å¥
+    // åˆ›å»ºæŒ‰é’®
     auto returnMenuButton = HoverButton::create("../Resources/SettingScene/Back_D.png",
         "../Resources/SettingScene/Back_L.png",
         "../Resources/SettingScene/Back_L.png");
@@ -104,7 +104,7 @@ bool SettingsScene::init()
     returnMenuButton->setPosition(Vec2(screenSize.width / 2 + SETTINGS_SCENE_RETURN_MENU_BUTTON_OFFSET_X, screenSize.height / 2 + SETTINGS_SCENE_RETURN_MENU_BUTTON_OFFSET_Y));
     returnMenuButton->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-            // ¼ÓÔØµã»÷ÒôÐ§
+            // åŠ è½½ç‚¹å‡»éŸ³æ•ˆ
             audioPlayer("../Resources/Music/Back.mp3", false);
 
             cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, StartMenu::createScene(), cocos2d::Color3B::WHITE));

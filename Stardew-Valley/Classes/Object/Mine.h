@@ -1,4 +1,4 @@
-// Mine.h
+﻿// Mine.h
 #pragma once
 #include "cocos2d.h"
 

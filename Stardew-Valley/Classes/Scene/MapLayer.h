@@ -27,11 +27,12 @@ public:
 
     CREATE_FUNC(MapLayer);
 
+    cocos2d::DrawNode* collisionDrawNode; // 用于可视化碰撞矩形
 private:
     cocos2d::TMXTiledMap* currentMap;
     std::string currentMapName;
     std::vector<cocos2d::Rect> _wallRects;
-    cocos2d::DrawNode* collisionDrawNode; // 用于可视化碰撞矩形
+
 };
 
 #endif // __MAP_LAYER_H__

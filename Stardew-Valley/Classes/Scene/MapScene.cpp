@@ -1,17 +1,17 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼þÃû        : MapScene.cpp
- * ÎÄ¼þ¹¦ÄÜ      : µØÍ¼³¡¾°ÀàÊµÏÖ
- * ×÷Õß          : 
- * ¸üÐÂÈÕÆÚ      : 2024/12/07
- * Ðí¿ÉÖ¤        : MIT License
+ï»¿/****************************************************************
+ * é¡¹ç›®å        : Stardew-Valley
+ * æ–‡ä»¶å        : MapScene.cpp
+ * æ–‡ä»¶åŠŸèƒ½      : åœ°å›¾åœºæ™¯ç±»å®žçŽ°
+ * ä½œè€…          : 
+ * æ›´æ–°æ—¥æœŸ      : 2024/12/07
+ * è®¸å¯è¯        : MIT License
  ****************************************************************/
 #include "MapScene.h"
 #include "cocos2d.h"
 #include "Map1Scene.h"
 #include "Map2Scene.h"
 #include "Map3Scene.h"
-extern std::string g_selectedMap; // ÉùÃ÷È«¾Ö±äÁ¿
+extern std::string g_selectedMap; // å£°æ˜Žå…¨å±€å˜é‡
 
 USING_NS_CC;
 
@@ -48,12 +48,12 @@ bool MapScene::init()
     mapMenu->alignItemsVerticallyWithPadding(20);
     this->addChild(mapMenu, 1);
 
-    // Ìí¼Ó·µ»ØÂß¼­£º°´ÏÂ M ·µ»Ø
+    // æ·»åŠ è¿”å›žé€»è¾‘ï¼šæŒ‰ä¸‹ M è¿”å›ž
     auto listener = EventListenerKeyboard::create();
     listener->onKeyPressed = [=](EventKeyboard::KeyCode code, Event* event) {
         if (code == EventKeyboard::KeyCode::KEY_M)
         {
-            CCLOG("MapScene: ·µ»ØÖ÷ÓÎÏ·³¡¾°");
+            CCLOG("MapScene: è¿”å›žä¸»æ¸¸æˆåœºæ™¯");
             Director::getInstance()->popScene();
         }
         };
@@ -64,10 +64,10 @@ bool MapScene::init()
 
 void MapScene::onMapItemClicked(Ref* sender)
 {
-    CCLOG("ÇÐ»»µ½µØÍ¼£º%s", mapNames[currentMapIndex].c_str());
-    g_selectedMap = mapNames[currentMapIndex]; // ¼ÇÂ¼Ñ¡ÖÐµÄµØÍ¼Ãû³Æ
+    CCLOG("åˆ‡æ¢åˆ°åœ°å›¾ï¼š%s", mapNames[currentMapIndex].c_str());
+    g_selectedMap = mapNames[currentMapIndex]; // è®°å½•é€‰ä¸­çš„åœ°å›¾åç§°
 
-    // ¸ù¾Ýg_selectedMapÖµÀ´¾ö¶¨¼ÓÔØÄÄ¸ö³¡¾°
+    // æ ¹æ®g_selectedMapå€¼æ¥å†³å®šåŠ è½½å“ªä¸ªåœºæ™¯
     if (g_selectedMap == "Map/Map1/map1.tmx")
     {
         Director::getInstance()->replaceScene(Map1Scene::createScene());

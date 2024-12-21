@@ -5,7 +5,7 @@
 #include "ui/CocosGUI.h"
 #include "BackpackScene.h"
 #include "Object/Animal.h"
-
+#include "Object/Npc.h"
 USING_NS_CC;
 
 Scene* Map2Scene::createScene()
@@ -53,6 +53,65 @@ void Map2Scene::onEnter()
 {
     BaseMapScene::onEnter();
     // 无额外逻辑
+
+    // 在Map2上查找npc对象层并创建NPC
+    if (_tiledMap)
+    {
+        CCLOG("Tiled map exists, proceeding to get NPC layer.");
+
+        // 获取名为"Npc"的对象层
+        auto npcLayer = _tiledMap->getObjectGroup(u8"Npc_Lewis");
+
+        if (npcLayer)
+        {
+            CCLOG("Npc layer found, proceeding to create NPCs.");
+
+            auto npcObjects = npcLayer->getObjects();
+            for (auto& obj : npcObjects)
+            {
+                auto npcObject = obj.asValueMap();
+                if (npcObject["name"].asString() == u8"Npc_Lewis")
+                {
+                    // 获取NPC在地图坐标系中的位置（Tiled左下为(0,0)）
+                    float npcX = npcObject["x"].asFloat();
+                    float npcY = npcObject["y"].asFloat();
+                    Vec2 npcPosition(npcX, npcY);
+                    CCLOG("Creating Npc_Lewis at position: (%.2f, %.2f)", npcPosition.x, npcPosition.y);
+
+                    _npcLewisDialogues = {
+                        {u8"Hey, young man, can you help me complete some tasks?I will pay you a fee.", "Lewis/Lewis_1.png"},
+                        {u8"Can you help me repair my house?", "Lewis/Lewis_2.png"},
+                        {u8"Can you help me collect some herbs that I want?", "Lewis/Lewis_3.png"},
+                        {u8"Can you help me drive away wild beasts? These beasts will harm my livestock.", "Lewis/Lewis_4.png"}
+                    };
+                    LewisOption = { {u8"Okay, I'll help you repair your house."},{u8"Okay, I'll help you collect herbs. May I ask what herbs you need?"},{u8"Okay, I'll help you drive away the wild beasts."} };
+
+                    // 创建 NpcLewis 实例并添加到地图
+                    auto npcLewis = Npc::createWithPosition(npcPosition, u8"Lewis", _npcLewisDialogues, LewisOption);
+                    if (npcLewis)
+                    {
+                        CCLOG("Npc_Lewis created successfully.");
+                        // 根据需要调整缩放或其他属性
+                        npcLewis->setScale(0.2f); // 增大NPC的缩放，使点击区域更大
+                        _tiledMap->addChild(npcLewis, 35);
+                    }
+                    else {
+                        CCLOG("Failed to create Npc_Lewis instance.");
+                        Director::getInstance()->end();
+                    }
+                }
+                else {
+                    CCLOG("Found NPC object but name does not match: %s", npcObject["name"].asString().c_str());
+                }
+            }
+        }
+        else {
+            CCLOG("Npc layer not found in the tiled map.");
+        }
+    }
+    else {
+        CCLOG("Tiled map does not exist.");
+    }
 }
 
 void Map2Scene::initEventListeners()

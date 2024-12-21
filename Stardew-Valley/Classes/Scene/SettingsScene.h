@@ -1,4 +1,4 @@
-
+ï»¿
 
 #pragma once
 #ifndef _SETTINGS_SCENE_H_
@@ -8,17 +8,17 @@
 
 /*
  * Class Name:     SettingsScene
- * Class Function: ÉèÖÃ³¡¾°Àà
+ * Class Function: è®¾ç½®åœºæ™¯ç±»
  */
 class SettingsScene : public cocos2d::Scene {
 public:
-    // ´´½¨³¡¾°
+    // åˆ›å»ºåœºæ™¯
     static cocos2d::Scene* createScene();
 
-    // ³õÊ¼»¯³¡¾°
+    // åˆå§‹åŒ–åœºæ™¯
     virtual bool init();
 
-    // ÊµÏÖ SettingsScene ÀàµÄ create ·½·¨
+    // å®ç° SettingsScene ç±»çš„ create æ–¹æ³•
     CREATE_FUNC(SettingsScene);
 };
 

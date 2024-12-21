@@ -1,35 +1,35 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼şÃû        : BackpackScene.h
- * ÎÄ¼ş¹¦ÄÜ      : ±³°ü³¡¾°µÄ¹¦ÄÜÊµÏÖ
- * ×÷Õß          : ºúºÆ½Ü
- * ¸üĞÂÈÕÆÚ      : 2024/12/06
- * Ğí¿ÉÖ¤        : MIT License
+ï»¿/****************************************************************
+ * é¡¹ç›®å        : Stardew-Valley
+ * æ–‡ä»¶å        : BackpackScene.h
+ * æ–‡ä»¶åŠŸèƒ½      : èƒŒåŒ…åœºæ™¯çš„åŠŸèƒ½å®ç°
+ * ä½œè€…          : èƒ¡æµ©æ°
+ * æ›´æ–°æ—¥æœŸ      : 2024/12/06
+ * è®¸å¯è¯        : MIT License
  ****************************************************************/
 #ifndef BACKPACKSCENE_H
 #define BACKPACKSCENE_H
 
 #include "cocos2d.h"
-#include "../Player/Backpack.h" // °üº¬±³°üÀà
-#include "ui/CocosGUI.h" // ÒıÈëUIÄ£¿é
+#include "../Player/Backpack.h" // åŒ…å«èƒŒåŒ…ç±»
+#include "ui/CocosGUI.h" // å¼•å…¥UIæ¨¡å—
 class BackpackScene : public cocos2d::Scene {
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
-    void createMenu(); // ´´½¨²Ëµ¥ÓÃÓÚÏÔÊ¾ÎïÆ·
-    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // ĞŞ¸´ÃüÃû¿Õ¼ä
+    void createMenu(); // åˆ›å»ºèœå•ç”¨äºæ˜¾ç¤ºç‰©å“
+    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // ä¿®å¤å‘½åç©ºé—´
     CREATE_FUNC(BackpackScene);
-    Backpack* getBackpack(); // ÉùÃ÷»ñÈ¡±³°üµÄ·½·¨
-    cocos2d::Sprite* _playerSprite;           // ½ÇÉ«¾«Áé
-    cocos2d::Sprite* _currentToolSprite;	  // µ±Ç°¹¤¾ß
-    Item* _selectedItem = nullptr;            // µ±Ç°Ñ¡ÖĞµÄÎïÆ·
+    Backpack* getBackpack(); // å£°æ˜è·å–èƒŒåŒ…çš„æ–¹æ³•
+    cocos2d::Sprite* _playerSprite;           // è§’è‰²ç²¾çµ
+    cocos2d::Sprite* _currentToolSprite;	  // å½“å‰å·¥å…·
+    Item* _selectedItem = nullptr;            // å½“å‰é€‰ä¸­çš„ç‰©å“
     void BackpackScene::updatePlayerWithItem();
     void createSkillTree();
     void onSpeedSliderChanged(Ref* sender, cocos2d::ui::Slider::EventType type);
     void onSizeSliderChanged(Ref* sender, cocos2d::ui::Slider::EventType type);
 private:
-    Backpack* _backpack; // Ë½ÓĞ³ÉÔ±±äÁ¿£¬ÓÃÓÚ´æ´¢±³°üÊµÀı
-    // ¼¼ÄÜÊ÷Ïà¹Ø³ÉÔ±
+    Backpack* _backpack; // ç§æœ‰æˆå‘˜å˜é‡ï¼Œç”¨äºå­˜å‚¨èƒŒåŒ…å®ä¾‹
+    // æŠ€èƒ½æ ‘ç›¸å…³æˆå‘˜
     cocos2d::ui::Slider* _speedSlider;
     cocos2d::ui::Slider* _sizeSlider;
 };

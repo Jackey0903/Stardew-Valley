@@ -5,7 +5,7 @@ USING_NS_CC;
 
 Npc* Npc::createWithPosition(const Vec2& position, const std::string& npcName, std::vector<DialogueLine>& npcDialogues,std::vector<std::string>& option)
 {
-	std::string spriteFile = npcName + static_cast<std::string>("/") + npcName + static_cast<std::string>(".png");
+	std::string spriteFile = "../Resources/"+npcName + static_cast<std::string>("/") + npcName + static_cast<std::string>(".png");
     Npc* npc = new (std::nothrow) Npc();
     npc->_npcDialogues = npcDialogues;
     npc->npcName = npcName;

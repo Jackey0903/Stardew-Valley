@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="15">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="40">
  <tileset firstgid="1" source="mine1.tsx"/>
  <tileset firstgid="401" source="mine2.tsx"/>
  <tileset firstgid="801" source="mine3.tsx"/>
@@ -28,7 +28,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="Npc_Demi">
-  <object id="1" name="Npc_Demi" x="109.701" y="116.431">
+  <object id="1" name="Npc_Demi" x="113.034" y="143.431">
    <point/>
   </object>
  </objectgroup>
@@ -81,18 +81,39 @@
 </data>
  </layer>
  <objectgroup id="5" name="Collision">
-  <object id="2" x="0.5" y="80.5" width="128" height="64"/>
-  <object id="3" x="0.5" y="144.5" width="48" height="256"/>
-  <object id="4" x="48.5" y="336.5" width="48" height="64"/>
-  <object id="5" x="96.5" y="384.5" width="48" height="16"/>
-  <object id="6" x="160.5" y="352.5" width="64" height="48"/>
-  <object id="7" x="144.5" y="368.5" width="16" height="32"/>
-  <object id="8" x="224.5" y="384.5" width="96" height="16"/>
-  <object id="9" x="272.5" y="368.5" width="48" height="16"/>
-  <object id="10" x="288.5" y="240.5" width="32" height="128"/>
-  <object id="11" x="192.5" y="80.5" width="128" height="64"/>
-  <object id="12" x="256.5" y="144.5" width="64" height="48"/>
-  <object id="13" x="128.5" y="80.5" width="96" height="48"/>
-  <object id="14" x="288.5" y="192.5" width="32" height="48"/>
+  <object id="2" x="-1.5" y="-1.16667" width="128" height="64"/>
+  <object id="3" x="-1.16667" y="64.5" width="18.3333" height="256"/>
+  <object id="4" x="46.5" y="256.5" width="48" height="64"/>
+  <object id="5" x="94.5" y="304.5" width="48" height="16"/>
+  <object id="6" x="158.5" y="272.5" width="64" height="48"/>
+  <object id="7" x="142.5" y="288.5" width="16" height="32"/>
+  <object id="8" x="222.5" y="304.5" width="96" height="16"/>
+  <object id="9" x="270.5" y="288.5" width="48" height="16"/>
+  <object id="10" x="286.5" y="160.5" width="32" height="128"/>
+  <object id="11" x="190.5" y="0.5" width="128" height="64"/>
+  <object id="12" x="257.5" y="64.5" width="61" height="24"/>
+  <object id="13" x="126.5" y="0.5" width="96" height="48"/>
+  <object id="14" x="286.5" y="112.5" width="32" height="48"/>
+  <object id="15" x="19.2727" y="132" width="12.9091" height="13.0909"/>
+  <object id="16" x="31.8182" y="140.909" width="9.27273" height="19.4545"/>
+  <object id="17" x="41.6364" y="157.636" width="7.09091" height="14.3636"/>
+  <object id="18" x="49.8182" y="166.727" width="8.90909" height="19.0909"/>
+  <object id="19" x="48" y="192" width="16" height="16"/>
+  <object id="20" x="37.4545" y="217.091" width="10.5455" height="22.9091"/>
+  <object id="21" x="48" y="224"/>
+  <object id="22" x="48" y="240"/>
+  <object id="23" x="96" y="272" height="16"/>
+  <object id="24" x="96" y="272" height="16"/>
+  <object id="25" x="96" y="272"/>
+  <object id="26" x="96" y="288" width="6" height="5.45455"/>
+  <object id="27" x="102.182" y="293.091" width="9.81818" height="10.9091"/>
+  <object id="28" x="112" y="304" width="16"/>
+  <object id="29" x="115.455" y="295.636" width="18.9091" height="8.54545"/>
+  <object id="30" x="156.727" y="262.182" width="42" height="8.72727"/>
+  <object id="31" x="230.727" y="290.909" width="39.6364" height="14.1818"/>
+  <object id="32" x="268" y="276.727" width="16.3636" height="12.3636"/>
+  <object id="33" x="273.636" y="157.636" width="11.6364" height="61.6364"/>
+  <object id="34" x="210.182" y="67.0909" width="43.6364" height="8.72727"/>
+  <object id="39" x="277" y="88.6667" width="42.6667" height="23"/>
  </objectgroup>
 </map>

@@ -1,23 +1,23 @@
-/****************************************************************
+ï»¿/****************************************************************
  * Project Name:  Stardew-Valley
  * File Name:     AudioPlayer.cpp
- * File Function: ÒôÆµÒıÇæ·½·¨µÄ¶¨Òå
- * Author:        ²Ü½òË¶
+ * File Function: éŸ³é¢‘å¼•æ“æ–¹æ³•çš„å®šä¹‰
+ * Author:        æ›¹æ´¥ç¡•
  * Update Date:   2024/12/07
  * License:       MIT License
  ****************************************************************/
 #include "AudioEngine.h"
 #include "proj.win32/Constant.h"
 #include "AudioPlayer.h"
-// ÃüÃû¿Õ¼ä
+// å‘½åç©ºé—´
 
-// ÒôÆµÒıÇæÉèÖÃ
+// éŸ³é¢‘å¼•æ“è®¾ç½®
 int g_backgroundMusicSign = DEFAULT_MUSIC_SIGN;
 int g_soundEffectSign = DEFAULT_MUSIC_SIGN;
 float g_backgroundMusicVolumn = DEFAULT_MUSIC_VOLUMN;
 float g_soundEffectVolumn = DEFAULT_MUSIC_VOLUMN;
 
-// ÒôÆµÒıÇæ·½·¨
+// éŸ³é¢‘å¼•æ“æ–¹æ³•
 void audioPlayer(const std::string& audioPath, bool isLoop)
 {
     if (isLoop) {

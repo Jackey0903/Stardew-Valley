@@ -1,4 +1,4 @@
-// Map1Scene.h
+ï»¿// Map1Scene.h
 #ifndef __MAP1_SCENE_H__
 #define __MAP1_SCENE_H__
 
@@ -19,11 +19,11 @@ private:
     cocos2d::Sprite* _npc;
     void showOptions();
     void closeDialogue();
-    // ÓÃÓÚ¶Ô»°¿òÏÔÊ¾µÄ³ÉÔ±±äÁ¿
-    cocos2d::LayerColor* _dialogueLayer = nullptr;   // ¶Ô»°¿ò±³¾°²ã
-    cocos2d::Sprite* _npcFace = nullptr;             // NPCÍ·Ïñ¾«Áé
-    cocos2d::ui::Text* _dialogueLabel = nullptr;     // ÏÔÊ¾¶Ô»°ÎÄ±¾µÄ¿Ø¼ş
-    int _dialogueIndex = 0;                          // µ±Ç°ÏÔÊ¾µÄ¶Ô»°Óï¾äË÷Òı
+    // ç”¨äºå¯¹è¯æ¡†æ˜¾ç¤ºçš„æˆå‘˜å˜é‡
+    cocos2d::LayerColor* _dialogueLayer = nullptr;   // å¯¹è¯æ¡†èƒŒæ™¯å±‚
+    cocos2d::Sprite* _npcFace = nullptr;             // NPCå¤´åƒç²¾çµ
+    cocos2d::ui::Text* _dialogueLabel = nullptr;     // æ˜¾ç¤ºå¯¹è¯æ–‡æœ¬çš„æ§ä»¶
+    int _dialogueIndex = 0;                          // å½“å‰æ˜¾ç¤ºçš„å¯¹è¯è¯­å¥ç´¢å¼•
     std::vector<cocos2d::Sprite*> _mines;
     void initEventListeners();
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);

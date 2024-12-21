@@ -1,10 +1,10 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼þÃû        : AppDelegate.cpp
- * ÎÄ¼þ¹¦ÄÜ      : AppDelegateµÄ¹¦ÄÜÊµÏÖ
- * ×÷Õß          : ²Ü½òË¶
- * ¸üÐÂÈÕÆÚ      : 2024/12/04
- * Ðí¿ÉÖ¤        : MIT License
+ï»¿/****************************************************************
+ * é¡¹ç›®å        : Stardew-Valley
+ * æ–‡ä»¶å        : AppDelegate.cpp
+ * æ–‡ä»¶åŠŸèƒ½      : AppDelegateçš„åŠŸèƒ½å®žçŽ°
+ * ä½œè€…          : æ›¹æ´¥ç¡•
+ * æ›´æ–°æ—¥æœŸ      : 2024/12/04
+ * è®¸å¯è¯        : MIT License
  ****************************************************************/
 #include "AppDelegate.h"
 #include "Scene/StartMenu.h"
@@ -87,8 +87,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     director->runWithScene(StartMenu::createScene());
 
-    director->setDisplayStats(true); // ¿ÉÑ¡
-	director->setAnimationInterval(1.0 / 60); // ÉèÖÃÖ¡ÂÊ
+    director->setDisplayStats(true); // å¯é€‰
+	director->setAnimationInterval(1.0 / 60); // è®¾ç½®å¸§çŽ‡
     return true;
 }
 

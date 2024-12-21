@@ -1,4 +1,4 @@
-#ifndef __ANIMAL_H__
+﻿#ifndef __ANIMAL_H__
 #define __ANIMAL_H__
 
 #include "cocos2d.h"
@@ -23,7 +23,7 @@ private:
     cocos2d::Rect _moveArea;
     Direction _currentDir;
     float _speed;
-    float _changeDirTime; // �´θı䷽���ʱ���ʱ
+    float _changeDirTime; // 下次改变方向的时间计时
 	std::string animalName;
     void loadAnimations();
     void startWalkingAnimation(Direction dir);

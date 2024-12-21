@@ -1,4 +1,4 @@
-// Mine.cpp
+﻿// Mine.cpp
 #include "Mine.h"
 
 USING_NS_CC;

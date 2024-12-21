@@ -1,10 +1,10 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼şÃû        : StartMenu.cpp
- * ÎÄ¼ş¹¦ÄÜ      : StartMenuSceneµÄ¹¦ÄÜÊµÏÖ
- * ×÷Õß          : ²Ü½òË¶
- * ¸üĞÂÈÕÆÚ      : 2024/12/04
- * Ğí¿ÉÖ¤        : MIT License
+ï»¿/****************************************************************
+ * é¡¹ç›®å        : Stardew-Valley
+ * æ–‡ä»¶å        : StartMenu.cpp
+ * æ–‡ä»¶åŠŸèƒ½      : StartMenuSceneçš„åŠŸèƒ½å®ç°
+ * ä½œè€…          : æ›¹æ´¥ç¡•
+ * æ›´æ–°æ—¥æœŸ      : 2024/12/04
+ * è®¸å¯è¯        : MIT License
  ****************************************************************/
 #include "StartMenu.h"
 #include "SimpleAudioEngine.h"
@@ -16,7 +16,7 @@
 #include "Scene/Map2Scene.h"
 #include "Scene/Map3Scene.h"
 #include "Scene/SettingsScene.h"
- //cocos2d ÃüÃû¿Õ¼ä
+ //cocos2d å‘½åç©ºé—´
 USING_NS_CC;
 
 Scene* StartMenu::createScene()
@@ -29,7 +29,7 @@ Scene* StartMenu::createScene()
 
 void StartMenu::exitGame(Ref* pSender)
 {
-    // ÍË³ö³ÌĞò
+    // é€€å‡ºç¨‹åº
     Director::getInstance()->end();
 }
 void StartMenu::startGame(Ref* pSender)
@@ -56,41 +56,41 @@ bool StartMenu::init()
     const Vec2 origin = Director::getInstance()->getVisibleOrigin();
     CCLOG("size = (%f,%f)", visibleSize.width, visibleSize.height);
     CCLOG("origin = (%f,%f)", origin.x, origin.y);
-    // ´´½¨±³¾°Í¼Ïñ
+    // åˆ›å»ºèƒŒæ™¯å›¾åƒ
     _backgroundSprite = Sprite::create("StartMenu/BackGround.png");
     _title = Sprite::create("StartMenu/Title.png");
-    // »ñÈ¡±³¾°µÄÔ­Ê¼³ß´ç
+    // è·å–èƒŒæ™¯çš„åŸå§‹å°ºå¯¸
     Size titleSize = _title->getContentSize();
 
-    // ¼ÆËãËõ·Å±ÈÀı£ºÈ·±£±³¾°Í¼ÏñÓëÆÁÄ»³ß´çÒ»ÖÂ
+    // è®¡ç®—ç¼©æ”¾æ¯”ä¾‹ï¼šç¡®ä¿èƒŒæ™¯å›¾åƒä¸å±å¹•å°ºå¯¸ä¸€è‡´
     float scaleX = visibleSize.width / titleSize.width;
     float scaleY = visibleSize.height / titleSize.height;
-    float scale = std::max(scaleX, scaleY); // ±£³Ö¿í¸ß±È£¬¿ÉÄÜ»á²Ã¼ô
+    float scale = std::max(scaleX, scaleY); // ä¿æŒå®½é«˜æ¯”ï¼Œå¯èƒ½ä¼šè£å‰ª
 
-    // Ó¦ÓÃËõ·Å±ÈÀı
+    // åº”ç”¨ç¼©æ”¾æ¯”ä¾‹
     _title->setScale(scale / 3);
     //_title->setAnchorPoint(Vec2(0.5, 0.5));
-    this->addChild(_title, 1); // Ìí¼ÓÔÚÆäËûÔªËØµÄÏÂÃæ
-    // ÉèÖÃ±³¾°Í¼ÏñµÄÎ»ÖÃµ½ÆÁÄ»ÖĞĞÄ
+    this->addChild(_title, 1); // æ·»åŠ åœ¨å…¶ä»–å…ƒç´ çš„ä¸‹é¢
+    // è®¾ç½®èƒŒæ™¯å›¾åƒçš„ä½ç½®åˆ°å±å¹•ä¸­å¿ƒ
     _title->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 0.75));
 
-    // »ñÈ¡±³¾°µÄÔ­Ê¼³ß´ç
+    // è·å–èƒŒæ™¯çš„åŸå§‹å°ºå¯¸
     Size bgSize = _backgroundSprite->getContentSize();
 
-    // ¼ÆËãËõ·Å±ÈÀı£ºÈ·±£±³¾°Í¼ÏñÓëÆÁÄ»³ß´çÒ»ÖÂ
+    // è®¡ç®—ç¼©æ”¾æ¯”ä¾‹ï¼šç¡®ä¿èƒŒæ™¯å›¾åƒä¸å±å¹•å°ºå¯¸ä¸€è‡´
     float scaleXBg = visibleSize.width / bgSize.width;
     float scaleYBg = visibleSize.height / bgSize.height;
-    float scaleBg = std::max(scaleXBg, scaleYBg); // ±£³Ö¿í¸ß±È£¬¿ÉÄÜ»á²Ã¼ô
+    float scaleBg = std::max(scaleXBg, scaleYBg); // ä¿æŒå®½é«˜æ¯”ï¼Œå¯èƒ½ä¼šè£å‰ª
 
-    // Ó¦ÓÃËõ·Å±ÈÀı
+    // åº”ç”¨ç¼©æ”¾æ¯”ä¾‹
     _backgroundSprite->setScale(scaleBg);
 
-    // ÉèÖÃ±³¾°Í¼ÏñµÄÎ»ÖÃµ½ÆÁÄ»ÖĞĞÄ
+    // è®¾ç½®èƒŒæ™¯å›¾åƒçš„ä½ç½®åˆ°å±å¹•ä¸­å¿ƒ
     _backgroundSprite->setPosition(Vec2(visibleSize.width / 2,
         visibleSize.height / 2));
 
-    // ½«±³¾°Ìí¼Óµ½³¡¾°ÖĞ
-    this->addChild(_backgroundSprite, 0); // Ìí¼ÓÔÚÆäËûÔªËØµÄÏÂÃæ
+    // å°†èƒŒæ™¯æ·»åŠ åˆ°åœºæ™¯ä¸­
+    this->addChild(_backgroundSprite, 0); // æ·»åŠ åœ¨å…¶ä»–å…ƒç´ çš„ä¸‹é¢
 
     constexpr float offSetX = 200;
     auto _exitButton = HoverButton::create(static_cast<std::string>("../Resources/StartMenu") + static_cast<std::string>("/Exit_") + static_cast<std::string>("D.png"),
@@ -101,7 +101,7 @@ bool StartMenu::init()
     _exitButton->setPosition(Vec2(visibleSize.width / 2 + offSetX, visibleSize.height * 0.3));
     _exitButton->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-            // ¼ÓÔØµã»÷ÒôĞ§
+            // åŠ è½½ç‚¹å‡»éŸ³æ•ˆ
             audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
             this->exitGame(sender);
         }
@@ -115,7 +115,7 @@ bool StartMenu::init()
     _startButton->setPosition(Vec2(visibleSize.width / 2 - offSetX, visibleSize.height * 0.3));
     _startButton->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-            // ¼ÓÔØµã»÷ÒôĞ§
+            // åŠ è½½ç‚¹å‡»éŸ³æ•ˆ
             audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
             this->startGame(sender);
         }
@@ -129,7 +129,7 @@ bool StartMenu::init()
         static_cast<std::string>("../Resources/SettingScene") + static_cast<std::string>("/Setting_") + static_cast<std::string>("L.png"));
     _settingButton->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-            // ¼ÓÔØµã»÷ÒôĞ§
+            // åŠ è½½ç‚¹å‡»éŸ³æ•ˆ
             audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
             this->settings(sender);
         }

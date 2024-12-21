@@ -1,43 +1,43 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼şÃû        : Item.cpp
- * ÎÄ¼ş¹¦ÄÜ      : ÎïÆ·ÀàÊµÏÖ
- * ×÷Õß          : ºúºÆ½Ü£¬ºúÕı»ª£¬²Ü½òË¶
- * ¸üĞÂÈÕÆÚ      : 2024/12/06
- * Ğí¿ÉÖ¤        : MIT License
+ï»¿/****************************************************************
+ * é¡¹ç›®å        : Stardew-Valley
+ * æ–‡ä»¶å        : Item.cpp
+ * æ–‡ä»¶åŠŸèƒ½      : ç‰©å“ç±»å®ç°
+ * ä½œè€…          : èƒ¡æµ©æ°ï¼Œèƒ¡æ­£åï¼Œæ›¹æ´¥ç¡•
+ * æ›´æ–°æ—¥æœŸ      : 2024/12/06
+ * è®¸å¯è¯        : MIT License
  ****************************************************************/
 #include "Item.h"
 
- // ¹¹Ôìº¯Êı
+ // æ„é€ å‡½æ•°
 Item::Item(const std::string& name, const std::string& imagePath, int quantity)
     : _name(name), _imagePath(imagePath), _quantity(quantity)
 {
 }
 
-// Îö¹¹º¯Êı
+// ææ„å‡½æ•°
 Item::~Item()
 {
 }
 
-// »ñÈ¡ÎïÆ·Ãû³Æ
+// è·å–ç‰©å“åç§°
 std::string Item::getName() const
 {
     return _name;
 }
 
-// »ñÈ¡ÎïÆ·Í¼Æ¬Â·¾¶
+// è·å–ç‰©å“å›¾ç‰‡è·¯å¾„
 std::string Item::getImagePath() const
 {
     return _imagePath;
 }
 
-// »ñÈ¡ÎïÆ·ÊıÁ¿
+// è·å–ç‰©å“æ•°é‡
 int Item::getQuantity() const
 {
     return _quantity;
 }
 
-// ÉèÖÃÎïÆ·ÊıÁ¿
+// è®¾ç½®ç‰©å“æ•°é‡
 void Item::setQuantity(int quantity)
 {
     _quantity = quantity;

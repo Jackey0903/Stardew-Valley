@@ -1,8 +1,8 @@
-/****************************************************************
+ï»¿/****************************************************************
  * Project Name:  Stardew-Valley
  * File Name:     AudioPlayer.h
- * File Function: ÒôÆµÒýÇæ·½·¨µÄ¶¨Òå
- * Author:        ²Ü½òË¶
+ * File Function: éŸ³é¢‘å¼•æ“Žæ–¹æ³•çš„å®šä¹‰
+ * Author:        æ›¹æ´¥ç¡•
  * Update Date:   2024/12/07
  * License:       MIT License
  ****************************************************************/
@@ -14,7 +14,7 @@
 #include "AudioEngine.h"
 #include "proj.win32/Constant.h"
 
-// ÒôÆµÒýÇæ·½·¨
+// éŸ³é¢‘å¼•æ“Žæ–¹æ³•
 void audioPlayer(const std::string& audioPath, bool isLoop);
 
 #endif // !_AUDIO_PLAYER_H_

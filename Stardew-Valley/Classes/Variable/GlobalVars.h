@@ -1,4 +1,4 @@
-#ifndef __GLOBAL_VARS_H__
+﻿#ifndef __GLOBAL_VARS_H__
 #define __GLOBAL_VARS_H__
 
 #include <string>

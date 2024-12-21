@@ -1,10 +1,10 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼şÃû        : MapScene.h
- * ÎÄ¼ş¹¦ÄÜ      : µØÍ¼³¡¾°ÀàÍ·ÎÄ¼ş
- * ×÷Õß          : 
- * ¸üĞÂÈÕÆÚ      : 2024/12/07
- * Ğí¿ÉÖ¤        : MIT License
+ï»¿/****************************************************************
+ * é¡¹ç›®å        : Stardew-Valley
+ * æ–‡ä»¶å        : MapScene.h
+ * æ–‡ä»¶åŠŸèƒ½      : åœ°å›¾åœºæ™¯ç±»å¤´æ–‡ä»¶
+ * ä½œè€…          : 
+ * æ›´æ–°æ—¥æœŸ      : 2024/12/07
+ * è®¸å¯è¯        : MIT License
  ****************************************************************/
 #ifndef __MAP_SCENE_H__
 #define __MAP_SCENE_H__
@@ -20,7 +20,7 @@ public:
 
     virtual bool init();
 
-    // ´¦Àíµã»÷ÊÂ¼ş£¬ÇĞ»»µ½Ñ¡ÖĞµÄµØÍ¼
+    // å¤„ç†ç‚¹å‡»äº‹ä»¶ï¼Œåˆ‡æ¢åˆ°é€‰ä¸­çš„åœ°å›¾
     void onMapItemClicked(cocos2d::Ref* sender);
 
     CREATE_FUNC(MapScene);
@@ -29,9 +29,9 @@ private:
     std::vector<std::string> mapNames;
     size_t currentMapIndex;
     cocos2d::Menu* mapMenu;
-    MapLayer* mapLayer;  // µØÍ¼²ã
-    Player* player;      // Íæ¼Ò
-    cocos2d::Vec2 playerPosition; // Íæ¼ÒÎ»ÖÃ
+    MapLayer* mapLayer;  // åœ°å›¾å±‚
+    Player* player;      // ç©å®¶
+    cocos2d::Vec2 playerPosition; // ç©å®¶ä½ç½®
 };
 
 #endif // __MAP_SCENE_H__

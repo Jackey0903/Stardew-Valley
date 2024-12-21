@@ -26,10 +26,16 @@
   Skeleton.c
   SkeletonBinary.c
   SkeletonBounds.c
+D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(310,24): warning C4018: “<”: 有符号/无符号不匹配
+D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(372,24): warning C4018: “<”: 有符号/无符号不匹配
+D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(484,26): warning C4018: “<”: 有符号/无符号不匹配
+D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(649,2): warning C4018: “<”: 有符号/无符号不匹配
+D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(652,2): warning C4018: “<”: 有符号/无符号不匹配
   SkeletonClipping.c
   SkeletonData.c
   SkeletonJson.c
   Skin.c
+D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonJson.c(97,12): warning C4018: “>=”: 有符号/无符号不匹配
   Slot.c
   SlotData.c
   TransformConstraint.c
@@ -37,12 +43,6 @@
   Triangulator.c
   VertexAttachment.c
   VertexEffect.c
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-support\spine\SkeletonJson.c(97,12): warning C4018: “>=”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(310,24): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(372,24): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(484,26): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(649,2): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-support\spine\SkeletonBinary.c(652,2): warning C4018: “<”: 有符号/无符号不匹配
   AttachmentVertices.cpp
   Cocos2dAttachmentLoader.cpp
   SkeletonAnimation.cpp
@@ -50,7 +50,7 @@ D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-s
   SkeletonRenderer.cpp
   SkeletonTwoColorBatch.cpp
   spine-cocos2dx.cpp
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-support\spine\SkeletonBatch.cpp(110,42): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-support\spine\SkeletonTwoColorBatch.cpp(237,42): warning C4018: “<”: 有符号/无符号不匹配
-D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\cocos2d\cocos\editor-support\spine\SkeletonTwoColorBatch.cpp(274,37): warning C4018: “<”: 有符号/无符号不匹配
-  libSpine.vcxproj -> D:\MAKE_GAME_GREAT_AGAIN\Stardew-Valley(碰撞检测差2)\proj.win32\Debug.win32\libSpine.lib
+D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonBatch.cpp(110,42): warning C4018: “<”: 有符号/无符号不匹配
+D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonTwoColorBatch.cpp(237,42): warning C4018: “<”: 有符号/无符号不匹配
+D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\cocos2d\cocos\editor-support\spine\SkeletonTwoColorBatch.cpp(274,37): warning C4018: “<”: 有符号/无符号不匹配
+  libSpine.vcxproj -> D:\GitHubRepository\Stardew-Valley(G)\Stardew-Valley\proj.win32\Debug.win32\libSpine.lib

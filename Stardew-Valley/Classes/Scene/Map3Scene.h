@@ -1,4 +1,4 @@
-// Map3Scene.h
+ï»¿// Map3Scene.h
 #ifndef __MAP3_SCENE_H__
 #define __MAP3_SCENE_H__
 
@@ -18,13 +18,13 @@ public:
 private:
     cocos2d::Sprite* _npc;
 
-    // ÓÃÓÚ¶Ô»°¿òÏÔÊ¾µÄ³ÉÔ±±äÁ¿
-    cocos2d::LayerColor* _dialogueLayer = nullptr;   // ¶Ô»°¿ò±³¾°²ã
-    cocos2d::Sprite* _npcFace = nullptr;             // NPCÍ·Ïñ¾«Áé
-    cocos2d::ui::Text* _dialogueLabel = nullptr;     // ÏÔÊ¾¶Ô»°ÎÄ±¾µÄ¿Ø¼ş
-    int _dialogueIndex = 0;                          // µ±Ç°ÏÔÊ¾µÄ¶Ô»°Óï¾äË÷Òı
+    // ç”¨äºå¯¹è¯æ¡†æ˜¾ç¤ºçš„æˆå‘˜å˜é‡
+    cocos2d::LayerColor* _dialogueLayer = nullptr;   // å¯¹è¯æ¡†èƒŒæ™¯å±‚
+    cocos2d::Sprite* _npcFace = nullptr;             // NPCå¤´åƒç²¾çµ
+    cocos2d::ui::Text* _dialogueLabel = nullptr;     // æ˜¾ç¤ºå¯¹è¯æ–‡æœ¬çš„æ§ä»¶
+    int _dialogueIndex = 0;                          // å½“å‰æ˜¾ç¤ºçš„å¯¹è¯è¯­å¥ç´¢å¼•
     void showDialogue();
-    void showOptions();  // ÏÔÊ¾»Ø´ğÑ¡Ïî
+    void showOptions();  // æ˜¾ç¤ºå›ç­”é€‰é¡¹
     void closeDialogue();
     std::vector<DialogueLine> _npcLeahDialogues;
     std::vector<std::string> LeahOption;

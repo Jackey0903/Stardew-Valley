@@ -1,46 +1,46 @@
-/****************************************************************
- * ÏîÄ¿Ãû        : Stardew-Valley
- * ÎÄ¼şÃû        : Backpack.cpp
- * ÎÄ¼ş¹¦ÄÜ      : ±³°üÀàÊµÏÖ
- * ×÷Õß          : ºúºÆ½Ü
- * ¸üĞÂÈÕÆÚ      : 2024/12/06
- * Ğí¿ÉÖ¤        : MIT License
+ï»¿/****************************************************************
+ * é¡¹ç›®å        : Stardew-Valley
+ * æ–‡ä»¶å        : Backpack.cpp
+ * æ–‡ä»¶åŠŸèƒ½      : èƒŒåŒ…ç±»å®ç°
+ * ä½œè€…          : èƒ¡æµ©æ°
+ * æ›´æ–°æ—¥æœŸ      : 2024/12/06
+ * è®¸å¯è¯        : MIT License
  ****************************************************************/
 #include "Backpack.h"
 #include "cocos2d.h"
 
 USING_NS_CC;
 
-// ±³°ü¹¹Ôìº¯Êı
+// èƒŒåŒ…æ„é€ å‡½æ•°
 Backpack::Backpack() {
-    // ³õÊ¼»¯±³°ü£¬Ìí¼ÓÒ»¸ö½£
+    // åˆå§‹åŒ–èƒŒåŒ…ï¼Œæ·»åŠ ä¸€ä¸ªå‰‘
     Item* sword = new Item("Sword", "sword.png", 1);
     addItem(sword);
 }
 
-// Îö¹¹º¯Êı£¬ÇåÀíÄÚ´æ
+// ææ„å‡½æ•°ï¼Œæ¸…ç†å†…å­˜
 Backpack::~Backpack() {
     for (auto& item : _items) {
-        delete item; // È·±£É¾³ı±³°üÖĞµÄÎïÆ·ÒÔÊÍ·ÅÄÚ´æ
+        delete item; // ç¡®ä¿åˆ é™¤èƒŒåŒ…ä¸­çš„ç‰©å“ä»¥é‡Šæ”¾å†…å­˜
     }
-    _items.clear(); // Çå¿ÕÎïÆ·ÁĞ±í
+    _items.clear(); // æ¸…ç©ºç‰©å“åˆ—è¡¨
 }
 
-// Ìí¼ÓÎïÆ·µ½±³°ü
+// æ·»åŠ ç‰©å“åˆ°èƒŒåŒ…
 void Backpack::addItem(Item* item) {
     if (item) {
         _items.push_back(item);
     }
 }
 
-// »ñÈ¡±³°üÖĞµÄÎïÆ·ÁĞ±í
+// è·å–èƒŒåŒ…ä¸­çš„ç‰©å“åˆ—è¡¨
 const std::vector<Item*>& Backpack::getItems() const {
     return _items;
 }
 
-// ÁĞ³ö±³°üÖĞµÄÎïÆ·
+// åˆ—å‡ºèƒŒåŒ…ä¸­çš„ç‰©å“
 void Backpack::listItems() const {
     for (const auto& item : _items) {
-        CCLOG("ÎïÆ·: %s, ÊıÁ¿: %d", item->getName().c_str(), item->getQuantity());
+        CCLOG("ç‰©å“: %s, æ•°é‡: %d", item->getName().c_str(), item->getQuantity());
     }
 }

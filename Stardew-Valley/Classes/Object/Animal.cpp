@@ -1,4 +1,4 @@
-#include "Animal.h"
+ï»¿#include "Animal.h"
 USING_NS_CC;
 using std::string;
 Animal* Animal::create(const cocos2d::Rect& area,const std::string _name)
@@ -20,14 +20,14 @@ bool Animal::init(const cocos2d::Rect& area)
         return false;
 
     _moveArea = area;
-    _speed = 50.0f; // ÒÆ¶¯ËÙ¶È£¬ÏñËØ/Ãë
+    _speed = 50.0f; // ç§»åŠ¨é€Ÿåº¦ï¼Œåƒç´ /ç§’
     _changeDirTime = 0.0f;
 
-    // ¼ÓÔØ¶¯»­×ÊÔ´
+    // åŠ è½½åŠ¨ç”»èµ„æº
     loadAnimations();
 
-    // ´´½¨¶¯Îï¾«Áé²¢·ÅÔÚ·¶Î§ÄÚµÄËæ»úÎ»ÖÃ
-    _animalSprite = Sprite::create(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Stand_Down.png")); // ³õÊ¼ÌùÍ¼£¬¿É»»³ÉIdleÌùÍ¼
+    // åˆ›å»ºåŠ¨ç‰©ç²¾çµå¹¶æ”¾åœ¨èŒƒå›´å†…çš„éšæœºä½ç½®
+    _animalSprite = Sprite::create(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Stand_Down.png")); // åˆå§‹è´´å›¾ï¼Œå¯æ¢æˆIdleè´´å›¾
 	_animalSprite->setScale(0.2f);
     this->addChild(_animalSprite);
 
@@ -35,7 +35,7 @@ bool Animal::init(const cocos2d::Rect& area)
     float startY = RandomHelper::random_real(area.getMinY(), area.getMaxY());
     _animalSprite->setPosition(Vec2(startX, startY));
 
-    // ³õÊ¼·½ÏòËæ»ú
+    // åˆå§‹æ–¹å‘éšæœº
     chooseRandomDirection();
 
     this->scheduleUpdate();
@@ -45,7 +45,7 @@ bool Animal::init(const cocos2d::Rect& area)
 
 void Animal::loadAnimations()
 {
-    // ¼ÙÉèÒÑ½« Animal_Up.plist, Animal_Down.plist, Animal_Left.plist, Animal_Right.plist ·ÅÈëResourcesÖĞ
+    // å‡è®¾å·²å°† Animal_Up.plist, Animal_Down.plist, Animal_Left.plist, Animal_Right.plist æ”¾å…¥Resourcesä¸­
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Down.plist"));
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Up.plist"));
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(static_cast<string>("Animal/") + animalName + static_cast<string>("/") + animalName + static_cast<string>("_Left.plist"));
@@ -57,7 +57,7 @@ void Animal::chooseRandomDirection()
     int d = RandomHelper::random_int(0, 3);
     _currentDir = static_cast<Direction>(d);
     startWalkingAnimation(_currentDir);
-    // ÏÂ´Î¸Ä±ä·½ÏòµÄ¼ä¸ô,Ëæ»ú1~3Ãë
+    // ä¸‹æ¬¡æ”¹å˜æ–¹å‘çš„é—´éš”,éšæœº1~3ç§’
     _changeDirTime = RandomHelper::random_real(1.0f, 3.0f);
 }
 
@@ -102,7 +102,7 @@ void Animal::startWalkingAnimation(Direction dir)
     else
     {
         CCLOG("No frames found for direction %s", directionStr.c_str());
-        // ¿ÉÉèÖÃÎªStandÌùÍ¼
+        // å¯è®¾ç½®ä¸ºStandè´´å›¾
     }
 }
 
@@ -110,7 +110,7 @@ void Animal::startWalkingAnimation(Direction dir)
 void Animal::stopWalkingAnimation()
 {
     _animalSprite->stopAllActions();
-    // ¿ÉÇĞ»»³É¾²Ö¹ÌùÍ¼£¬Èç"Stand_Down.png"
+    // å¯åˆ‡æ¢æˆé™æ­¢è´´å›¾ï¼Œå¦‚"Stand_Down.png"
 }
 
 bool Animal::isOutOfArea(const Vec2& pos)
@@ -123,7 +123,7 @@ void Animal::update(float dt)
     if (!_animalSprite) return;
 
     Vec2 pos = _animalSprite->getPosition();
-    // ¸ù¾İµ±Ç°·½ÏòÒÆ¶¯
+    // æ ¹æ®å½“å‰æ–¹å‘ç§»åŠ¨
     Vec2 velocity(0, 0);
     switch (_currentDir)
     {
@@ -143,16 +143,16 @@ void Animal::update(float dt)
 
     Vec2 newPos = pos + velocity * dt;
 
-    // Èç¹ûĞÂÎ»ÖÃ³öÁË·¶Î§»òµ½´ï»»·½ÏòµÄÊ±¼ä£¬Ôò¸Ä±ä·½Ïò
+    // å¦‚æœæ–°ä½ç½®å‡ºäº†èŒƒå›´æˆ–åˆ°è¾¾æ¢æ–¹å‘çš„æ—¶é—´ï¼Œåˆ™æ”¹å˜æ–¹å‘
     _changeDirTime -= dt;
     if (isOutOfArea(newPos) || _changeDirTime <= 0.0f)
     {
-        // ±£³Öµ±Ç°pos²»³¬³ö·¶Î§
+        // ä¿æŒå½“å‰posä¸è¶…å‡ºèŒƒå›´
         newPos.x = clampf(newPos.x, _moveArea.getMinX(), _moveArea.getMaxX());
         newPos.y = clampf(newPos.y, _moveArea.getMinY(), _moveArea.getMaxY());
         _animalSprite->setPosition(newPos);
 
-        // ¸Ä±ä·½Ïò
+        // æ”¹å˜æ–¹å‘
         chooseRandomDirection();
     }
     else

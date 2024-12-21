@@ -53,7 +53,7 @@ bool Player::init()
     }
     else if (g_selectedMap == "Map/Map2/map2.tmx")
     {
-        _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x - 150, visibleSize.height / 2 + origin.y - 120));
+        _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x+50, visibleSize.height / 2 + origin.y));
     }
     else
     {
@@ -126,6 +126,27 @@ void Player::update(float delta)
     Vec2 previousLoc = loc;
 
     _playerSprite->setPosition(newLoc);
+    Rect playerRect = _playerSprite->getBoundingBox();
+
+    Rect adjustedPlayerRect(
+        playerRect.origin.x,
+        playerRect.origin.y,
+        playerRect.size.width,
+        playerRect.size.height
+    );
+
+    // 调试日志
+    //CCLOG("Player Position: (%.2f, %.2f)", _playerSprite->getPosition().x, _playerSprite->getPosition().y);
+    //CCLOG("Map Position: (%.2f, %.2f)", mapPos.x, mapPos.y);
+    //CCLOG("Player Map Position: (%.2f, %.2f)", playerMapPos.x, playerMapPos.y);
+
+    if (isCollidingWithWall(adjustedPlayerRect)) // 使用地图坐标系的位置
+    {
+        CCLOG("Player is colliding with a wall.");
+        _playerSprite->setPosition(previousLoc);
+        //CCLOG("地图位置重置为: (%.2f, %.2f)", mapPos.x, mapPos.y);
+        return;
+    }
 
     // 获取地图的位置变化
     Vec2 newMapPos = mapPos;
@@ -146,43 +167,21 @@ void Player::update(float delta)
         }
 
         _tiledMap->setPosition(newMapPos);
-        CCLOG("地图位置更新为: (%.2f, %.2f)", newMapPos.x, newMapPos.y);
+        _playerSprite->setPosition(previousLoc);
+        //CCLOG("地图位置更新为: (%.2f, %.2f)", newMapPos.x, newMapPos.y);
 
         // 玩家位置重置为中心区域边界
-        Vec2 clampedPos = _playerSprite->getPosition();
-        if (_isMovingLeft) clampedPos.x = playerBounds.getMinX();
-        if (_isMovingRight) clampedPos.x = playerBounds.getMaxX();
-        if (_isMovingUp) clampedPos.y = playerBounds.getMaxY();
-        if (_isMovingDown) clampedPos.y = playerBounds.getMinY();
-        _playerSprite->setPosition(clampedPos);
-        CCLOG("玩家位置重置为: (%.2f, %.2f)", clampedPos.x, clampedPos.y);
+        //Vec2 clampedPos = _playerSprite->getPosition();
+        //if (_isMovingLeft) clampedPos.x = playerBounds.getMinX();
+        //if (_isMovingRight) clampedPos.x = playerBounds.getMaxX();
+        //if (_isMovingUp) clampedPos.y = playerBounds.getMaxY();
+        //if (_isMovingDown) clampedPos.y = playerBounds.getMinY();
+        //_playerSprite->setPosition(clampedPos);
+        //CCLOG("玩家位置重置为: (%.2f, %.2f)", clampedPos.x, clampedPos.y);
     }
 
     // 计算玩家在地图坐标系中的位置
-    Vec2 playerMapPos = _playerSprite->getPosition() - _tiledMap->getPosition();
-
-    Rect playerRect = _playerSprite->getBoundingBox();
-
-    Rect adjustedPlayerRect(
-        playerRect.origin.x - (mapPos.x - initPositionMap.x),
-        playerRect.origin.y - (mapPos.y - initPositionMap.y),
-        playerRect.size.width,
-        playerRect.size.height
-    );
-
-    // 调试日志
-    CCLOG("Player Position: (%.2f, %.2f)", _playerSprite->getPosition().x, _playerSprite->getPosition().y);
-    CCLOG("Map Position: (%.2f, %.2f)", mapPos.x, mapPos.y);
-    CCLOG("Player Map Position: (%.2f, %.2f)", playerMapPos.x, playerMapPos.y);
-
-    if (isCollidingWithWall(adjustedPlayerRect)) // 使用地图坐标系的位置
-    {
-        CCLOG("Player is colliding with a wall.");
-        _playerSprite->setPosition(previousLoc);
-        _tiledMap->setPosition(mapPos); // 重置地图位置
-        CCLOG("地图位置重置为: (%.2f, %.2f)", mapPos.x, mapPos.y);
-        return;
-    }
+    //Vec2 playerMapPos = _playerSprite->getPosition() - _tiledMap->getPosition();
 }
 
 bool Player::isCollidingWithWall(const Rect& rect)
@@ -196,10 +195,32 @@ bool Player::isCollidingWithWall(const Rect& rect)
     auto mapLayer = parentScene->getChildByName<MapLayer*>("MapLayer");
     if (!mapLayer) return false;
 
+    Vec2 mapAnchor = _tiledMap->getAnchorPointInPoints() * _tiledMap->getScale();
+    Vec2 mapPos = _tiledMap->getPosition();
     auto wallRects = mapLayer->getWallRects();
+    mapLayer->collisionDrawNode->clear();
+    Vec2 vertices[4] = {
+        Vec2(rect.origin.x, rect.origin.y),
+        Vec2(rect.origin.x + rect.size.width, rect.origin.y),
+        Vec2(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height),
+        Vec2(rect.origin.x, rect.origin.y + rect.size.height)
+    };
+    mapLayer->collisionDrawNode->drawPolygon(vertices, 4, Color4F(0, 0, 0, 0), 1, Color4F(1, 0, 0, 1));
     for (const auto& wRect : wallRects)
     {
-        if (rect.intersectsRect(wRect))
+        float x = wRect.origin.x - mapAnchor.x + mapPos.x;
+        float y = wRect.origin.y - mapAnchor.y + mapPos.y;
+        float width = wRect.size.width;
+        float height = wRect.size.height;
+        Rect RectinWindow(x, y, width, height);
+        Vec2 vertices[4] = {
+            Vec2(RectinWindow.origin.x, RectinWindow.origin.y),
+            Vec2(RectinWindow.origin.x + RectinWindow.size.width, RectinWindow.origin.y),
+            Vec2(RectinWindow.origin.x + RectinWindow.size.width, RectinWindow.origin.y + RectinWindow.size.height),
+            Vec2(RectinWindow.origin.x, RectinWindow.origin.y + RectinWindow.size.height)
+        };
+        mapLayer->collisionDrawNode->drawPolygon(vertices, 4, Color4F(0, 0, 0, 0), 1, Color4F(1, 0, 0, 1));
+        if (rect.intersectsRect(RectinWindow))
         {
             return true;
         }
@@ -330,3 +351,4 @@ void Player::openMapScene()
     auto mapScene = MapScene::createScene();
     Director::getInstance()->pushScene(TransitionFade::create(0.5f, mapScene));
 }
+
