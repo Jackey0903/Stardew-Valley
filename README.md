@@ -69,8 +69,21 @@ Stardew-Valley
 ### 2024/12/12
 
 - 成功导入新tmx地图
+
 - 解决地图场景写在Player类的问题
+
 - 实现地图切换器MapScene，按M可以切换地图
+### 2024/12/13
+- 砍树功能尝试
+### 2024/12/16
+- 完全实现砍树功能
+- 三张地图的封装
+### 2024/12/17
+- 家畜Animal类，NPC类实现
+### 2024/12/20
+- 实现设置菜单
+### 2024/12/21
+- 修复碰撞检测的bug，完全实现碰撞检测
 
 # 免责声明
 The code and materials contained in this repository are intended for personal learning and research purposes only and may not be used for any commercial purposes. Other users who download or refer to the content of this repository must strictly adhere to the **principles of academic integrity** and must not use these materials for any form of homework submission or other actions that may violate academic honesty. I am not responsible for any direct or indirect consequences arising from the improper use of the contents of this repository. Please ensure that your actions comply with the regulations of your school or institution, as well as applicable laws and regulations, before using this content. If you have any questions, please contact me via [email](mailto:2353127@tongji.edu.cn).
@@ -79,4 +92,4 @@ The code and materials contained in this repository are intended for personal le
 
 # 更新日期
 
-2024.12.13
+2024.12.21
