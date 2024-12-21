@@ -247,9 +247,9 @@ void Map2Scene::plantCropAt(const Vec2& locationInMap)
 
     // 创建并添加作物精灵
     std::vector<std::string> cropImages = {
-        "Carrot_1.png","Carrot_2.png","Carrot_3.png",
-        "Pumpkin_1.png","Pumpkin_2.png","Pumpkin_3.png",
-        "Lajiao_1.png","Lajiao_2.png","Lajiao_3.png"
+        "Plants/Carrot_1.png","Plants/Carrot_2.png","Plants/Carrot_3.png",
+        "Plants/Pumpkin_1.png","Plants/Pumpkin_2.png","Plants/Pumpkin_3.png",
+        "Plants/Lajiao_1.png","Plants/Lajiao_2.png","Plants/Lajiao_3.png"
     };
 
     static int cropIndex = 0;  // 静态变量，记录当前作物索引
