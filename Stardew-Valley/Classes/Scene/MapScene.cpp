@@ -2,8 +2,8 @@
  * 项目名        : Stardew-Valley
  * 文件名        : MapScene.cpp
  * 文件功能      : 地图场景类实现
- * 作者          : 胡浩杰
- * 更新日期      : 2024/12/07
+ * 作者          : 胡浩杰，曹津硕
+ * 更新日期      : 2024/12/22
  * 许可证        : MIT License
  ****************************************************************/
 
@@ -12,6 +12,8 @@
 #include "Map1Scene.h"
 #include "Map2Scene.h"
 #include "Map3Scene.h"
+#include "proj.win32/AudioPlayer.h"
+#include "Button/HoverButton.h"
 
  // 声明全局变量，用于记录选中的地图名称
 extern std::string g_selectedMap;
@@ -36,36 +38,72 @@ bool MapScene::init()
     mapNames.push_back("Map/Map2/map2.tmx");
     mapNames.push_back("Map/Map3/map3.tmx");
     currentMapIndex = 0;
-
+    auto _MapScene = Sprite::create("../Resources/MapScene/MapScene.png");
+    Size bgSize = _MapScene->getContentSize();
     // 创建菜单用于显示地图选项
     mapMenu = Menu::create();
     auto visibleSize = Director::getInstance()->getVisibleSize();
     // 设置菜单位置为屏幕中心
     mapMenu->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    _MapScene->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    float scale = visibleSize.width / bgSize.width;
+    _MapScene->setScale(scale);
 
-    // 使用传统的for循环创建菜单项
-    for (size_t i = 0; i < mapNames.size(); ++i)
-    {
-        // 使用C++11的std::to_string将索引转换为字符串
-        std::string labelText = "Map " + std::to_string(i + 1); // C++11特性：std::to_string
+    this->addChild(_MapScene, 0);
 
-        // 创建标签
-        auto label = Label::createWithSystemFont(labelText, "Arial", 24);
 
-        // 创建菜单项，并绑定回调函数
-        auto item = MenuItemLabel::create(label, [=](Ref* sender) { // C++11特性：Lambda表达式
-            currentMapIndex = i;
-            onMapItemClicked(sender);
-            });
 
-        // 添加菜单项到菜单中
-        mapMenu->addChild(item);
-    }
 
-    // 垂直排列菜单项，并设置间距
-    mapMenu->alignItemsVerticallyWithPadding(20);
-    // 将菜单添加到场景中
-    this->addChild(mapMenu, 1);
+    // 创建map2选择戏按钮
+    auto _map2 = HoverButton::create(
+        "../Resources/MapScene/Map2_D.png", // 默认状态图片
+        "../Resources/MapScene/Map2_L.png", // 选中状态图片
+        "../Resources/MapScene/Map2_L.png"  // 按下状态图片
+    );
+    _map2->setPosition(Vec2(visibleSize.width / 2 + MAP2_BUTTON_OFFSET_X, visibleSize.height + MAP2_BUTTON_OFFSET_Y));
+    _map2->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) { // C++11特性：Lambda表达式
+        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            // 播放点击音效
+            audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
+            Director::getInstance()->replaceScene(Map2Scene::createScene());
+        }
+        });
+    _map2->setScale(scale);
+    this->addChild(_map2, 5);
+
+
+    auto _map3 = HoverButton::create(
+        "../Resources/MapScene/Map3_D.png", // 默认状态图片
+        "../Resources/MapScene/Map3_L.png", // 选中状态图片
+        "../Resources/MapScene/Map3_L.png"  // 按下状态图片
+    );
+    _map3->setPosition(Vec2(visibleSize.width / 2 + MAP3_BUTTON_OFFSET_X, visibleSize.height + MAP3_BUTTON_OFFSET_Y));
+    _map3->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) { // C++11特性：Lambda表达式
+        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            // 播放点击音效
+            audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
+            Director::getInstance()->replaceScene(Map3Scene::createScene());
+        }
+        });
+    _map3->setScale(scale);
+    this->addChild(_map3, 5);
+
+    auto _map1 = HoverButton::create(
+        "../Resources/MapScene/Map1_D.png", // 默认状态图片
+        "../Resources/MapScene/Map1_L.png", // 选中状态图片
+        "../Resources/MapScene/Map1_L.png"  // 按下状态图片
+    );
+    _map1->setPosition(Vec2(visibleSize.width / 2 + MAP1_BUTTON_OFFSET_X, visibleSize.height + MAP1_BUTTON_OFFSET_Y));
+    _map1->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) { // C++11特性：Lambda表达式
+        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            // 播放点击音效
+            audioPlayer("../Resources/Music/ClickSoundEffect.mp3", false);
+            Director::getInstance()->replaceScene(Map1Scene::createScene());
+        }
+        });
+    _map1->setScale(scale);
+    this->addChild(_map1, 5);
+
 
     // 添加键盘事件监听器，用于处理返回逻辑
     auto listener = EventListenerKeyboard::create();
@@ -80,25 +118,7 @@ bool MapScene::init()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
     return true;
+
+    return true;
 }
 
-// 处理地图菜单项点击事件
-void MapScene::onMapItemClicked(Ref* sender)
-{
-    CCLOG("切换到地图：%s", mapNames[currentMapIndex].c_str());
-    g_selectedMap = mapNames[currentMapIndex]; // 记录选中的地图名称
-
-    // 根据选中的地图名称决定加载哪个地图场景
-    if (g_selectedMap == "Map/Map1/map1.tmx")
-    {
-        Director::getInstance()->replaceScene(Map1Scene::createScene());
-    }
-    else if (g_selectedMap == "Map/Map2/map2.tmx")
-    {
-        Director::getInstance()->replaceScene(Map2Scene::createScene());
-    }
-    else if (g_selectedMap == "Map/Map3/map3.tmx")
-    {
-        Director::getInstance()->replaceScene(Map3Scene::createScene());
-    }
-}

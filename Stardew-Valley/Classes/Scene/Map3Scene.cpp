@@ -33,7 +33,7 @@ bool Map3Scene::init()
     initPlayer(); // 初始化玩家
 
     // 定义动物出现的区域
-    cocos2d::Rect animalArea(50, 0, 100, 100);
+    Rect animalArea(280, 65, 100, 100);
 
     // 使用auto关键字创建猫对象（C++11特性）
     auto cat = Animal::create(animalArea, "Cat");

@@ -10,3 +10,4 @@
 #include <string>
 std::string g_selectedMap = "";
 float speed = 200.0f;
+float size = 1.50f;

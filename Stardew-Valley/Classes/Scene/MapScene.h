@@ -2,7 +2,7 @@
  * 项目名        : Stardew-Valley
  * 文件名        : MapScene.h
  * 文件功能      : 地图场景类头文件
- * 作者          : 胡浩杰
+ * 作者          : 胡浩杰,曹津硕
  * 更新日期      : 2024/12/07
  * 许可证        : MIT License
  ****************************************************************/
@@ -25,9 +25,6 @@ public:
 
     // 初始化方法，重写基类的init
     virtual bool init() override; // C++11特性：override关键字
-
-    // 处理点击事件，切换到选中的地图
-    void onMapItemClicked(cocos2d::Ref* sender); // Lambda表达式在实现文件中使用
 
     // 使用Cocos2d的CREATE_FUNC宏创建MapScene实例
     CREATE_FUNC(MapScene);

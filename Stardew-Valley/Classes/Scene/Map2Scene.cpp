@@ -32,7 +32,7 @@ bool Map2Scene::init()
     initPlayer();
 
     // 定义动物出现区域
-    cocos2d::Rect animalArea(1000, 1000, 300, 300);
+    cocos2d::Rect animalArea(600, 1100, 500, 300);
 
     // 创建并添加动物到地图
     auto cow1 = Animal::create(animalArea, "Cow");  // C++11特性：使用auto自动推断类型
@@ -41,11 +41,20 @@ bool Map2Scene::init()
     auto cow2 = Animal::create(animalArea, "Cow");
     _tiledMap->addChild(cow2, 20);
 
-    auto sheep = Animal::create(animalArea, "Sheep");
-    _tiledMap->addChild(sheep, 20);
+    auto cow3 = Animal::create(animalArea, "Cow");
+    _tiledMap->addChild(cow3, 20);
 
-    auto pig = Animal::create(animalArea, "Pig");
-    _tiledMap->addChild(pig, 20);
+    auto sheep1 = Animal::create(animalArea, "Sheep");
+    _tiledMap->addChild(sheep1, 20);
+
+    auto sheep2 = Animal::create(animalArea, "Sheep");
+    _tiledMap->addChild(sheep2, 20);
+
+    auto pig1 = Animal::create(animalArea, "Pig");
+    _tiledMap->addChild(pig1, 20);
+
+    auto pig2 = Animal::create(animalArea, "Pig");
+    _tiledMap->addChild(pig2, 20);
 
     // 初始化种植模式标志
     _isPlanting = false;
