@@ -7,6 +7,7 @@
  * 许可证        : MIT License
  ****************************************************************/
 
+#include <stdexcept>        // 引入异常处理
 #include "Map3Scene.h"
 #include "MapLayer.h"
 #include "Object/Animal.h"
@@ -81,13 +82,20 @@ void Map3Scene::onEnter()
                     // 初始化NPC的选项内容（使用统一初始化列表，C++11特性）
                     LeahOption = { {u8"Got it ,thank you!"},{u8"Okay,dear."},{u8"I’m not too tired."} };
 
-                    // 创建 NpcLeah 实例并添加到地图
-                    auto npcLeah = Npc::createWithPosition(npcPosition, "Leah", _npcLeahDialogues, LeahOption);
-                    if (npcLeah)
-                    {
-                        // 根据需要调整缩放或其他属性
-                        npcLeah->setScale(0.1f); // 增大NPC的缩放，使点击区域更大
+                    // 使用try-catch块创建Npc_Leah实例并添加到地图
+                    try {
+                        auto npcLeah = Npc::createWithPosition(npcPosition, "Leah", _npcLeahDialogues, LeahOption);
+                        if (!npcLeah)
+                            throw std::runtime_error("Failed to create Npc_Leah instance.");
+
+                        // 其他逻辑
+                        CCLOG("Npc_Leah created successfully.");
+                        npcLeah->setScale(0.1f);  // 设置NPC的缩放
                         _tiledMap->addChild(npcLeah, 25);
+                    }
+                    catch (const std::exception& e) {
+                        CCLOG("Exception: %s", e.what());
+                        Director::getInstance()->end();  // 结束游戏
                     }
                 }
             }

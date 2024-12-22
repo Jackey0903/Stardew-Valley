@@ -228,7 +228,7 @@ void Map2Scene::plantCropAt(const Vec2& locationInMap)
     }
 
     // 创建肥料精灵并添加到玩家精灵
-    auto fertilizerSprite = Sprite::create("Feiliao_1.png");
+    auto fertilizerSprite = Sprite::create("Tools/Feiliao_1.png");
     fertilizerSprite->setScale(0.6f);
     fertilizerSprite->setAnchorPoint(Vec2(0.5f, 0.5f));
     _player->getPlayerSprite()->addChild(fertilizerSprite, 40);
@@ -236,8 +236,8 @@ void Map2Scene::plantCropAt(const Vec2& locationInMap)
 
     // 创建动画帧并播放动画
     Vector<SpriteFrame*> frames;
-    frames.pushBack(SpriteFrame::create("Feiliao_1.png", Rect(0, 0, fertilizerSprite->getContentSize().width, fertilizerSprite->getContentSize().height)));
-    frames.pushBack(SpriteFrame::create("Feiliao_2.png", Rect(0, 0, fertilizerSprite->getContentSize().width, fertilizerSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Feiliao_1.png", Rect(0, 0, fertilizerSprite->getContentSize().width, fertilizerSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Feiliao_2.png", Rect(0, 0, fertilizerSprite->getContentSize().width, fertilizerSprite->getContentSize().height)));
     auto animation = Animation::createWithSpriteFrames(frames, 0.2f);
     auto animate = Animate::create(animation);
     auto finish = CallFunc::create([fertilizerSprite]() {
@@ -275,7 +275,7 @@ void Map2Scene::harvestCropAt(const Vec2& locationInMap)
     }
 
     // 创建斧子精灵并添加到玩家精灵
-    auto hoeSprite = Sprite::create("Hoe_1.png");
+    auto hoeSprite = Sprite::create("Tools/Hoe_1.png");
     hoeSprite->setScale(0.8f);
     hoeSprite->setAnchorPoint(Vec2(0.5f, 0.5f));
     _player->getPlayerSprite()->addChild(hoeSprite, 40);
@@ -283,8 +283,8 @@ void Map2Scene::harvestCropAt(const Vec2& locationInMap)
 
     // 创建动画帧并播放动画
     Vector<SpriteFrame*> frames;
-    frames.pushBack(SpriteFrame::create("Hoe_1.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
-    frames.pushBack(SpriteFrame::create("Hoe_2.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Hoe_1.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Hoe_2.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
     auto animation = Animation::createWithSpriteFrames(frames, 0.2f);
     auto animate = Animate::create(animation);
     auto finish = CallFunc::create([hoeSprite]() {
@@ -320,7 +320,7 @@ void Map2Scene::plantTreeAt(const Vec2& locationInMap)
     }
 
     // 创建树苗精灵并添加到玩家精灵
-    auto kettleSprite = Sprite::create("Shuihu_1.png");
+    auto kettleSprite = Sprite::create("Tools/Shuihu_1.png");
     kettleSprite->setScale(0.8f);
     kettleSprite->setAnchorPoint(Vec2(0.5f, 0.5f));
     _player->getPlayerSprite()->addChild(kettleSprite, 40);
@@ -328,8 +328,8 @@ void Map2Scene::plantTreeAt(const Vec2& locationInMap)
 
     // 创建动画帧并播放动画
     Vector<SpriteFrame*> frames;
-    frames.pushBack(SpriteFrame::create("Shuihu_1.png", Rect(0, 0, kettleSprite->getContentSize().width, kettleSprite->getContentSize().height)));
-    frames.pushBack(SpriteFrame::create("Shuihu_2.png", Rect(0, 0, kettleSprite->getContentSize().width, kettleSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Shuihu_1.png", Rect(0, 0, kettleSprite->getContentSize().width, kettleSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Shuihu_2.png", Rect(0, 0, kettleSprite->getContentSize().width, kettleSprite->getContentSize().height)));
     auto animation = Animation::createWithSpriteFrames(frames, 0.2f);
     auto animate = Animate::create(animation);
     auto finish = CallFunc::create([kettleSprite]() {
@@ -339,7 +339,7 @@ void Map2Scene::plantTreeAt(const Vec2& locationInMap)
 
     // 创建并添加树精灵
     std::vector<std::string> treeImages = {
-        "Tree_1.png","Tree_2.png","Tree_3.png","Tree_4.png"
+        "Trees/Tree_1.png","Trees/Tree_2.png","Trees/Tree_3.png","Trees/Tree_4.png"
     };
 
     static int treeIndex = 0;  // 静态变量，记录当前树索引
@@ -365,7 +365,7 @@ void Map2Scene::fellTreeAt(const Vec2& locationInMap)
     }
 
     // 创建斧子精灵并添加到玩家精灵
-    auto chopSprite = Sprite::create("chop1.png");
+    auto chopSprite = Sprite::create("Tools/Chop_1.png");
     chopSprite->setScale(5.0f);
     chopSprite->setAnchorPoint(Vec2(0.5f, 0.5f));
     _player->getPlayerSprite()->addChild(chopSprite, 40);
@@ -373,8 +373,8 @@ void Map2Scene::fellTreeAt(const Vec2& locationInMap)
 
     // 创建动画帧并播放动画
     Vector<SpriteFrame*> frames;
-    frames.pushBack(SpriteFrame::create("chop1.png", Rect(0, 0, chopSprite->getContentSize().width, chopSprite->getContentSize().height)));
-    frames.pushBack(SpriteFrame::create("chop2.png", Rect(0, 0, chopSprite->getContentSize().width, chopSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Chop_1.png", Rect(0, 0, chopSprite->getContentSize().width, chopSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Chop_2.png", Rect(0, 0, chopSprite->getContentSize().width, chopSprite->getContentSize().height)));
     auto animation = Animation::createWithSpriteFrames(frames, 0.2f);
     auto animate = Animate::create(animation);
     auto finish = CallFunc::create([chopSprite]() {

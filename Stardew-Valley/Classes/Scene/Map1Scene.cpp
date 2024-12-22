@@ -50,7 +50,7 @@ void Map1Scene::addManualMines()
     // 遍历矿石位置并创建矿石实例
     for (const auto& pos : minePositions)
     {
-        std::vector<std::string> a = { "Mine_1.png", "Mine_2.png", "Mine_3.png" };
+        std::vector<std::string> a = { "Mine/Mine_1.png", "Mine/Mine_2.png", "Mine/Mine_3.png" };
         auto mine = Mine::createWithPosition(pos, a[random() % a.size()]);
         if (mine)
         {
@@ -169,7 +169,7 @@ void Map1Scene::collectStoneAt(const Vec2& locationInMap)
 {
     Vec2 playerPositionInMap = _tiledMap->convertToNodeSpace(_player->getPosition());
 
-    auto hoeSprite = Sprite::create("Hoe_1.png");
+    auto hoeSprite = Sprite::create("Tools/Hoe_1.png");
     hoeSprite->setScale(1.0f);
     hoeSprite->setAnchorPoint(Vec2(0.5f, 0.5f));
 
@@ -179,8 +179,8 @@ void Map1Scene::collectStoneAt(const Vec2& locationInMap)
 
     // 创建动画帧
     Vector<SpriteFrame*> frames;
-    frames.pushBack(SpriteFrame::create("Hoe_1.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
-    frames.pushBack(SpriteFrame::create("Hoe_2.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Hoe_1.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
+    frames.pushBack(SpriteFrame::create("Tools/Hoe_2.png", Rect(0, 0, hoeSprite->getContentSize().width, hoeSprite->getContentSize().height)));
     auto animation = Animation::createWithSpriteFrames(frames, 0.2f);
     auto animate = Animate::create(animation);
 

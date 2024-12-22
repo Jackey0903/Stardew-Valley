@@ -9,17 +9,6 @@
 
 #include "Item.h"
 
- // 构造函数
-Item::Item(const std::string& name, const std::string& imagePath, int quantity)
-    : _name(name), _imagePath(imagePath), _quantity(quantity)
-{
-}
-
-// 析构函数
-Item::~Item()
-{
-}
-
 // 获取物品名称
 std::string Item::getName() const
 {
@@ -42,4 +31,13 @@ int Item::getQuantity() const
 void Item::setQuantity(int quantity)
 {
     _quantity = quantity;
+}
+
+// 重载输出流操作符的实现
+std::ostream& operator<<(std::ostream& os, const Item& item)
+{
+    os << "Item(Name: " << item.getName()
+        << ", ImagePath: " << item.getImagePath()
+        << ", Quantity: " << item.getQuantity() << ")";
+    return os;
 }

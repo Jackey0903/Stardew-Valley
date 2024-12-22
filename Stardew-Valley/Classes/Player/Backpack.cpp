@@ -15,7 +15,7 @@ USING_NS_CC;
 // 背包构造函数
 Backpack::Backpack() {
     // 初始化背包，添加一个剑
-    Item* sword = new Item("Sword", "sword.png", 1);
+    Item* sword = new Item("Sword", "Bag/sword.png", 1);
     addItem(sword);
 }
 

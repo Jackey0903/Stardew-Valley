@@ -41,21 +41,19 @@ bool Player::init()
 
     // 初始化背包并添加初始物品
     _backpack = new Backpack();
-    _backpack->addItem(new Item("Potion", "potion.png", 10));
-    _backpack->addItem(new Item("Sword", "sword.png", 1));
-    _backpack->addItem(new Item("Shield", "shield.png", 1));
+    _backpack->addItem(new Item("Sword", "Bag/sword.png", 1));
 
     // 加载行走动画的帧
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Left.plist");
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Right.plist");
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Up.plist");
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Walk_Down.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Action/Walk_Left.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Action/Walk_Right.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Action/Walk_Up.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Action/Walk_Down.plist");
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     // 创建玩家精灵并设置初始位置
-    _playerSprite = Sprite::create("Stand_Down.png");
+    _playerSprite = Sprite::create("Action/Stand_Down.png");
     _playerSprite->setScale(0.5f);  // 设置精灵缩放比例
 
     // 根据选择的地图调整玩家的位置
@@ -85,7 +83,7 @@ bool Player::init()
     _isInBackpackScene = false;
     _isInMapScene = false;
     _currentDirection = "Down";
-    _currentTexture = "Stand_Down.png";
+    _currentTexture = "Action/Stand_Down.png";
     _tiledMap = nullptr;
     initPositionMap = Vec2(0, 0);  // 初始化地图初始位置
 
@@ -133,7 +131,6 @@ void Player::update(float delta)
     );
 
     Vec2 newLoc = loc;
-    speed = 200.0f;  // 设置玩家移动速度
     if (_isMovingLeft) newLoc.x -= speed * delta;
     if (_isMovingRight) newLoc.x += speed * delta;
     if (_isMovingUp) newLoc.y += speed * delta;
@@ -239,7 +236,7 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
         case EventKeyboard::KeyCode::KEY_A:
             if (!_isMovingLeft) {
                 _isMovingLeft = true;
-                _currentTexture = "Stand_Left.png";
+                _currentTexture = "Action/Stand_Left.png";
                 _playerSprite->setTexture(_currentTexture);
                 _currentDirection = "Left";
                 startWalkingAnimation(_currentDirection);  // C++11特性：参数绑定
@@ -248,7 +245,7 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
         case EventKeyboard::KeyCode::KEY_D:
             if (!_isMovingRight) {
                 _isMovingRight = true;
-                _currentTexture = "Stand_Right.png";
+                _currentTexture = "Action/Stand_Right.png";
                 _playerSprite->setTexture(_currentTexture);
                 _currentDirection = "Right";
                 startWalkingAnimation(_currentDirection);
@@ -257,7 +254,7 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
         case EventKeyboard::KeyCode::KEY_W:
             if (!_isMovingUp) {
                 _isMovingUp = true;
-                _currentTexture = "Stand_Up.png";
+                _currentTexture = "Action/Stand_Up.png";
                 _playerSprite->setTexture(_currentTexture);
                 _currentDirection = "Up";
                 startWalkingAnimation(_currentDirection);
@@ -266,7 +263,7 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
         case EventKeyboard::KeyCode::KEY_S:
             if (!_isMovingDown) {
                 _isMovingDown = true;
-                _currentTexture = "Stand_Down.png";
+                _currentTexture = "Action/Stand_Down.png";
                 _playerSprite->setTexture(_currentTexture);
                 _currentDirection = "Down";
                 startWalkingAnimation(_currentDirection);
@@ -329,7 +326,7 @@ void Player::startWalkingAnimation(const std::string& direction)
     Vector<SpriteFrame*> frames;
     for (int i = 1; i <= 2; i++)
     {
-        std::string frameName = "Walk_" + direction + "_" + std::to_string(i) + ".png";  // C++11特性：std::to_string
+        std::string frameName = "Action/Walk_" + direction + "_" + std::to_string(i) + ".png";  // C++11特性：std::to_string
         auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(frameName);
         if (frame) frames.pushBack(frame); 
     }
@@ -343,7 +340,7 @@ void Player::stopWalkingAnimation()
 {
     _playerSprite->stopAllActions();  // 停止所有动作
     if (!_currentDirection.empty())
-        _playerSprite->setTexture("Stand_" + _currentDirection + ".png");  // 设置站立动画
+        _playerSprite->setTexture("Action/Stand_" + _currentDirection + ".png");  // 设置站立动画
 }
 
 // 打开背包场景

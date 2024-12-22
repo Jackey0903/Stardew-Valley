@@ -32,19 +32,19 @@ bool BackpackScene::init() {
     _backpack = new Backpack();  // 初始化背包对象
 
     // 向背包中添加物品
-    _backpack->addItem(new Item("斧子", "Axe.png", 1));
-    _backpack->addItem(new Item("锄头", "Hoe.png", 1));
-    _backpack->addItem(new Item("镐子", "Pickaxe.png", 1));
-    _backpack->addItem(new Item("鱼竿", "Fishrod.png", 1));
-    _backpack->addItem(new Item("烟花", "Fireworks.png", 1));
-    _backpack->addItem(new Item("花朵", "Flower.png", 1));
-    _backpack->addItem(new Item("草", "Grass.png", 1));
-    _backpack->addItem(new Item("棍子", "Stick.png", 1));
-    _backpack->addItem(new Item("石头", "Stone.png", 1));
-    _backpack->addItem(new Item("木头", "Wood.png", 1));
+    _backpack->addItem(new Item("斧子", "Bag/Axe.png", 1));
+    _backpack->addItem(new Item("锄头", "Bag/Hoe.png", 1));
+    _backpack->addItem(new Item("镐子", "Bag/Pickaxe.png", 1));
+    _backpack->addItem(new Item("鱼竿", "Bag/Fishrod.png", 1));
+    _backpack->addItem(new Item("烟花", "Bag/Fireworks.png", 1));
+    _backpack->addItem(new Item("花朵", "Bag/Flower.png", 1));
+    _backpack->addItem(new Item("草", "Bag/Grass.png", 1));
+    _backpack->addItem(new Item("棍子", "Bag/Stick.png", 1));
+    _backpack->addItem(new Item("石头", "Bag/Stone.png", 1));
+    _backpack->addItem(new Item("木头", "Bag/Wood.png", 1));
 
     // 加载并设置背景图
-    auto backgroundSprite = Sprite::create("background.png");  // C++11特性：使用智能指针（在Cocos2d中，资源管理通过智能指针）
+    auto backgroundSprite = Sprite::create("Icons/background.png");  // C++11特性：使用智能指针（在Cocos2d中，资源管理通过智能指针）
     auto visibleSize = Director::getInstance()->getVisibleSize(); // 获取可见区域大小
     backgroundSprite->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));  // 设置背景位置
     // 计算并设置背景缩放比例
@@ -54,12 +54,12 @@ bool BackpackScene::init() {
     this->addChild(backgroundSprite, 0);  // 添加到场景中，层级为0（背景层）
 
     // 创建玩家精灵并设置位置
-    _playerSprite = Sprite::create("Stand_Down.png");  // C++11特性：使用初始化列表
+    _playerSprite = Sprite::create("Action/Stand_Down.png");  // C++11特性：使用初始化列表
     _playerSprite->setPosition(Vec2(visibleSize.width * 0.75, visibleSize.height / 2));  // 设置精灵位置
     this->addChild(_playerSprite, 1);  // 添加玩家精灵到场景
 
     // 创建当前工具显示图标
-    _currentToolSprite = Sprite::create("sword.png");  // 默认工具图像
+    _currentToolSprite = Sprite::create("Bag/sword.png");  // 默认工具图像
     _currentToolSprite->setPosition(Vec2(135, 120));  // 设置位置
     _playerSprite->addChild(_currentToolSprite, 2);  // 将工具图标添加到玩家精灵下
 
@@ -130,9 +130,9 @@ void BackpackScene::createSkillTree() {
 
     // 创建移动速度滑动条
     _speedSlider = ui::Slider::create();
-    _speedSlider->loadBarTexture("SliderBar.png");  
-    _speedSlider->loadSlidBallTextures("Speed.png");  
-    _speedSlider->loadProgressBarTexture("StartupLoadingBar.png");  
+    _speedSlider->loadBarTexture("Icons/SliderBar.png");  
+    _speedSlider->loadSlidBallTextures("Icons/Speed.png");  
+    _speedSlider->loadProgressBarTexture("Icons/StartupLoadingBar.png");  
     _speedSlider->setPosition(Vec2(origin.x + visibleSize.width - 900, origin.y + 300));
     _speedSlider->setPercent(50);  // 设置默认百分比（对应速度为200）
     _speedSlider->addEventListener(CC_CALLBACK_2(BackpackScene::onSpeedSliderChanged, this));  // 事件监听
@@ -145,9 +145,9 @@ void BackpackScene::createSkillTree() {
 
     // 创建人物大小滑动条
     _sizeSlider = ui::Slider::create();
-    _sizeSlider->loadBarTexture("SliderBar.png"); 
-    _sizeSlider->loadSlidBallTextures("Size.png"); 
-    _sizeSlider->loadProgressBarTexture("StartupLoadingBar.png"); 
+    _sizeSlider->loadBarTexture("Icons/SliderBar.png"); 
+    _sizeSlider->loadSlidBallTextures("Icons/Size.png"); 
+    _sizeSlider->loadProgressBarTexture("Icons/StartupLoadingBar.png"); 
     _sizeSlider->setPosition(Vec2(origin.x + visibleSize.width - 900, origin.y + 100));
     _sizeSlider->setPercent(50);  // 设置默认百分比（对应人物大小1.0）
     _sizeSlider->addEventListener(CC_CALLBACK_2(BackpackScene::onSizeSliderChanged, this));  // 事件监听

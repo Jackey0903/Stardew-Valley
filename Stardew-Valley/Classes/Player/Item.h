@@ -10,35 +10,51 @@
 #ifndef __ITEM_H__
 #define __ITEM_H__
 
-#include <string>  
+#include <string>
+#include <iostream>
 
-class Item
-{
+class Item {
 public:
-    // 构造函数，初始化物品的名称、图片路径和数量
-    Item(const std::string& name, const std::string& imagePath, int quantity);
+    Item(const std::string& name, const std::string& imagePath, int quantity)
+        : _name(name), _imagePath(imagePath), _quantity(quantity) {
+    }
 
-    // 析构函数
-    ~Item();
-
-    // 获取物品名称
     std::string getName() const;
-
-    // 获取物品的图片路径
     std::string getImagePath() const;
-
-    // 获取物品的数量
     int getQuantity() const;
 
-    // 设置物品的数量
     void setQuantity(int quantity);
+
+    // 模板成员函数用于打印属性
+    template <typename T>
+    void printAttribute(const std::string& attributeName, const T& value) const {
+        std::cout << "Attribute [" << attributeName << "] = " << value << std::endl;
+    }
+
+    // 嵌套的模板类
+    template <typename T>
+    class Tag {
+    public:
+        Tag(const std::string& key, const T& value)
+            : _key(key), _value(value) {
+        }
+
+        void display() const {
+            std::cout << "Tag [" << _key << "] = " << _value << std::endl;
+        }
+
+    private:
+        std::string _key;
+        T _value;
+    };
+
+    // 重载输出流操作符
+    friend std::ostream& operator<<(std::ostream& os, const Item& item);
 
 private:
     std::string _name;
-
     std::string _imagePath;
-
     int _quantity;
 };
 
-#endif // __ITEM_H__
+#endif  // __ITEM_H__
