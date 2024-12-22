@@ -2,8 +2,8 @@
  * 项目名        : Stardew-Valley
  * 文件名        : BackpackScene.h
  * 文件功能      : 背包场景的功能实现
- * 作者          : 胡浩杰
- * 更新日期      : 2024/12/21
+ * 作者          : 胡浩杰，曹津硕
+ * 更新日期      : 2024/12/22
  * 许可证        : MIT License
  ****************************************************************/
 
@@ -16,6 +16,8 @@
 
  // 背包场景类，继承自cocos2d::Scene
 class BackpackScene : public cocos2d::Scene {
+private:
+    cocos2d::ui::Button* _btnBack;
 public:
     // 创建并返回背包场景
     static cocos2d::Scene* createScene();

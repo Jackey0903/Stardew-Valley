@@ -3,7 +3,7 @@
  * 文件名        : MapLayer.cpp
  * 文件功能      : 地图层类实现
  * 作者          : 胡浩杰、曹津硕
- * 更新日期      : 2024/12/07
+ * 更新日期      : 2024/12/22
  * 许可证        : MIT License
  ****************************************************************/
 
@@ -93,7 +93,7 @@ void MapLayer::loadMap(const std::string& mapFile, float scaleFactor)
                     Vec2(wallRect.origin.x + wallRect.size.width, wallRect.origin.y + wallRect.size.height),
                     Vec2(wallRect.origin.x, wallRect.origin.y + wallRect.size.height)
                 };
-                collisionDrawNode->drawPolygon(vertices, 4, Color4F(0, 0, 0, 0), 1, Color4F(1, 0, 0, 1));
+                //collisionDrawNode->drawPolygon(vertices, 4, Color4F(0, 0, 0, 0), 1, Color4F(1, 0, 0, 1));
 
                 CCLOG(u8"收集墙体矩形: (%.2f, %.2f, %.2f, %.2f)", wallRect.origin.x, wallRect.origin.y, wallRect.size.width, wallRect.size.height);
             }

@@ -14,6 +14,7 @@
 #include "BackpackScene.h"
 #include "Object/Animal.h"
 #include "Object/Npc.h"
+#include "proj.win32/AudioPlayer.h"
 
 USING_NS_CC;
 
@@ -32,7 +33,7 @@ bool Map2Scene::init()
     initPlayer();
 
     // 定义动物出现区域
-    cocos2d::Rect animalArea(1000, 1000, 300, 300);
+    cocos2d::Rect animalArea(600, 1100, 500, 300);
 
     // 创建并添加动物到地图
     auto cow1 = Animal::create(animalArea, "Cow");  // C++11特性：使用auto自动推断类型
@@ -41,11 +42,20 @@ bool Map2Scene::init()
     auto cow2 = Animal::create(animalArea, "Cow");
     _tiledMap->addChild(cow2, 20);
 
-    auto sheep = Animal::create(animalArea, "Sheep");
-    _tiledMap->addChild(sheep, 20);
+    auto cow3 = Animal::create(animalArea, "Cow");
+    _tiledMap->addChild(cow3, 20);
 
-    auto pig = Animal::create(animalArea, "Pig");
-    _tiledMap->addChild(pig, 20);
+    auto sheep1 = Animal::create(animalArea, "Sheep");
+    _tiledMap->addChild(sheep1, 20);
+
+    auto sheep2 = Animal::create(animalArea, "Sheep");
+    _tiledMap->addChild(sheep2, 20);
+
+    auto pig1 = Animal::create(animalArea, "Pig");
+    _tiledMap->addChild(pig1, 20);
+
+    auto pig2 = Animal::create(animalArea, "Pig");
+    _tiledMap->addChild(pig2, 20);
 
     // 初始化种植模式标志
     _isPlanting = false;
@@ -53,9 +63,22 @@ bool Map2Scene::init()
 
     // 初始化事件监听器（键盘、鼠标）
     initEventListeners();
+    // 创建状态按钮
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    // 创建状态按钮
+    _btnState = cocos2d::ui::Button::create(_stateButtonImages[static_cast<int>(State::OFF)]); // 默认状态为OFF
+    _btnState->setPosition(Vec2(origin.x + visibleSize.width - 100, origin.y + 100)); // 根据需求调整位置
+    _btnState->setScale(0.2f); // 设置缩放比例
+    _btnState->setOpacity(100); // 半透明
+    this->addChild(_btnState);
+
+    // 设置状态按钮触摸事件
+    _btnState->addTouchEventListener(CC_CALLBACK_2(Map2Scene::onStateButtonTouched, this));
     this->scheduleUpdate();  // 使用C++11的调度函数，每帧更新
 
+    audioPlayer("../Resources/Music/Map2.mp3", true);
     return true;
 }
 
@@ -144,7 +167,126 @@ void Map2Scene::initEventListeners()
     auto mouseListener = EventListenerMouse::create();
     mouseListener->onMouseDown = CC_CALLBACK_1(Map2Scene::onMouseDown, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+
+    // 初始化触摸事件监听器
+    auto touchListener = EventListenerTouchOneByOne::create();
+    touchListener->setSwallowTouches(true);
+
+    // 触摸开始事件
+    touchListener->onTouchBegan = [&](cocos2d::Touch* touch, cocos2d::Event* event) -> bool {
+        return true; // 需要返回true才能接收后续事件
+        };
+
+    // 触摸结束事件
+    touchListener->onTouchEnded = [&](cocos2d::Touch* touch, cocos2d::Event* event) {
+        Vec2 locationInView = touch->getLocation();
+        Vec2 locationInMap = _tiledMap->convertToNodeSpace(locationInView);  // 将视图坐标转换为地图坐标
+
+        switch (_currentState)
+        {
+        case State::PLANT_TREE:
+            plantTreeAt(locationInMap);
+            break;
+        case State::CHOP_TREE:
+            fellTreeAt(locationInMap);
+            break;
+        case State::PLANT_CROP:
+            plantCropAt(locationInMap);
+            break;
+        case State::HARVEST_CROP:
+            harvestCropAt(locationInMap);
+            break;
+        case State::OFF:
+        default:
+            // 未处于任何操作模式，不执行任何操作
+            break;
+        }
+        };
+
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
+
+
+void Map2Scene::onStateButtonTouched(cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType type) 
+{ 
+    if (type == cocos2d::ui::Widget::TouchEventType::ENDED) { switchState(); } 
+}
+void Map2Scene::switchState() { // 切换到下一个状态
+    _currentState = static_cast<State>((static_cast<int>(_currentState) + 1) % static_cast<int>(State::TOTAL_STATES));
+    // 更新按钮图标
+    _btnState->loadTextures(_stateButtonImages[static_cast<int>(_currentState)],
+        _stateButtonImages[static_cast<int>(_currentState)],
+        _stateButtonImages[static_cast<int>(_currentState)]);
+
+    // 更新状态标志
+    updateStateFlags();
+
+    // 打印当前状态
+    switch (_currentState)
+    {
+    case State::OFF:
+        CCLOG("状态: 关闭");
+        break;
+    case State::CHOP_TREE:
+        CCLOG("状态: 砍树");
+        break;
+    case State::PLANT_TREE:
+        CCLOG("状态: 种树");
+        break;
+    case State::PLANT_CROP:
+        CCLOG("状态: 种植");
+        break;
+    case State::HARVEST_CROP:
+        CCLOG("状态: 收割");
+        break;
+    default:
+        break;
+    }
+}
+void Map2Scene::updateStateFlags() { // 重置所有状态标志 
+    _isPlanting = false; 
+    _isPlantingTree = false; // 如果需要添加更多标志，例如砍树、收割，可以在此处重置
+    // 根据当前状态设置标志
+    switch (_currentState)
+    {
+    case State::PLANT_TREE:
+        _isPlantingTree = true;
+        break;
+    case State::CHOP_TREE:
+        // 可以添加相关的标志，例如 _isChoppingTree = true;
+        break;
+    case State::PLANT_CROP:
+        _isPlanting = true;
+        break;
+    case State::HARVEST_CROP:
+        // 可以添加相关的标志，例如 _isHarvesting = true;
+        break;
+    case State::OFF:
+    default:
+        // 关闭所有模式
+        break;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void Map2Scene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
@@ -245,6 +387,10 @@ void Map2Scene::plantCropAt(const Vec2& locationInMap)
         });
     fertilizerSprite->runAction(Sequence::create(animate, finish, nullptr));
 
+    audioPlayer("../Resources/Music/seed.mp3", false);
+
+
+
     // 创建并添加作物精灵
     std::vector<std::string> cropImages = {
         "Plants/Carrot_1.png","Plants/Carrot_2.png","Plants/Carrot_3.png",
@@ -292,6 +438,9 @@ void Map2Scene::harvestCropAt(const Vec2& locationInMap)
         });
     hoeSprite->runAction(Sequence::create(animate, finish, nullptr));
 
+    audioPlayer("../Resources/Music/harvest.mp3", false);
+
+
     // 检查并移除被收割的作物
     for (auto it = _crops.begin(); it != _crops.end(); ++it)
     {
@@ -337,6 +486,10 @@ void Map2Scene::plantTreeAt(const Vec2& locationInMap)
         });
     kettleSprite->runAction(Sequence::create(animate, finish, nullptr));
 
+	// 播放种树音效
+    audioPlayer("../Resources/Music/plant.mp3", false);
+
+
     // 创建并添加树精灵
     std::vector<std::string> treeImages = {
         "Trees/Tree_1.png","Trees/Tree_2.png","Trees/Tree_3.png","Trees/Tree_4.png"
@@ -381,6 +534,10 @@ void Map2Scene::fellTreeAt(const Vec2& locationInMap)
         chopSprite->removeFromParent();  // 动画结束时移除斧子
         });
     chopSprite->runAction(Sequence::create(animate, finish, nullptr));
+    audioPlayer("../Resources/Music/axe.mp3", false);
+    audioPlayer("../Resources/Music/treedown1.mp3", false);
+    audioPlayer("../Resources/Music/treedown2.mp3", false);
+
 
     // 检查并移除被砍伐的树
     for (auto it = _trees.begin(); it != _trees.end(); ++it)

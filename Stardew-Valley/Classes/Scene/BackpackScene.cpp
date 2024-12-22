@@ -2,16 +2,18 @@
  * 项目名        : Stardew-Valley
  * 文件名        : BackpackScene.cpp
  * 文件功能      : 背包场景的功能实现
- * 作者          : 胡浩杰
- * 更新日期      : 2024/12/21
+ * 作者          : 胡浩杰，曹津硕
+ * 更新日期      : 2024/12/22
  * 许可证        : MIT License
  ****************************************************************/
 
 #include "BackpackScene.h"
+#include "proj.win32/Constant.h"
 #include "ui/CocosGUI.h" // 引入UI模块
 USING_NS_CC;
 
 extern float speed;  // 外部变量，用于表示移动速度
+extern float size;   //外部变量，用于表示人物大小
 
 // 创建并返回背包场景
 Scene* BackpackScene::createScene() {
@@ -66,6 +68,26 @@ bool BackpackScene::init() {
     createMenu();  // 创建物品菜单
     createSkillTree();  // 创建技能树UI
 
+
+    // 按钮大小和透明度设置
+    Size buttonSize(80, 80);
+    float opacity = 100.0f; // 半透明
+
+    // 创建返回按钮
+    _btnBack = cocos2d::ui::Button::create("../Resources/KEYS/B.png"); // 确保有 "Icons/B.png" 资源
+    _btnBack->setPosition(Vec2(KEYS_BACKPACK_X, KEYS_BACKPACK_Y)); // 根据需求调整位置
+    _btnBack->setScale(0.2f); // 设置缩放比例
+    _btnBack->setOpacity(opacity); // 设置透明度
+    this->addChild(_btnBack);
+
+    // 设置返回按钮触摸事件
+    _btnBack->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {
+            CCLOG("点击了返回按钮");
+            Director::getInstance()->popScene();  // 返回上一场景
+        }
+        });
+
     return true; 
 }
 
@@ -86,24 +108,24 @@ void BackpackScene::createMenu() {
     // 创建物品菜单
     auto menu = Menu::create(); 
     const int cols = 5;  
-    const float padding = 10.0f; 
-    Size itemSize(100, 100); 
+    const float padding = ITEM_PADDING;
+    Size itemSize(90, 90);
 
     for (int i = 0; i < items.size(); ++i) {
         int row = i / cols; 
         int col = i % cols;
 
         // 计算物品在屏幕上的位置
-        float x = 100 + col * (itemSize.width + padding); 
+        float x = 100 + col * (itemSize.width + padding) + ITEM_OFFSET_X;
         auto visibleSize = Director::getInstance()->getVisibleSize();
-        float y = visibleSize.height - (row + 1) * (itemSize.height + padding); 
+        float y = visibleSize.height - (row + 1) * (itemSize.height + padding) + ITEM_OFFSET_Y;
 
         // 创建菜单项，物品图标
         auto menuItem = MenuItemImage::create(
             items[i]->getImagePath(),
             items[i]->getImagePath(),
             [this, items, i](Ref* sender) {  // C++11特性：使用lambda函数处理事件
-                CCLOG("点击了物品: %s", items[i]->getName().c_str());
+                CCLOG(u8"点击了物品: %s", items[i]->getName().c_str());
                 _selectedItem = items[i];  
                 updatePlayerWithItem();  // 更新玩家手持物品
             });
@@ -133,8 +155,8 @@ void BackpackScene::createSkillTree() {
     _speedSlider->loadBarTexture("Icons/SliderBar.png");  
     _speedSlider->loadSlidBallTextures("Icons/Speed.png");  
     _speedSlider->loadProgressBarTexture("Icons/StartupLoadingBar.png");  
-    _speedSlider->setPosition(Vec2(origin.x + visibleSize.width - 900, origin.y + 300));
-    _speedSlider->setPercent(50);  // 设置默认百分比（对应速度为200）
+    _speedSlider->setPosition(Vec2(origin.x + visibleSize.width - 900 + BAR_OFFSET_X, origin.y + 300 + SPEED_BAR_OFFSET_Y));
+    _speedSlider->setPercent((speed - 100) / 2);  // 设置默认百分比（对应速度为200）
     _speedSlider->addEventListener(CC_CALLBACK_2(BackpackScene::onSpeedSliderChanged, this));  // 事件监听
     this->addChild(_speedSlider, 40);
 
@@ -148,8 +170,8 @@ void BackpackScene::createSkillTree() {
     _sizeSlider->loadBarTexture("Icons/SliderBar.png"); 
     _sizeSlider->loadSlidBallTextures("Icons/Size.png"); 
     _sizeSlider->loadProgressBarTexture("Icons/StartupLoadingBar.png"); 
-    _sizeSlider->setPosition(Vec2(origin.x + visibleSize.width - 900, origin.y + 100));
-    _sizeSlider->setPercent(50);  // 设置默认百分比（对应人物大小1.0）
+    _sizeSlider->setPosition(Vec2(origin.x + visibleSize.width - 900 + BAR_OFFSET_X, origin.y + 100 + SIZE_BAR_OFFSET_Y));
+    _sizeSlider->setPercent((200.00 / 3.00) * size - (100.00 / 3.00));  // 设置默认百分比（对应人物大小1.0）
     _sizeSlider->addEventListener(CC_CALLBACK_2(BackpackScene::onSizeSliderChanged, this));  // 事件监听
     this->addChild(_sizeSlider, 40);
 }
@@ -169,7 +191,7 @@ void BackpackScene::onSizeSliderChanged(Ref* sender, ui::Slider::EventType type)
     if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
         float percent = _sizeSlider->getPercent();  // 获取滑动条百分比
         // 将百分比映射到0.5-2.0范围内
-        float size = 0.5f + (percent / 100.0f) * 1.5f;
+        size = 0.5f + (percent / 100.0f) * 1.5f;
         CCLOG("人物大小: %.2f", size);
         if (_playerSprite) {
             _playerSprite->setScale(size);  // 更新玩家精灵的大小

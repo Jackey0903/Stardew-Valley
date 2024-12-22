@@ -13,6 +13,7 @@
 #include "Object/Animal.h"
 #include "ui/CocosGUI.h"
 #include "Object/Npc.h"
+#include "proj.win32/AudioPlayer.h"
 USING_NS_CC;
 
 // 创建场景
@@ -33,8 +34,9 @@ bool Map3Scene::init()
     initPlayer(); // 初始化玩家
 
     // 定义动物出现的区域
-    cocos2d::Rect animalArea(50, 0, 100, 100);
-
+    Rect animalArea(280, 65, 100, 100);
+    // 播放背景音乐，循环播放
+    audioPlayer("../Resources/Music/Map3.mp3", true);
     // 使用auto关键字创建猫对象（C++11特性）
     auto cat = Animal::create(animalArea, "Cat");
     _tiledMap->addChild(cat, 20);

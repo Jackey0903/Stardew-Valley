@@ -14,6 +14,7 @@
 #include "Backpack.h"
 #include "Item.h"
 #include "ui/CocosGUI.h"
+#include "proj.win32/Constant.h"
 
 USING_NS_CC;
 
@@ -86,6 +87,8 @@ bool Player::init()
     _currentTexture = "Action/Stand_Down.png";
     _tiledMap = nullptr;
     initPositionMap = Vec2(0, 0);  // 初始化地图初始位置
+
+    initTouchControls();
 
     // 设置键盘事件监听器
     _keyboardListener = EventListenerKeyboard::create();  // C++11特性：创建事件监听器对象
@@ -204,7 +207,7 @@ bool Player::isCollidingWithWall(const Rect& rect)
         Vec2(rect.origin.x, rect.origin.y + rect.size.height)
     };
 
-    mapLayer->collisionDrawNode->drawPolygon(vertices, 4, Color4F(0, 0, 0, 0), 1, Color4F(1, 0, 0, 1));  // 绘制碰撞区域
+    //mapLayer->collisionDrawNode->drawPolygon(vertices, 4, Color4F(0, 0, 0, 0), 1, Color4F(1, 0, 0, 1));  // 绘制碰撞区域
     for (const auto& wRect : wallRects)
     {
         float x = wRect.origin.x - mapAnchor.x + mapPos.x;
@@ -218,7 +221,7 @@ bool Player::isCollidingWithWall(const Rect& rect)
             Vec2(RectinWindow.origin.x + RectinWindow.size.width, RectinWindow.origin.y + RectinWindow.size.height),
             Vec2(RectinWindow.origin.x, RectinWindow.origin.y + RectinWindow.size.height)
         };
-        mapLayer->collisionDrawNode->drawPolygon(vertices, 4, Color4F(0, 0, 0, 0), 1, Color4F(1, 0, 0, 1));
+        //mapLayer->collisionDrawNode->drawPolygon(vertices, 4, Color4F(0, 0, 0, 0), 1, Color4F(1, 0, 0, 1));
         if (rect.intersectsRect(RectinWindow))  // 检查碰撞
         {
             return true;
@@ -355,4 +358,156 @@ void Player::openMapScene()
 {
     auto mapScene = MapScene::createScene();
     Director::getInstance()->pushScene(TransitionFade::create(0.5f, mapScene));
+}
+
+
+
+
+// 安卓端控制按钮处理
+void Player::initTouchControls()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    // 按钮大小和透明度设置
+    Size buttonSize(80, 80);
+    float opacity = 100.0f; // 半透明
+
+    // 创建上按钮
+    _btnUp = cocos2d::ui::Button::create("../Resources/KEYS/U.png"); // 需要准备半透明的按钮图片
+    _btnUp->setPosition(Vec2(KEYS_CENTER_X, KEYS_CENTER_Y + KEYS_RADIUS));
+    _btnUp->setScale(0.2f);
+    _btnUp->setOpacity(opacity);
+    this->addChild(_btnUp);
+
+    // 创建下按钮
+    _btnDown = cocos2d::ui::Button::create("../Resources/KEYS/D.png");
+    _btnDown->setPosition(Vec2(KEYS_CENTER_X, KEYS_CENTER_Y - KEYS_RADIUS));
+    _btnDown->setScale(0.2f);
+    _btnDown->setOpacity(opacity);
+    this->addChild(_btnDown);
+
+    // 创建左按钮
+    _btnLeft = cocos2d::ui::Button::create("../Resources/KEYS/L.png");
+    _btnLeft->setPosition(Vec2(KEYS_CENTER_X - KEYS_RADIUS, KEYS_CENTER_Y));
+    _btnLeft->setScale(0.2f);
+    _btnLeft->setOpacity(opacity);
+    this->addChild(_btnLeft);
+
+    // 创建右按钮
+    _btnRight = cocos2d::ui::Button::create("../Resources/KEYS/R.png");
+    _btnRight->setPosition(Vec2(KEYS_CENTER_X + KEYS_RADIUS, KEYS_CENTER_Y));
+    _btnRight->setScale(0.2f);
+    _btnRight->setOpacity(opacity);
+    this->addChild(_btnRight);
+
+    // 创建背包按钮
+    _btnBackpack = cocos2d::ui::Button::create("../Resources/KEYS/B.png");
+    _btnBackpack->setPosition(Vec2(KEYS_BACKPACK_X, KEYS_BACKPACK_Y)); // 调整位置根据需求
+    _btnBackpack->setScale(0.2f);
+    _btnBackpack->setOpacity(opacity);
+    this->addChild(_btnBackpack);
+
+    // 创建地图按钮
+    _btnMap = cocos2d::ui::Button::create("../Resources/KEYS/M.png");
+    _btnMap->setPosition(Vec2(KEYS_MAP_X, KEYS_MAP_Y)); // 调整位置根据需求
+    _btnMap->setScale(0.2f);
+    _btnMap->setOpacity(opacity);
+    this->addChild(_btnMap);
+
+
+    // 设置触摸事件
+    auto touchListener = EventListenerTouchOneByOne::create();
+    touchListener->setSwallowTouches(true);
+
+    // 上按钮触摸事件
+    _btnUp->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            _isMovingUp = true;
+            _currentTexture = "Action/Stand_Up.png";
+            _playerSprite->setTexture(_currentTexture);
+            _currentDirection = "Up";
+            startWalkingAnimation(_currentDirection);
+        }
+        else if (type == cocos2d::ui::Widget::TouchEventType::ENDED ||
+            type == cocos2d::ui::Widget::TouchEventType::CANCELED) {
+            _isMovingUp = false;
+            if (!_isMovingLeft && !_isMovingRight && !_isMovingDown) {
+                _isMoving = false;
+                stopWalkingAnimation();
+            }
+        }
+        });
+
+    // 下按钮触摸事件
+    _btnDown->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            _isMovingDown = true;
+            _currentTexture = "Action/Stand_Down.png";
+            _playerSprite->setTexture(_currentTexture);
+            _currentDirection = "Down";
+            startWalkingAnimation(_currentDirection);
+        }
+        else if (type == cocos2d::ui::Widget::TouchEventType::ENDED ||
+            type == cocos2d::ui::Widget::TouchEventType::CANCELED) {
+            _isMovingDown = false;
+            if (!_isMovingLeft && !_isMovingRight && !_isMovingUp) {
+                _isMoving = false;
+                stopWalkingAnimation();
+            }
+        }
+        });
+
+    // 左按钮触摸事件
+    _btnLeft->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            _isMovingLeft = true;
+            _currentTexture = "Action/Stand_Left.png";
+            _playerSprite->setTexture(_currentTexture);
+            _currentDirection = "Left";
+            startWalkingAnimation(_currentDirection);
+        }
+        else if (type == cocos2d::ui::Widget::TouchEventType::ENDED ||
+            type == cocos2d::ui::Widget::TouchEventType::CANCELED) {
+            _isMovingLeft = false;
+            if (!_isMovingRight && !_isMovingUp && !_isMovingDown) {
+                _isMoving = false;
+                stopWalkingAnimation();
+            }
+        }
+        });
+
+    // 右按钮触摸事件
+    _btnRight->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            _isMovingRight = true;
+            _currentTexture = "Action/Stand_Right.png";
+            _playerSprite->setTexture(_currentTexture);
+            _currentDirection = "Right";
+            startWalkingAnimation(_currentDirection);
+        }
+        else if (type == cocos2d::ui::Widget::TouchEventType::ENDED ||
+            type == cocos2d::ui::Widget::TouchEventType::CANCELED) {
+            _isMovingRight = false;
+            if (!_isMovingLeft && !_isMovingUp && !_isMovingDown) {
+                _isMoving = false;
+                stopWalkingAnimation();
+            }
+        }
+        });
+    // 背包按钮触摸事件
+    _btnBackpack->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {
+            _isInBackpackScene = true;
+            openBackpack();  // 打开背包
+        }
+        });
+
+    // 地图按钮触摸事件
+    _btnMap->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {
+            _isInMapScene = true;
+            openMapScene();  // 打开地图场景
+        }
+        });
 }

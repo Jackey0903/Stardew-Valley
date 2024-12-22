@@ -18,6 +18,7 @@
  // Map1Scene 类继承自 BaseMapScene，实现了场景1的具体功能
 class Map1Scene : public BaseMapScene
 {
+
 public:
     // 创建并返回一个 Map1Scene 实例
     static cocos2d::Scene* createScene();
@@ -73,6 +74,25 @@ private:
 
     // NPC对话选项
     std::vector<std::string> DemiOption;
+
+    // 创建并处理采矿状态按钮
+    void onMiningButtonTouched(cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+    void switchMiningState();
+    void updateMiningStateFlags();
+private: // 采矿状态枚举 
+    enum class MiningState { OFF = 0, MINING, TOTAL_STATES };
+    // 当前采矿状态
+    MiningState _currentMiningState = MiningState::OFF;
+
+    // 采矿状态按钮
+    cocos2d::ui::Button* _btnMiningState;
+
+    // 按钮图片路径数组
+    std::vector<std::string> _miningButtonImages = {
+        "../Resources/KEYS/U_1.png", // OFF
+        "../Resources/KEYS/U_2.png"  // MINING
+    };
+
 };
 
 #endif  // __MAP1_SCENE_H__
