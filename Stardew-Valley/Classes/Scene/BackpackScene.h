@@ -16,6 +16,8 @@
 
  // 背包场景类，继承自cocos2d::Scene
 class BackpackScene : public cocos2d::Scene {
+private:
+    cocos2d::ui::Button* _btnBack;
 public:
     // 创建并返回背包场景
     static cocos2d::Scene* createScene();

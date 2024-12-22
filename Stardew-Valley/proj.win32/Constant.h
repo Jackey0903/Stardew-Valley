@@ -54,7 +54,14 @@ constexpr float ITEM_PADDING = 47.5f;									    // 物品间距
 constexpr float ITEM_OFFSET_X = 10.00f;									    // 物品X轴偏移量
 constexpr float ITEM_OFFSET_Y = 20.00f;									    // 物品Y轴偏移量
 
-
+//触摸键位置
+constexpr float KEYS_CENTER_X = 200.0f;
+constexpr float KEYS_CENTER_Y = 200.0f;
+constexpr float KEYS_RADIUS = 80.0f;
+constexpr float KEYS_BACKPACK_X = 1200.0f;
+constexpr float KEYS_BACKPACK_Y = 500.0f;
+constexpr float KEYS_MAP_X = 1200.0f;
+constexpr float KEYS_MAP_Y = 600.0f;
 
 
 

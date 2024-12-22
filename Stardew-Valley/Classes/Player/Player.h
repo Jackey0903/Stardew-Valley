@@ -11,11 +11,19 @@
 #define __PLAYER_H__
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 class Backpack;  // 前向声明背包类
 
 // 玩家类，继承自cocos2d的Node类
 class Player : public cocos2d::Node
 {
+private:
+    cocos2d::ui::Button* _btnUp;
+    cocos2d::ui::Button* _btnDown;
+    cocos2d::ui::Button* _btnLeft;
+    cocos2d::ui::Button* _btnRight;
+    cocos2d::ui::Button* _btnBackpack;
+    cocos2d::ui::Button* _btnMap;
 public:
     // 创建一个Player对象，返回一个Player指针
     static Player* create();
@@ -55,6 +63,8 @@ public:
 
     // 设置玩家在地图中的初始位置
     void setInitPositionMap(const cocos2d::Vec2& initMapPosition);
+
+    void initTouchControls();
 
 private:
     // 玩家是否正在移动

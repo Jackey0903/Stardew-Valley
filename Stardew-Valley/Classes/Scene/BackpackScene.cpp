@@ -68,6 +68,26 @@ bool BackpackScene::init() {
     createMenu();  // 创建物品菜单
     createSkillTree();  // 创建技能树UI
 
+
+    // 按钮大小和透明度设置
+    Size buttonSize(80, 80);
+    float opacity = 100.0f; // 半透明
+
+    // 创建返回按钮
+    _btnBack = cocos2d::ui::Button::create("../Resources/KEYS/B.png"); // 确保有 "Icons/B.png" 资源
+    _btnBack->setPosition(Vec2(KEYS_BACKPACK_X, KEYS_BACKPACK_Y)); // 根据需求调整位置
+    _btnBack->setScale(0.2f); // 设置缩放比例
+    _btnBack->setOpacity(opacity); // 设置透明度
+    this->addChild(_btnBack);
+
+    // 设置返回按钮触摸事件
+    _btnBack->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {
+            CCLOG("点击了返回按钮");
+            Director::getInstance()->popScene();  // 返回上一场景
+        }
+        });
+
     return true; 
 }
 

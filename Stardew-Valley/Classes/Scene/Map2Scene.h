@@ -16,6 +16,29 @@
  // Map2Scene 类继承自 BaseMapScene，实现了场景2的具体功能
 class Map2Scene : public BaseMapScene
 {
+private:
+    //按钮状态枚举 
+    enum class State { OFF = 0, PLANT_TREE, CHOP_TREE, PLANT_CROP, HARVEST_CROP, TOTAL_STATES };
+    // 当前状态
+    State _currentState = State::OFF;
+    // 状态按钮
+    cocos2d::ui::Button* _btnState;
+    // 按钮图片路径数组
+    std::vector<std::string> _stateButtonImages = {
+        "../Resources/KEYS/T_1.png",       // OFF
+        "../Resources/KEYS/T_2.png",     // PLANT_TREE
+        "../Resources/KEYS/T_3.png",     // CHOP_TREE
+        "../Resources/KEYS/P_2.png",     // PLANT_CROP
+        "../Resources/KEYS/P_3.png"      // HARVEST_CROP
+    };
+    // 状态按钮触摸事件处理
+    void onStateButtonTouched(cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+
+    // 切换状态函数
+    void switchState();
+
+    // 更新状态标志
+    void updateStateFlags();
 public:
     // 创建并返回一个 Map2Scene 实例
     static cocos2d::Scene* createScene();

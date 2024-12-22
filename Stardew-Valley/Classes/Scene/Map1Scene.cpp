@@ -13,6 +13,7 @@
 #include "MapLayer.h"             // 引入MapLayer类
 #include "Object/Mine.h"         // 引入Mine类
 #include "Object/Npc.h"          // 引入Npc类
+#include "proj.win32/AudioPlayer.h"
 USING_NS_CC;
 
 Scene* Map1Scene::createScene()
@@ -29,6 +30,26 @@ bool Map1Scene::init()
     loadMap("Map/Map1/map1.tmx", 5.0f);
     initPlayer();                // 初始化玩家
     _isCollectingStone = false;  // 初始化是否正在收集矿石
+
+    // 创建采矿状态按钮
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    // 创建采矿状态按钮，默认状态为OFF
+    _btnMiningState = cocos2d::ui::Button::create(_miningButtonImages[static_cast<int>(MiningState::OFF)]);
+    _btnMiningState->setPosition(Vec2(origin.x + visibleSize.width - 100, origin.y + 100)); // 根据需求调整位置
+    _btnMiningState->setScale(0.2f); // 设置缩放比例
+    _btnMiningState->setOpacity(100); // 半透明
+    this->addChild(_btnMiningState);
+
+    // 设置采矿状态按钮触摸事件
+    _btnMiningState->addTouchEventListener(CC_CALLBACK_2(Map1Scene::onMiningButtonTouched, this));
+
+    // 播放背景音乐，循环播放
+    audioPlayer("../Resources/Music/Map1.mp3", true);
+
+
+
 
     // 初始化事件监听器
     initEventListeners();
@@ -90,16 +111,16 @@ void Map1Scene::onEnter()
 
                     // 定义NPC对话内容
                     _npcDemiDialogues = {
-                        {"Hey,buddy!", ""},
-                        {"My name is Demi,and I am a miner.", ""},
-                        {"There are many minerals here that can be mined.", ""},
-                        {"Do you want to join me?", ""}
+                        {u8"Hey,buddy!", ""},
+                        {u8"My name is Demi,and I am a miner.", ""},
+                        {u8"There are many minerals here that can be mined.", ""},
+                        {u8"Do you want to join me?", ""}
                     };
 
                     DemiOption = {
-                        {"Great! I want to join you."},
-                        {"No,thank you.I plan to leave here."},
-                        {"Never mind,I’ll just mine it myself."}
+                        {u8"Great! I want to join you."},
+                        {u8"No,thank you.I plan to leave here."},
+                        {u8"Never mind,I’ll just mine it myself."}
                     };
 
                     // 创建 NPC 并添加到地图中
@@ -127,31 +148,91 @@ void Map1Scene::initEventListeners()
     keyboardListener->onKeyReleased = CC_CALLBACK_2(Map1Scene::onKeyReleased, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
-    // 初始化鼠标事件监听器
-    auto mouseListener = EventListenerMouse::create();
-    mouseListener->onMouseDown = CC_CALLBACK_1(Map1Scene::onMouseDown, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
-}
+    // 初始化鼠标和触摸事件监听器
+    auto touchListener = EventListenerTouchOneByOne::create();
+    touchListener->setSwallowTouches(true);
 
-void Map1Scene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
-{
-    if (keyCode == EventKeyboard::KeyCode::KEY_U)
+    // 触摸开始事件
+    touchListener->onTouchBegan = [](cocos2d::Touch* touch, cocos2d::Event* event) -> bool {
+        return true; // 接收触摸事件
+        };
+
+    // 触摸结束事件
+    touchListener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event) {
+        Vec2 locationInView = touch->getLocation();
+        Vec2 locationInMap = _tiledMap->convertToNodeSpace(locationInView);  // 将视图坐标转换为地图坐标
+
+        if (_currentMiningState == MiningState::MINING)
+        {
+            collectStoneAt(locationInMap);
+        }
+        };
+
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+
+
+
+}
+void Map1Scene::onMiningButtonTouched(cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType type) 
+{ 
+    if (type == cocos2d::ui::Widget::TouchEventType::ENDED) 
+    { switchMiningState(); }
+}
+void Map1Scene::switchMiningState() { // 切换到下一个状态 
+    _currentMiningState = static_cast<MiningState>( (static_cast<int>(_currentMiningState) + 1) % static_cast<int>(MiningState::TOTAL_STATES) );
+    // 更新按钮图标
+    _btnMiningState->loadTextures(
+        _miningButtonImages[static_cast<int>(_currentMiningState)],
+        _miningButtonImages[static_cast<int>(_currentMiningState)],
+        _miningButtonImages[static_cast<int>(_currentMiningState)]
+    );
+
+    // 更新状态标志
+    updateMiningStateFlags();
+
+    // 打印当前状态
+    switch (_currentMiningState)
     {
-        _isCollectingStone = true;  // 按U键开始收集矿石
+    case MiningState::OFF:
+        CCLOG("采矿状态: 关闭");
+        break;
+    case MiningState::MINING:
+        CCLOG("采矿状态: 采矿中");
+        break;
+    default:
+        break;
     }
 }
-
-void Map1Scene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
-{
-    if (keyCode == EventKeyboard::KeyCode::KEY_U)
-    {
-        _isCollectingStone = false; // 松开U键停止收集矿石
-    }
+void Map1Scene::updateMiningStateFlags()
+{   // 根据当前状态设置标志 
+    if (_currentMiningState == MiningState::MINING) { _isCollectingStone = true; } 
+    else { _isCollectingStone = false; } 
 }
 
-void Map1Scene::onMouseDown(Event* event)
-{
+void Map1Scene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_U) { // 设置为采矿状态 
+        if (_currentMiningState != MiningState::MINING) 
+        { _currentMiningState = MiningState::MINING;
+        _btnMiningState->loadTextures( _miningButtonImages[static_cast<int>(MiningState::MINING)], _miningButtonImages[static_cast<int>(MiningState::MINING)], _miningButtonImages[static_cast<int>(MiningState::MINING)] ); 
+        updateMiningStateFlags(); CCLOG("采矿状态: 采矿中"); 
+        } 
+    } 
+}
+
+void Map1Scene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_U) { // 设置为关闭状态 
+        if (_currentMiningState != MiningState::OFF) { 
+            _currentMiningState = MiningState::OFF; 
+            _btnMiningState->loadTextures( _miningButtonImages[static_cast<int>(MiningState::OFF)], _miningButtonImages[static_cast<int>(MiningState::OFF)], _miningButtonImages[static_cast<int>(MiningState::OFF)] ); 
+            updateMiningStateFlags(); CCLOG("采矿状态: 关闭"); 
+        } 
+    } 
+}
+
+
+void Map1Scene::onMouseDown(Event* event) {
     EventMouse* mouseEvent = dynamic_cast<EventMouse*>(event);
+    if (!mouseEvent) return;
     auto mouseButton = mouseEvent->getMouseButton();
     Vec2 locationInView(mouseEvent->getCursorX(), mouseEvent->getCursorY());
     auto locationInMap = _tiledMap->convertToNodeSpace(locationInView);  // 将视图坐标转换为地图坐标
@@ -160,7 +241,7 @@ void Map1Scene::onMouseDown(Event* event)
     {
         if (mouseButton == EventMouse::MouseButton::BUTTON_LEFT)
         {
-            collectStoneAt(locationInMap);  // 如果按下鼠标左键，则进行收集矿石
+            collectStoneAt(locationInMap);  // 进行收集矿石
         }
     }
 }
@@ -191,7 +272,7 @@ void Map1Scene::collectStoneAt(const Vec2& locationInMap)
 
     // 播放动画
     hoeSprite->runAction(Sequence::create(animate, finish, nullptr));
-
+	audioPlayer("../Resources/Music/mine.mp3", false);  // 播放采矿音效
     // 检查点击位置是否有矿石，若有则移除矿石
     for (auto it = _mines.begin(); it != _mines.end(); ++it)
     {
