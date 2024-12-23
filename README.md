@@ -24,7 +24,7 @@ Stardew-Valley
 
 |  姓名  |  学号   |                             分工                             | 贡献占比 |
 | :----: | :-----: | :----------------------------------------------------------: | :------: |
-| 曹津硕 | 2353127 | 项目任务分工<br/>代码审查<br/>除tmx地图外所有美术资源搜集与处理<br/>项目说明文档撰写<br/>音频引擎<br/>常量整理与命名<br/>`StartMenu` 类<br/>`Player` 类碰撞检测功能与行走功能<br/>`AudioPlayer` 类<br/>`SettingScene` 类<br/>`Animal` 类整合和完善<br/>`N`pc 类整合和完善<br/>`BackpackScene` 类重构并完善画面<br/>`Mapscene` 类重构并完善画面<br/> |   40%    |
+| 曹津硕 | 2353127 | 项目任务分工<br/>代码审查<br/>`Android`端触摸按键设计与逻辑调整，`Android`项目处理与打包<br/>除tmx地图外所有美术资源搜集与处理<br/>项目说明文档撰写<br/>音频引擎<br/>常量整理与命名<br/>`StartMenu` 类<br/>`Player` 类碰撞检测功能与行走功能<br/>`AudioPlayer` 类<br/>`SettingScene` 类<br/>`Animal` 类整合和完善<br/>`N`pc 类整合和完善<br/>`BackpackScene` 类重构并完善画面<br/>`Mapscene` 类重构并完善画面<br/> |   40%    |
 | 胡浩杰 | 2351493 | 项目框架搭建<br/>项目说明文档撰写<br/>项目答辩ppt制作<br/>代码美化与注释<br/>`Player` 类基本初始化和移动功能<br/>`Animal` 类基础功能实现<br/>`Npc` 类基础功能实现<br/>`Backpack` 类<br/>`I`tem 类<br/>`BackpackScene` 类<br/>`Mine` 类<br/>`MapScene` 类基础功能实现<br/>`BaseMapScene`类<br/>`MapLayer` 类<br/>`Map1Scene` 类<br/>`Map2Scene` 类<br/>`Map3Scene` 类<br/> |   40%    |
 | 胡正华 | 2353741 | 所有tmx地图绘制以及碰撞对象层的绘制<br/>项目答辩ppt制作<br/>`Player` 类的碰撞检测功能<br/>`MapLayer` 类的碰撞检测功能<br/> 任务委托的策划和人物对话内容设计<br/> |   20%    |
 
@@ -94,4 +94,4 @@ The code and materials contained in this repository are intended for personal le
 
 # 更新日期
 
-2024.12.21
+2024.12.22
