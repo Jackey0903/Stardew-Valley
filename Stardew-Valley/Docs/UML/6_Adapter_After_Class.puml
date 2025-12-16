@@ -1,0 +1,77 @@
+@startuml Adapter_After_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram After Refactoring - Adapter Pattern**
+
+package "Adapter Pattern" {
+    
+    interface IInputHandler <<interface>> {
+        + onMoveStart(direction : string) : void
+        + onMoveStop(direction : string) : void
+        + onAction(action : string) : void
+    }
+    
+    class KeyboardInputAdapter <<Adapter>> {
+        - _handler : IInputHandler*
+        - _listener : EventListenerKeyboard*
+        __
+        + KeyboardInputAdapter(handler : IInputHandler*)
+        + setupListener(node : Node*) : void
+        + removeListener() : void
+        __
+        - keyCodeToDirection(keyCode) : string
+        - keyCodeToAction(keyCode) : string
+    }
+    
+    class TouchInputAdapter <<Adapter>> {
+        - _handler : IInputHandler*
+        __
+        + TouchInputAdapter(handler : IInputHandler*)
+        + createButtons(parent, x, y, radius) : void
+        __
+        - setupDirectionButton(btn, direction) : void
+        - setupActionButton(btn, action) : void
+    }
+}
+
+class EventListenerKeyboard <<Adaptee>> {
+    + onKeyPressed : function
+    + onKeyReleased : function
+}
+
+class Button <<Adaptee>> {
+    + addTouchEventListener(callback) : void
+}
+
+class Player <<Client>> {
+    - _keyboardAdapter : KeyboardInputAdapter*
+    - _touchAdapter : TouchInputAdapter*
+    __
+    + init() : bool
+    + initInputAdapters() : void
+    + onMoveStart(direction) : void
+    + onMoveStop(direction) : void
+    + onAction(action) : void
+}
+
+IInputHandler <|.. Player : <<implements>>
+KeyboardInputAdapter --> IInputHandler : adapts to
+TouchInputAdapter --> IInputHandler : adapts to
+KeyboardInputAdapter --> EventListenerKeyboard : wraps
+TouchInputAdapter --> Button : wraps
+Player --> KeyboardInputAdapter : <<use>>
+Player --> TouchInputAdapter : <<use>>
+
+@enduml

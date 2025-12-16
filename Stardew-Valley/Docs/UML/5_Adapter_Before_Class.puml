@@ -1,0 +1,62 @@
+@startuml Adapter_Before_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram Before Refactoring - Input Handling System**
+
+class EventListenerKeyboard {
+    + onKeyPressed : function
+    + onKeyReleased : function
+    __
+    + create() : EventListenerKeyboard*
+}
+
+class Button {
+    __
+    + create(image : string) : Button*
+    + addTouchEventListener(callback : function) : void
+}
+
+class Player {
+    - _btnUp : Button*
+    - _btnDown : Button*
+    - _btnLeft : Button*
+    - _btnRight : Button*
+    - _btnBackpack : Button*
+    - _btnMap : Button*
+    - _keyboardListener : EventListenerKeyboard*
+    - _isMovingUp : bool
+    - _isMovingDown : bool
+    - _isMovingLeft : bool
+    - _isMovingRight : bool
+    __
+    + init() : bool
+    + initTouchControls() : void
+    + onKeyPressed(keyCode, event) : void
+    + onKeyReleased(keyCode, event) : void
+    + startWalkingAnimation(direction) : void
+}
+
+Player --> EventListenerKeyboard : <<create>>
+Player --> Button : <<create>> x6
+
+note right of Player
+  Problems:
+  - 6 Button members
+  - 1 KeyboardListener member
+  - ~400 lines duplicated code
+  - Violates Single Responsibility
+end note
+
+@enduml

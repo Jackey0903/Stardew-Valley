@@ -1,0 +1,71 @@
+@startuml Flyweight_Before_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontColor #333333
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+skinparam stereotypeIBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+skinparam note {
+    BackgroundColor #FFFFCC
+    BorderColor #999999
+}
+
+title **Class Diagram Before Refactoring - Animation Resource Management**
+
+class SpriteFrameCache <<Singleton>> {
+    - instance : SpriteFrameCache*
+    __
+    + getInstance() : SpriteFrameCache*
+    + addSpriteFramesWithFile(plist : string) : void
+    + getSpriteFrameByName(name : string) : SpriteFrame*
+}
+
+class Animation {
+    __
+    + createWithSpriteFrames(frames : Vector, delay : float) : Animation*
+}
+
+class Player {
+    - _playerSprite : Sprite*
+    - _currentDirection : string
+    __
+    + init() : bool
+    + startWalkingAnimation(direction : string) : void
+    + stopWalkingAnimation() : void
+}
+
+class Animal {
+    - _animalSprite : Sprite*
+    - animalName : string
+    __
+    + init(area : Rect) : bool
+    + loadAnimations() : void
+    + startWalkingAnimation(dir : Direction) : void
+}
+
+Player ..> SpriteFrameCache : <<use>>
+Player ..> Animation : <<create>>
+Animal ..> SpriteFrameCache : <<use>>
+Animal ..> Animation : <<create>>
+
+note bottom of Player
+  Problem: Creates new Animation
+  object on every move
+end note
+
+note bottom of Animal
+  Problem: Duplicates same
+  loading logic as Player
+end note
+
+@enduml

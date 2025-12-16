@@ -1,0 +1,78 @@
+@startuml Adapter_Extension
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontColor #333333
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+skinparam stereotypeIBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+skinparam note {
+    BackgroundColor #FFFFCC
+    BorderColor #999999
+}
+
+title **Extensibility Example - Adding Gamepad Support**
+
+interface IInputHandler <<interface>> {
+    + onMoveStart(direction : string) : void
+    + onMoveStop(direction : string) : void
+    + onAction(action : string) : void
+}
+
+class KeyboardInputAdapter <<Adapter>> {
+    - _handler : IInputHandler*
+    __
+    + setupListener(node : Node*) : void
+}
+
+class TouchInputAdapter <<Adapter>> {
+    - _handler : IInputHandler*
+    __
+    + createButtons(parent : Node*, ...) : void
+}
+
+class GamepadInputAdapter <<Adapter>> {
+    - _handler : IInputHandler*
+    - _gamepad : Gamepad*
+    __
+    + GamepadInputAdapter(handler : IInputHandler*)
+    + setupGamepad() : void
+    __
+    - onButtonPressed(button : int) : void
+    - onJoystickMoved(x : float, y : float) : void
+}
+
+class Player <<Client>> {
+    - _keyboardAdapter : KeyboardInputAdapter*
+    - _touchAdapter : TouchInputAdapter*
+    - _gamepadAdapter : GamepadInputAdapter*
+    __
+    + initInputAdapters() : void
+}
+
+IInputHandler <|.. Player : <<implements>>
+KeyboardInputAdapter --> IInputHandler : adapts to
+TouchInputAdapter --> IInputHandler : adapts to
+GamepadInputAdapter --> IInputHandler : adapts to
+
+Player --> KeyboardInputAdapter
+Player --> TouchInputAdapter
+Player --> GamepadInputAdapter
+
+note bottom of GamepadInputAdapter
+  New Adapter:
+  - Create new class only
+  - No modification to Player
+  - Follows Open-Closed Principle
+end note
+
+@enduml

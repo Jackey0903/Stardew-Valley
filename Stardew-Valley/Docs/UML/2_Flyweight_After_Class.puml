@@ -1,0 +1,75 @@
+@startuml Flyweight_After_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontColor #333333
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+skinparam stereotypeIBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram After Refactoring - Flyweight Pattern**
+
+package "Flyweight Pattern" {
+    
+    class AnimationFlyweight <<Singleton>> {
+        - {static} _instance : AnimationFlyweight*
+        - _animationPool : map<string, Animation*>
+        __
+        + {static} getInstance() : AnimationFlyweight*
+        + getAnimation(key : string) : Animation*
+        + hasAnimation(key : string) : bool
+        + preloadPlayerAnimations() : void
+        + preloadAnimalAnimations(name : string) : void
+        + clearAllAnimations() : void
+        + getCachedAnimationCount() : size_t
+        __
+        - createWalkAnimation(prefix : string, count : int, interval : float) : Animation*
+    }
+    
+    class Animation <<Flyweight>> {
+        __
+        + createWithSpriteFrames(frames : Vector, delay : float) : Animation*
+        + retain() : void
+    }
+}
+
+class SpriteFrameCache <<Singleton>> {
+    __
+    + getInstance() : SpriteFrameCache*
+    + addSpriteFramesWithFile(plist : string) : void
+    + getSpriteFrameByName(name : string) : SpriteFrame*
+}
+
+class Player <<Client>> {
+    - _playerSprite : Sprite*
+    - _currentDirection : string
+    __
+    + init() : bool
+    + startWalkingAnimation(direction : string) : void
+    + stopWalkingAnimation() : void
+}
+
+class Animal <<Client>> {
+    - _animalSprite : Sprite*
+    - animalName : string
+    __
+    + init(area : Rect) : bool
+    + loadAnimations() : void
+    + startWalkingAnimation(dir : Direction) : void
+}
+
+AnimationFlyweight --> SpriteFrameCache : <<use>>
+AnimationFlyweight "1" *-- "*" Animation : manages
+
+Player --> AnimationFlyweight : <<use>>
+Animal --> AnimationFlyweight : <<use>>
+
+@enduml

@@ -1,0 +1,80 @@
+@startuml Complete_System_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+skinparam packageBackgroundColor #F8F8F8
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Complete System Class Diagram - Student 1 Refactoring**
+
+package "Flyweight Pattern" {
+    class AnimationFlyweight <<Singleton>> {
+        - {static} _instance : AnimationFlyweight*
+        - _animationPool : map<string, Animation*>
+        __
+        + {static} getInstance() : AnimationFlyweight*
+        + getAnimation(key : string) : Animation*
+        + preloadPlayerAnimations() : void
+        + preloadAnimalAnimations(name : string) : void
+    }
+}
+
+package "Adapter Pattern" {
+    interface IInputHandler <<interface>> {
+        + onMoveStart(direction : string) : void
+        + onMoveStop(direction : string) : void
+        + onAction(action : string) : void
+    }
+    
+    class KeyboardInputAdapter <<Adapter>> {
+        - _handler : IInputHandler*
+        __
+        + setupListener(node : Node*) : void
+    }
+    
+    class TouchInputAdapter <<Adapter>> {
+        - _handler : IInputHandler*
+        __
+        + createButtons(parent, x, y, radius) : void
+    }
+}
+
+package "Game Entities" {
+    class Player <<Client>> {
+        - _keyboardAdapter : KeyboardInputAdapter*
+        - _touchAdapter : TouchInputAdapter*
+        __
+        + init() : bool
+        + onMoveStart(direction) : void
+        + onMoveStop(direction) : void
+        + onAction(action) : void
+        + startWalkingAnimation(direction) : void
+    }
+    
+    class Animal {
+        - animalName : string
+        __
+        + init(area : Rect) : bool
+        + startWalkingAnimation(dir) : void
+    }
+}
+
+IInputHandler <|.. Player : implements
+KeyboardInputAdapter --> IInputHandler
+TouchInputAdapter --> IInputHandler
+Player --> KeyboardInputAdapter
+Player --> TouchInputAdapter
+
+Player --> AnimationFlyweight : <<use>>
+Animal --> AnimationFlyweight : <<use>>
+
+@enduml

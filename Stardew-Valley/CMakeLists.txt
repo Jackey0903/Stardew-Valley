@@ -50,10 +50,24 @@ endif()
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/HelloWorldScene.cpp
+     # ==================================================
+     # Refactored with Design Patterns - Student 1
+     # ==================================================
+     # Flyweight Pattern - Animation shared resources
+     Classes/Animation/AnimationFlyweight.cpp
+     # Adapter Pattern - Unified input handling
+     Classes/Input/InputAdapter.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/HelloWorldScene.h
+     # ==================================================
+     # Refactored with Design Patterns - Student 1
+     # ==================================================
+     # Flyweight Pattern
+     Classes/Animation/AnimationFlyweight.h
+     # Adapter Pattern
+     Classes/Input/InputAdapter.h
      )
 
 if(ANDROID)

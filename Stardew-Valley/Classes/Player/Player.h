@@ -12,94 +12,145 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-class Backpack;  // 前向声明背包类
 
+// ==================================================
+// Refactored with Adapter Pattern
+// ==================================================
+#include "Input/InputAdapter.h"
+
+class Backpack;             // 前向声明背包类
+class KeyboardInputAdapter; // 前向声明
+class TouchInputAdapter;    // 前向声明
+
+// ==================================================
+// [ORIGINAL CODE - Before Adapter Pattern]
 // 玩家类，继承自cocos2d的Node类
-class Player : public cocos2d::Node
-{
+// class Player : public cocos2d::Node {
+// ==================================================
+
+// ==================================================
+// [REFACTORED CODE - With Adapter Pattern]
+// 玩家类，继承自cocos2d::Node并实现IInputHandler接口
+// ==================================================
+class Player : public cocos2d::Node, public IInputHandler {
 private:
-    cocos2d::ui::Button* _btnUp;
-    cocos2d::ui::Button* _btnDown;
-    cocos2d::ui::Button* _btnLeft;
-    cocos2d::ui::Button* _btnRight;
-    cocos2d::ui::Button* _btnBackpack;
-    cocos2d::ui::Button* _btnMap;
+  // ==================================================
+  // [ORIGINAL CODE - Before Adapter Pattern]
+  // 原始按钮成员变量 - 已移除，改由适配器管理
+  // cocos2d::ui::Button *_btnUp;
+  // cocos2d::ui::Button *_btnDown;
+  // cocos2d::ui::Button *_btnLeft;
+  // cocos2d::ui::Button *_btnRight;
+  // cocos2d::ui::Button *_btnBackpack;
+  // cocos2d::ui::Button *_btnMap;
+  // ==================================================
+
+  // ==================================================
+  // [REFACTORED CODE - With Adapter Pattern]
+  // 输入适配器成员变量
+  // ==================================================
+  KeyboardInputAdapter *_keyboardAdapter;
+  TouchInputAdapter *_touchAdapter;
+
 public:
-    // 创建一个Player对象，返回一个Player指针
-    static Player* create();
+  // 创建一个Player对象，返回一个Player指针
+  static Player *create();
 
-    // 初始化函数，重载Node类的init方法
-    virtual bool init() override;
+  // 初始化函数，重载Node类的init方法
+  virtual bool init() override;
 
-    // 键盘按下事件处理函数
-    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+  // ==================================================
+  // [ORIGINAL CODE - Before Adapter Pattern]
+  // 原始键盘事件处理函数 - 已移至适配器
+  // void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode,
+  //                   cocos2d::Event *event);
+  // void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode,
+  //                    cocos2d::Event *event);
+  // ==================================================
 
-    // 键盘释放事件处理函数
-    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+  // ==================================================
+  // [REFACTORED CODE - With Adapter Pattern]
+  // IInputHandler 接口实现
+  // ==================================================
+  void onMoveStart(const std::string &direction) override;
+  void onMoveStop(const std::string &direction) override;
+  void onAction(const std::string &action) override;
 
-    // 更新函数，每帧调用，用于更新玩家的位置
-    void update(float delta) override;
+  // 更新函数，每帧调用，用于更新玩家的位置
+  void update(float delta) override;
 
-    // 获取玩家精灵的指针
-    cocos2d::Sprite* getPlayerSprite() const { return _playerSprite; }
+  // 获取玩家精灵的指针
+  cocos2d::Sprite *getPlayerSprite() const { return _playerSprite; }
 
-    // 碰撞检测，传入MapLayer指针，用于判断是否与墙壁碰撞
-    bool isCollidingWithWall(const cocos2d::Rect& playerRect);
+  // 碰撞检测，传入MapLayer指针，用于判断是否与墙壁碰撞
+  bool isCollidingWithWall(const cocos2d::Rect &playerRect);
 
-    // 开始玩家的行走动画
-    void startWalkingAnimation(const std::string& direction);
+  // 开始玩家的行走动画
+  void startWalkingAnimation(const std::string &direction);
 
-    // 停止玩家的行走动画
-    void stopWalkingAnimation();
+  // 停止玩家的行走动画
+  void stopWalkingAnimation();
 
-    // 打开背包场景
-    void openBackpack();
+  // 打开背包场景
+  void openBackpack();
 
-    // 打开地图场景
-    void openMapScene();
+  // 打开地图场景
+  void openMapScene();
 
-    // 设置当前地图和初始位置
-    void setTiledMap(cocos2d::TMXTiledMap* tiledMap);
+  // 设置当前地图和初始位置
+  void setTiledMap(cocos2d::TMXTiledMap *tiledMap);
 
-    // 设置玩家在地图中的初始位置
-    void setInitPositionMap(const cocos2d::Vec2& initMapPosition);
+  // 设置玩家在地图中的初始位置
+  void setInitPositionMap(const cocos2d::Vec2 &initMapPosition);
 
-    void initTouchControls();
+  // ==================================================
+  // [ORIGINAL CODE - Before Adapter Pattern]
+  // void initTouchControls();
+  // ==================================================
+
+  // ==================================================
+  // [REFACTORED CODE - With Adapter Pattern]
+  // 初始化输入 - 使用适配器
+  // ==================================================
+  void initInputAdapters();
 
 private:
-    // 玩家是否正在移动
-    bool _isMoving;
-    // 玩家各方向的移动状态
-    bool _isMovingLeft;
-    bool _isMovingRight;
-    bool _isMovingUp;
-    bool _isMovingDown;
+  // 玩家是否正在移动
+  bool _isMoving;
+  // 玩家各方向的移动状态
+  bool _isMovingLeft;
+  bool _isMovingRight;
+  bool _isMovingUp;
+  bool _isMovingDown;
 
-    // 标记玩家是否在背包场景或地图场景中
-    bool _isInBackpackScene;
-    bool _isInMapScene;
+  // 标记玩家是否在背包场景或地图场景中
+  bool _isInBackpackScene;
+  bool _isInMapScene;
 
-    // 玩家精灵对象，用于显示玩家
-    cocos2d::Sprite* _playerSprite;
+  // 玩家精灵对象，用于显示玩家
+  cocos2d::Sprite *_playerSprite;
 
-    // 当前玩家的方向和纹理
-    std::string _currentDirection;
-    std::string _currentTexture;
+  // 当前玩家的方向和纹理
+  std::string _currentDirection;
+  std::string _currentTexture;
 
-    // 背包对象，用于管理玩家的物品
-    Backpack* _backpack;
+  // 背包对象，用于管理玩家的物品
+  Backpack *_backpack;
 
-    // 当前地图的指针
-    cocos2d::TMXTiledMap* _tiledMap;
+  // 当前地图的指针
+  cocos2d::TMXTiledMap *_tiledMap;
 
-    // 初始地图位置
-    cocos2d::Vec2 initPositionMap;
+  // 初始地图位置
+  cocos2d::Vec2 initPositionMap;
 
-    // 键盘事件监听器，C++11特性：智能指针管理事件监听器
-    cocos2d::EventListenerKeyboard* _keyboardListener;
+  // ==================================================
+  // [ORIGINAL CODE - Before Adapter Pattern]
+  // 键盘事件监听器 - 已移至适配器管理
+  // cocos2d::EventListenerKeyboard *_keyboardListener;
+  // ==================================================
 
-    // 可视化玩家碰撞矩形，便于调试碰撞检测
-    cocos2d::DrawNode* playerDrawNode;
+  // 可视化玩家碰撞矩形，便于调试碰撞检测
+  cocos2d::DrawNode *playerDrawNode;
 };
 
 #endif // __PLAYER_H__
