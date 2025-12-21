@@ -1,0 +1,42 @@
+@startuml State_Before_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram Before Refactoring - Boolean Flags**
+
+class Player {
+    - _isMoving : bool
+    - _isMovingLeft : bool
+    - _isMovingRight : bool
+    - _isMovingUp : bool
+    - _isMovingDown : bool
+    - _currentDirection : string
+    __
+    + onMoveStart(direction : string) : void
+    + onMoveStop(direction : string) : void
+    + update(delta : float) : void
+    + startWalkingAnimation(direction : string) : void
+    + stopWalkingAnimation() : void
+}
+
+note right of Player
+  Problems:
+  - 5 boolean flags for state management
+  - State logic scattered in methods
+  - Difficult to add new states
+  - update() has complex conditionals
+  - State transitions not explicit
+end note
+
+@enduml

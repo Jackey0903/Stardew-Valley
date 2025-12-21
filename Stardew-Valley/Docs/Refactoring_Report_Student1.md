@@ -235,6 +235,73 @@ void Player::startWalkingAnimation(const std::string &direction) {
 | 内存占用 | 每实例独立 | 共享同一份 | **显著减少** |
 | 新增动画修改范围 | Player+Animal | AnimationFlyweight | **50%减少** |
 
+### 2.1.7 新增类完整定义
+
+#### AnimationFlyweight.h
+
+```cpp
+#ifndef __ANIMATION_FLYWEIGHT_H__
+#define __ANIMATION_FLYWEIGHT_H__
+
+#include "cocos2d.h"
+#include <string>
+#include <unordered_map>
+
+/**
+ * AnimationFlyweight - 动画享元工厂类
+ *
+ * 设计模式：Flyweight（享元模式）
+ *
+ * 角色说明：
+ * - FlyweightFactory: AnimationFlyweight类本身
+ * - Flyweight: Animation对象（共享的内在状态）
+ * - Client: Player, Animal等使用动画的类
+ */
+class AnimationFlyweight {
+public:
+  // 获取单例实例
+  static AnimationFlyweight *getInstance();
+
+  // 获取共享动画对象（享元）
+  cocos2d::Animation *getAnimation(const std::string &key);
+
+  // 检查动画是否已加载
+  bool hasAnimation(const std::string &key) const;
+
+  // 预加载玩家动画资源
+  void preloadPlayerAnimations();
+
+  // 预加载动物动画资源
+  void preloadAnimalAnimations(const std::string &animalName);
+
+  // 清理所有缓存的动画资源
+  void clearAllAnimations();
+
+  // 获取当前缓存的动画数量
+  size_t getCachedAnimationCount() const { return _animationPool.size(); }
+
+private:
+  AnimationFlyweight() = default;
+  ~AnimationFlyweight();
+
+  // 禁用拷贝
+  AnimationFlyweight(const AnimationFlyweight &) = delete;
+  AnimationFlyweight &operator=(const AnimationFlyweight &) = delete;
+
+  static AnimationFlyweight *_instance;
+
+  // 享元池：存储共享的动画对象
+  std::unordered_map<std::string, cocos2d::Animation *> _animationPool;
+
+  // 创建行走动画
+  cocos2d::Animation *createWalkAnimation(const std::string &prefix,
+                                          int frameCount,
+                                          float interval = 0.1f);
+};
+
+#endif // __ANIMATION_FLYWEIGHT_H__
+```
+
 ---
 
 ## 2.2 Adapter 适配器模式
@@ -485,6 +552,95 @@ void Player::onAction(const std::string& action) {
 | Player类成员变量 | 8个(6按钮+监听器+状态) | 2个(2适配器) | **75%减少** |
 | 重复代码块 | 2处(键盘+触摸) | 0处 | **100%消除** |
 | 添加手柄支持工作量 | 修改Player约100行 | 新增1个适配器类 | **50%减少** |
+
+### 2.2.7 新增类完整定义
+
+#### InputAdapter.h
+
+```cpp
+#ifndef __INPUT_ADAPTER_H__
+#define __INPUT_ADAPTER_H__
+
+#include "cocos2d.h"
+#include "ui/CocosGUI.h"
+
+/**
+ * IInputHandler - 输入处理接口（Target）
+ *
+ * 设计模式：Adapter（适配器模式）
+ *
+ * 角色说明：
+ * - Target: IInputHandler接口
+ * - Adapter: KeyboardInputAdapter, TouchInputAdapter
+ * - Adaptee: EventListenerKeyboard, ui::Button
+ * - Client: Player类
+ */
+class IInputHandler {
+public:
+  virtual ~IInputHandler() = default;
+
+  // 移动开始事件
+  virtual void onMoveStart(const std::string &direction) = 0;
+
+  // 移动停止事件
+  virtual void onMoveStop(const std::string &direction) = 0;
+
+  // 动作事件（打开背包、地图等）
+  virtual void onAction(const std::string &action) = 0;
+};
+
+/**
+ * KeyboardInputAdapter - 键盘输入适配器
+ * 将Cocos2d的键盘事件适配到IInputHandler接口
+ */
+class KeyboardInputAdapter {
+public:
+  explicit KeyboardInputAdapter(IInputHandler *handler);
+
+  void setupListener(cocos2d::Node *node);
+  void removeListener();
+
+private:
+  IInputHandler *_handler;
+  cocos2d::EventListenerKeyboard *_listener;
+
+  void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode,
+                    cocos2d::Event *event);
+  void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode,
+                     cocos2d::Event *event);
+
+  std::string keyCodeToDirection(cocos2d::EventKeyboard::KeyCode keyCode);
+  std::string keyCodeToAction(cocos2d::EventKeyboard::KeyCode keyCode);
+};
+
+/**
+ * TouchInputAdapter - 触摸输入适配器
+ * 将触摸按钮事件适配到IInputHandler接口
+ */
+class TouchInputAdapter {
+public:
+  explicit TouchInputAdapter(IInputHandler *handler);
+
+  void createButtons(cocos2d::Node *parent, float centerX, float centerY,
+                     float radius);
+
+private:
+  IInputHandler *_handler;
+
+  cocos2d::ui::Button *_btnUp;
+  cocos2d::ui::Button *_btnDown;
+  cocos2d::ui::Button *_btnLeft;
+  cocos2d::ui::Button *_btnRight;
+  cocos2d::ui::Button *_btnBackpack;
+  cocos2d::ui::Button *_btnMap;
+
+  void setupDirectionButton(cocos2d::ui::Button *btn,
+                            const std::string &direction);
+  void setupActionButton(cocos2d::ui::Button *btn, const std::string &action);
+};
+
+#endif // __INPUT_ADAPTER_H__
+```
 
 ---
 

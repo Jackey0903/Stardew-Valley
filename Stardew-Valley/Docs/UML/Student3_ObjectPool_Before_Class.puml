@@ -1,0 +1,47 @@
+@startuml ObjectPool_Before_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram Before Refactoring - Direct Sprite Creation**
+
+class "cocos2d::Sprite" as Sprite {
+    + {static} create(filename : string) : Sprite*
+    + setPosition(pos : Vec2) : void
+    + setScale(scale : float) : void
+    + removeFromParent() : void
+}
+
+class Map2Scene {
+    - _crops : vector<Sprite*>
+    - _trees : vector<Sprite*>
+    __
+    + plantCropAt(location : Vec2) : void
+    + harvestCropAt(location : Vec2) : void
+    + plantTreeAt(location : Vec2) : void
+    + fellTreeAt(location : Vec2) : void
+}
+
+Map2Scene --> Sprite : <<create>> every time
+Map2Scene --> Sprite : <<destroy>> on harvest
+
+note right of Map2Scene
+  Problems:
+  - Sprite::create() called every time
+  - removeFromParent() destroys object
+  - Frequent memory allocation/deallocation
+  - Potential memory fragmentation
+  - Performance overhead
+end note
+
+@enduml

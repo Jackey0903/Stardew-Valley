@@ -1,0 +1,64 @@
+@startuml ObjectPool_After_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram After Refactoring - Object Pool Pattern**
+
+package "Object Pool Pattern" {
+    class SpritePool <<Singleton>> {
+        - {static} _instance : SpritePool*
+        - _pool : map<string, vector<Sprite*>>
+        - _activeCount : size_t
+        __
+        + {static} getInstance() : SpritePool*
+        + acquire(imagePath : string) : Sprite*
+        + release(sprite : Sprite*, imagePath : string) : void
+        + preload(imagePath : string, count : int) : void
+        + clear(imagePath : string) : void
+        + getAvailableCount(imagePath : string) : size_t
+        + getActiveCount() : size_t
+        __
+        - resetSprite(sprite : Sprite*) : void
+    }
+}
+
+class "cocos2d::Sprite" as Sprite <<PooledObject>> {
+    + setTexture(filename : string) : void
+    + setVisible(visible : bool) : void
+    + retain() : void
+    + release() : void
+}
+
+class Map2Scene <<Client>> {
+    - _crops : vector<Sprite*>
+    - _trees : vector<Sprite*>
+    __
+    + plantCropAt(location : Vec2) : void
+    + harvestCropAt(location : Vec2) : void
+}
+
+SpritePool o--> Sprite : pools
+Map2Scene --> SpritePool : <<use>>
+Map2Scene ..> Sprite : uses pooled
+
+note right of SpritePool
+  Benefits:
+  + Reuses existing sprites
+  + Reduces memory allocation
+  + Improves performance
+  + Grouped by image path
+  + Automatic state reset
+end note
+
+@enduml

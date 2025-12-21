@@ -1,0 +1,53 @@
+@startuml Observer_Before_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram Before Refactoring - Direct Coupling**
+
+class BackpackScene {
+    + updateItems() : void
+}
+
+class GameScene {
+    + refreshUI() : void
+    + onPlayerMove() : void
+}
+
+class Map2Scene {
+    + onCropPlanted() : void
+    + onCropHarvested() : void
+}
+
+class Player {
+    - backpackScene : BackpackScene*
+    - gameScene : GameScene*
+    __
+    + addItem(item : Item*) : void
+    + move(direction : string) : void
+}
+
+Player --> BackpackScene : direct call
+Player --> GameScene : direct call
+Map2Scene --> GameScene : direct call
+
+note bottom of Player
+  Problems:
+  - Tight coupling between components
+  - Player knows about UI scenes
+  - Hard to add new listeners
+  - Difficult to test in isolation
+  - Circular dependencies risk
+end note
+
+@enduml

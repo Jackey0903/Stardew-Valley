@@ -1,0 +1,85 @@
+@startuml State_After_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram After Refactoring - State Pattern**
+
+package "State Pattern" {
+    interface IPlayerState <<State>> {
+        + enter(player : Player*) : void
+        + update(player : Player*, delta : float) : void
+        + exit(player : Player*) : void
+        + handleMoveStart(player : Player*, direction : string) : IPlayerState*
+        + handleMoveStop(player : Player*, direction : string) : IPlayerState*
+        + getStateName() : string
+    }
+
+    class IdleState <<ConcreteState>> {
+        + {static} getInstance() : IdleState*
+        + enter(player : Player*) : void
+        + update(player : Player*, delta : float) : void
+        + exit(player : Player*) : void
+        + handleMoveStart(...) : IPlayerState*
+        + handleMoveStop(...) : IPlayerState*
+    }
+
+    class WalkingState <<ConcreteState>> {
+        + {static} getInstance() : WalkingState*
+        + enter(player : Player*) : void
+        + update(player : Player*, delta : float) : void
+        + exit(player : Player*) : void
+        + handleMoveStart(...) : IPlayerState*
+        + handleMoveStop(...) : IPlayerState*
+    }
+
+    class PlayerStateContext {
+        - _player : Player*
+        - _currentState : IPlayerState*
+        __
+        + setPlayer(player : Player*) : void
+        + changeState(newState : IPlayerState*) : void
+        + getCurrentState() : IPlayerState*
+        + update(delta : float) : void
+        + handleMoveStart(direction : string) : void
+        + handleMoveStop(direction : string) : void
+    }
+}
+
+class Player <<Context>> {
+    - _stateContext : PlayerStateContext*
+    __
+    + onMoveStart(direction : string) : void
+    + onMoveStop(direction : string) : void
+    + update(delta : float) : void
+}
+
+IPlayerState <|.. IdleState
+IPlayerState <|.. WalkingState
+PlayerStateContext --> IPlayerState : _currentState
+PlayerStateContext --> Player : _player
+Player --> PlayerStateContext : uses
+
+IdleState ..> WalkingState : transitions to
+WalkingState ..> IdleState : transitions to
+
+note right of IPlayerState
+  Benefits:
+  + State logic encapsulated in classes
+  + Easy to add new states
+  + Explicit state transitions
+  + Single Responsibility per state
+  + Open for extension
+end note
+
+@enduml

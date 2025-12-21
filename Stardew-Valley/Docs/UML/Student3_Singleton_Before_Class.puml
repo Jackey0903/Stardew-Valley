@@ -1,0 +1,69 @@
+@startuml Singleton_Before_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram Before Refactoring - Global Variables**
+
+package "GlobalVars.h" {
+    class "<<global variables>>" as GlobalVars {
+        {static} g_selectedMap : std::string
+        {static} speed : float
+    }
+}
+
+class Player {
+    __
+    + init() : bool
+    + updatePosition(delta : float) : void
+    __
+    Uses extern g_selectedMap
+    Uses extern speed
+}
+
+class GameScene {
+    __
+    + onEnter() : void
+    __
+    Uses extern g_selectedMap
+}
+
+class BackpackScene {
+    __
+    + onSpeedSliderChanged(...) : void
+    __
+    Modifies extern speed
+}
+
+class MapScene {
+    __
+    + init() : bool
+    __
+    Uses extern g_selectedMap
+}
+
+Player ..> GlobalVars : <<extern>>
+GameScene ..> GlobalVars : <<extern>>
+BackpackScene ..> GlobalVars : <<extern>>
+MapScene ..> GlobalVars : <<extern>>
+
+note right of GlobalVars
+  Problems:
+  - Global state is scattered
+  - No encapsulation
+  - Hard to track dependencies
+  - Initialization order issues
+  - Difficult to test
+end note
+
+@enduml

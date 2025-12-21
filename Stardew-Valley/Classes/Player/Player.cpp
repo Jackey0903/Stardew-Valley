@@ -3,7 +3,7 @@
  * 文件名        : Player.cpp
  * 文件功能      : 玩家类实现
  * 作者          : 胡浩杰，胡正华，曹津硕
- * 更新日期      : 2024/12/21
+ * 更新日期      : 2025/12/21
  * 许可证        : MIT License
  ****************************************************************/
 
@@ -21,10 +21,20 @@
 // ==================================================
 #include "Animation/AnimationFlyweight.h"
 
+// ==================================================
+// Refactored with Singleton Pattern
+// ==================================================
+#include "Manager/GameManager.h"
+
 USING_NS_CC;
 
-extern std::string g_selectedMap;
-extern float speed;
+// [ORIGINAL CODE - Before Singleton Pattern]
+// extern std::string g_selectedMap;
+// extern float speed;
+//
+// [REFACTORED CODE - With Singleton Pattern]
+// 使用 GameManager::getInstance()->getCurrentMap() 和
+// GameManager::getInstance()->getPlayerSpeed() 替代全局变量
 
 // 创建Player实例，采用C++11的智能指针方式处理内存管理
 Player *Player::create() {
@@ -75,10 +85,12 @@ bool Player::init() {
   _playerSprite->setScale(0.5f); // 设置精灵缩放比例
 
   // 根据选择的地图调整玩家的位置
-  if (g_selectedMap == "" || g_selectedMap == "Map/Map3/map3.tmx") {
+  // [REFACTORED CODE - With Singleton Pattern]
+  std::string currentMap = GameManager::getInstance()->getCurrentMap();
+  if (currentMap == "" || currentMap == "Map/Map3/map3.tmx") {
     _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x - 40,
                                     visibleSize.height / 2 + origin.y - 10));
-  } else if (g_selectedMap == "Map/Map2/map2.tmx") {
+  } else if (currentMap == "Map/Map2/map2.tmx") {
     _playerSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x + 50,
                                     visibleSize.height / 2 + origin.y));
   } else {
@@ -153,14 +165,16 @@ void Player::update(float delta) {
                     100, 100);
 
   Vec2 newLoc = loc;
+  // [REFACTORED CODE - With Singleton Pattern]
+  float playerSpeed = GameManager::getInstance()->getPlayerSpeed();
   if (_isMovingLeft)
-    newLoc.x -= speed * delta;
+    newLoc.x -= playerSpeed * delta;
   if (_isMovingRight)
-    newLoc.x += speed * delta;
+    newLoc.x += playerSpeed * delta;
   if (_isMovingUp)
-    newLoc.y += speed * delta;
+    newLoc.y += playerSpeed * delta;
   if (_isMovingDown)
-    newLoc.y -= speed * delta;
+    newLoc.y -= playerSpeed * delta;
 
   // 设置新位置前记录当前位置
   Vec2 previousLoc = loc;
@@ -184,17 +198,18 @@ void Player::update(float delta) {
 
   // 如果玩家超出中心区域，则移动地图
   if (!playerBounds.containsPoint(newLoc)) {
+    // [REFACTORED CODE - With Singleton Pattern]
     if (_isMovingLeft && (newLoc.x < playerBounds.getMinX())) {
-      newMapPos.x += speed * delta;
+      newMapPos.x += playerSpeed * delta;
     }
     if (_isMovingRight && (newLoc.x > playerBounds.getMaxX())) {
-      newMapPos.x -= speed * delta;
+      newMapPos.x -= playerSpeed * delta;
     }
     if (_isMovingUp && (newLoc.y > playerBounds.getMaxY())) {
-      newMapPos.y -= speed * delta;
+      newMapPos.y -= playerSpeed * delta;
     }
     if (_isMovingDown && (newLoc.y < playerBounds.getMinY())) {
-      newMapPos.y += speed * delta;
+      newMapPos.y += playerSpeed * delta;
     }
 
     _tiledMap->setPosition(newMapPos);       // 更新地图位置

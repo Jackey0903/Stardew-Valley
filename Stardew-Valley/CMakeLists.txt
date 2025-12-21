@@ -57,6 +57,20 @@ list(APPEND GAME_SOURCE
      Classes/Animation/AnimationFlyweight.cpp
      # Adapter Pattern - Unified input handling
      Classes/Input/InputAdapter.cpp
+     # ==================================================
+     # Refactored with Design Patterns - Student 2
+     # ==================================================
+     # State Pattern - Player movement states
+     Classes/State/PlayerState.cpp
+     # Observer Pattern - Game event system
+     Classes/Observer/EventManager.cpp
+     # ==================================================
+     # Refactored with Design Patterns - Student 3
+     # ==================================================
+     # Singleton Pattern - Game state management
+     Classes/Manager/GameManager.cpp
+     # Object Pool Pattern - Sprite reuse
+     Classes/Pool/SpritePool.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -68,6 +82,20 @@ list(APPEND GAME_HEADER
      Classes/Animation/AnimationFlyweight.h
      # Adapter Pattern
      Classes/Input/InputAdapter.h
+     # ==================================================
+     # Refactored with Design Patterns - Student 2
+     # ==================================================
+     # State Pattern
+     Classes/State/PlayerState.h
+     # Observer Pattern
+     Classes/Observer/EventManager.h
+     # ==================================================
+     # Refactored with Design Patterns - Student 3
+     # ==================================================
+     # Singleton Pattern
+     Classes/Manager/GameManager.h
+     # Object Pool Pattern
+     Classes/Pool/SpritePool.h
      )
 
 if(ANDROID)

@@ -1,0 +1,78 @@
+@startuml Observer_After_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram After Refactoring - Observer Pattern**
+
+package "Observer Pattern" {
+    interface IEventObserver <<Observer>> {
+        + onEvent(event : GameEvent) : void
+        + getObserverName() : string
+    }
+
+    class GameEvent {
+        + type : string
+        + data : map<string, string>
+        __
+        + setData(key : string, value : string) : void
+        + getData(key : string) : string
+    }
+
+    class EventManager <<Subject/Singleton>> {
+        - _observers : map<string, vector<IEventObserver*>>
+        - _callbacks : map<string, vector<CallbackEntry>>
+        __
+        + {static} getInstance() : EventManager*
+        + addObserver(eventType : string, observer : IEventObserver*) : void
+        + addListener(eventType : string, callback : function) : int
+        + removeObserver(eventType : string, observer : IEventObserver*) : void
+        + removeListener(eventType : string, callbackId : int) : void
+        + dispatchEvent(event : GameEvent) : void
+    }
+}
+
+class BackpackScene <<ConcreteObserver>> {
+    + onEvent(event : GameEvent) : void
+}
+
+class GameScene <<ConcreteObserver>> {
+    + onEvent(event : GameEvent) : void
+}
+
+class Player <<Publisher>> {
+    + addItem(item : Item*) : void
+    + move(direction : string) : void
+}
+
+class Map2Scene <<Publisher>> {
+    + plantCrop() : void
+    + harvestCrop() : void
+}
+
+IEventObserver <|.. BackpackScene
+IEventObserver <|.. GameScene
+EventManager --> IEventObserver : notifies
+Player ..> EventManager : dispatches events
+Map2Scene ..> EventManager : dispatches events
+
+note right of EventManager
+  Benefits:
+  + Loose coupling via events
+  + Publishers don't know observers
+  + Easy to add new observers
+  + Supports multiple event types
+  + Easy to test with mocks
+end note
+
+@enduml

@@ -1,0 +1,76 @@
+@startuml Singleton_After_Class
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor #666666
+skinparam classArrowColor #666666
+skinparam classFontSize 11
+skinparam classAttributeIconSize 0
+skinparam stereotypeCBackgroundColor #AADDFF
+
+skinparam class {
+    FontStyle bold
+    HeaderBackgroundColor #E8E8E8
+}
+
+title **Class Diagram After Refactoring - Singleton Pattern**
+
+package "Singleton Pattern" {
+    class GameManager <<Singleton>> {
+        - {static} _instance : GameManager*
+        - _currentMap : std::string
+        - _playerSpeed : float
+        __
+        + {static} getInstance() : GameManager*
+        __
+        + setCurrentMap(mapPath : string) : void
+        + getCurrentMap() : string
+        + clearCurrentMap() : void
+        + hasMapSet() : bool
+        __
+        + setPlayerSpeed(speed : float) : void
+        + getPlayerSpeed() : float
+        __
+        + resetToDefaults() : void
+        + logCurrentState() : void
+        __
+        - GameManager()
+    }
+}
+
+class Player <<Client>> {
+    __
+    + init() : bool
+    + updatePosition(delta : float) : void
+}
+
+class GameScene <<Client>> {
+    __
+    + onEnter() : void
+}
+
+class BackpackScene <<Client>> {
+    __
+    + onSpeedSliderChanged(...) : void
+}
+
+class MapScene <<Client>> {
+    __
+    + init() : bool
+}
+
+Player --> GameManager : <<use>>
+GameScene --> GameManager : <<use>>
+BackpackScene --> GameManager : <<use>>
+MapScene --> GameManager : <<use>>
+
+note right of GameManager
+  Benefits:
+  + Centralized state management
+  + Controlled access
+  + Thread-safe initialization
+  + Easy to test with mock
+  + Clear dependencies
+end note
+
+@enduml
